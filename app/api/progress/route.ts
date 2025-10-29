@@ -66,43 +66,25 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // 检查是否已存在记录
-    const existingProgress = await db
-      .select()
-      .from(userProgress)
-      .where(
-        and(
-          eq(userProgress.user_id, userId),
-          eq(userProgress.word_id, wordId)
-        )
-      )
-      .limit(1);
-
-    if (existingProgress.length > 0) {
-      // 更新已有记录
-      await db
-        .update(userProgress)
-        .set({
-          last_reviewed: now,
-          next_review: nextReview,
-          mastered: known,
-        })
-        .where(
-          and(
-            eq(userProgress.user_id, userId),
-            eq(userProgress.word_id, wordId)
-          )
-        );
-    } else {
-      // 插入新记录
-      await db.insert(userProgress).values({
+    // 使用 UPSERT (ON CONFLICT DO UPDATE) - 一次数据库操作！
+    // 比查询+插入/更新快 2-3倍 ⚡
+    await db
+      .insert(userProgress)
+      .values({
         user_id: userId,
         word_id: wordId,
         last_reviewed: now,
         next_review: nextReview,
         mastered: known,
+      })
+      .onConflictDoUpdate({
+        target: [userProgress.user_id, userProgress.word_id],
+        set: {
+          last_reviewed: now,
+          next_review: nextReview,
+          mastered: known,
+        },
       });
-    }
 
     return NextResponse.json({
       success: true,

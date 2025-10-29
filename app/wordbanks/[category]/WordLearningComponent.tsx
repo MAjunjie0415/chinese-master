@@ -86,16 +86,33 @@ export default function WordLearningComponent({
     }
   };
 
-  // 记录学习进度（认识/不认识）
+  // 记录学习进度（认识/不认识）- 使用乐观更新
   const handleKnowWord = async (known: boolean) => {
-    setLoading(true);
     setError(null);
+    
+    // 保存上次操作记录（用于撤销）
+    setLastAction({ type: known ? 'know' : 'forgot', index: currentIndex });
 
+    // 【乐观更新】立即显示下一个单词（无需等待服务器）
+    const previousIndex = currentIndex;
+    const wasShowingAnswer = showAnswer;
+    
+    // 立即切换到下一个单词
+    if (currentIndex < words.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+      setShowAnswer(false);
+    } else {
+      setCompleted(true);
+    }
+
+    // 显示撤销按钮3秒
+    setShowUndo(true);
+    setTimeout(() => setShowUndo(false), 3000);
+
+    // 【后台异步保存】不阻塞用户操作
     try {
-      // 保存上次操作记录（用于撤销）
-      setLastAction({ type: known ? 'know' : 'forgot', index: currentIndex });
-
-      // 调用API记录到user_progress表
+      setLoading(true); // 显示小的loading指示器（不影响交互）
+      
       const response = await fetch('/api/progress', {
         method: 'POST',
         headers: {
@@ -112,32 +129,27 @@ export default function WordLearningComponent({
         throw new Error(errorData.error || 'Failed to record progress');
       }
 
-      // 显示撤销按钮2秒
-      setShowUndo(true);
-      setTimeout(() => setShowUndo(false), 3000);
-
-      // 移动到下一个单词
-      if (currentIndex < words.length - 1) {
-        setCurrentIndex(currentIndex + 1);
-        setShowAnswer(false);
-      } else {
-        // 完成所有单词
-        setCompleted(true);
-      }
+      // 保存成功，无需额外操作（用户已经在看下一个单词了）
     } catch (error) {
       console.error('Error recording progress:', error);
+      
+      // 【错误回滚】如果保存失败，回退到上一个单词
+      setCurrentIndex(previousIndex);
+      setShowAnswer(wasShowingAnswer);
+      setCompleted(false);
+      
       // 用户友好的错误提示
       if (error instanceof Error) {
         if (error.message.includes('network') || error.message.includes('fetch')) {
-          setError('Network issue: Please check your internet and try again.');
+          setError('⚠️ Network issue - your progress wasn\'t saved. Please check your connection and try again.');
         } else if (error.message.includes('Unauthorized')) {
-          setError('Session expired. Please log in again.');
+          setError('⚠️ Session expired. Redirecting to login...');
           setTimeout(() => router.push('/login'), 2000);
         } else {
-          setError(`Failed to save progress: ${error.message}`);
+          setError(`⚠️ Failed to save: ${error.message}. Please try again.`);
         }
       } else {
-        setError('Something went wrong. Please try again.');
+        setError('⚠️ Something went wrong. Your progress wasn\'t saved. Please try again.');
       }
     } finally {
       setLoading(false);

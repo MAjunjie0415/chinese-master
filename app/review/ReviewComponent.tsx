@@ -109,14 +109,24 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
     }
   };
 
-  // 处理"仍掌握"
+  // 处理"仍掌握" - 使用乐观更新
   const handleStillKnow = async () => {
-    setLoading(true);
     setError(null);
+    setLastAction({ type: 'know', index: currentIndex });
 
+    // 【乐观更新】立即切换到下一个单词
+    const previousIndex = currentIndex;
+    const wasShowingAnswer = showAnswer;
+    
+    setCurrentIndex(currentIndex + 1);
+    setShowAnswer(false);
+    setShowUndo(true);
+    setTimeout(() => setShowUndo(false), 3000);
+
+    // 【后台异步保存】
     try {
-      setLastAction({ type: 'know', index: currentIndex });
-
+      setLoading(true);
+      
       const response = await fetch('/api/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -131,38 +141,46 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to update progress');
       }
-
-      setShowUndo(true);
-      setTimeout(() => setShowUndo(false), 3000);
-
-      setCurrentIndex(currentIndex + 1);
-      setShowAnswer(false);
     } catch (err) {
+      // 【错误回滚】
+      setCurrentIndex(previousIndex);
+      setShowAnswer(wasShowingAnswer);
+      
       if (err instanceof Error) {
         if (err.message.includes('network') || err.message.includes('fetch')) {
-          setError('Network issue: Please check your internet and try again.');
+          setError('⚠️ Network issue - progress not saved. Please check your connection and try again.');
         } else if (err.message.includes('Unauthorized')) {
-          setError('Session expired. Please log in again.');
+          setError('⚠️ Session expired. Redirecting to login...');
           setTimeout(() => router.push('/login'), 2000);
         } else {
-          setError(`Failed to save progress: ${err.message}`);
+          setError(`⚠️ Failed to save: ${err.message}. Please try again.`);
         }
       } else {
-        setError('Something went wrong. Please try again.');
+        setError('⚠️ Something went wrong. Progress not saved. Please try again.');
       }
     } finally {
       setLoading(false);
     }
   };
 
-  // 处理"已遗忘"
+  // 处理"已遗忘" - 使用乐观更新
   const handleForgot = async () => {
-    setLoading(true);
     setError(null);
+    setLastAction({ type: 'forgot', index: currentIndex });
 
+    // 【乐观更新】立即切换到下一个单词
+    const previousIndex = currentIndex;
+    const wasShowingAnswer = showAnswer;
+    
+    setCurrentIndex(currentIndex + 1);
+    setShowAnswer(false);
+    setShowUndo(true);
+    setTimeout(() => setShowUndo(false), 3000);
+
+    // 【后台异步保存】
     try {
-      setLastAction({ type: 'forgot', index: currentIndex });
-
+      setLoading(true);
+      
       const response = await fetch('/api/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -177,24 +195,22 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to update progress');
       }
-
-      setShowUndo(true);
-      setTimeout(() => setShowUndo(false), 3000);
-
-      setCurrentIndex(currentIndex + 1);
-      setShowAnswer(false);
     } catch (err) {
+      // 【错误回滚】
+      setCurrentIndex(previousIndex);
+      setShowAnswer(wasShowingAnswer);
+      
       if (err instanceof Error) {
         if (err.message.includes('network') || err.message.includes('fetch')) {
-          setError('Network issue: Please check your internet and try again.');
+          setError('⚠️ Network issue - progress not saved. Please check your connection and try again.');
         } else if (err.message.includes('Unauthorized')) {
-          setError('Session expired. Please log in again.');
+          setError('⚠️ Session expired. Redirecting to login...');
           setTimeout(() => router.push('/login'), 2000);
         } else {
-          setError(`Failed to save progress: ${err.message}`);
+          setError(`⚠️ Failed to save: ${err.message}. Please try again.`);
         }
       } else {
-        setError('Something went wrong. Please try again.');
+        setError('⚠️ Something went wrong. Progress not saved. Please try again.');
       }
     } finally {
       setLoading(false);
