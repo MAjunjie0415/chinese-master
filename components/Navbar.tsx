@@ -1,10 +1,10 @@
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Navbar() {
-  const router = useRouter();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -12,6 +12,7 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Word Banks', path: '/wordbanks' },
+    { name: 'Review', path: '/review' },
     { name: 'Profile', path: '/profile' },
   ];
 
@@ -20,29 +21,23 @@ export default function Navbar() {
     return pathname === path;
   };
 
-  // 处理导航跳转
-  const handleNavigation = (path: string) => {
-    router.push(path);
-    setMobileMenuOpen(false); // 移动端菜单自动收起
-  };
-
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
       <div className="h-16 px-6 flex items-center justify-between">
         {/* 左侧：产品名称 */}
-        <button
-          onClick={() => handleNavigation('/')}
+        <Link
+          href="/"
           className="text-xl font-bold text-[#165DFF] cursor-pointer hover:opacity-80 transition-opacity"
         >
           ChineseMaster
-        </button>
+        </Link>
 
         {/* 右侧：桌面端导航链接 */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <button
+            <Link
               key={link.path}
-              onClick={() => handleNavigation(link.path)}
+              href={link.path}
               className={`transition-colors cursor-pointer ${
                 isActive(link.path)
                   ? 'text-[#165DFF] font-semibold'
@@ -50,7 +45,7 @@ export default function Navbar() {
               }`}
             >
               {link.name}
-            </button>
+            </Link>
           ))}
         </div>
 
@@ -92,9 +87,10 @@ export default function Navbar() {
         <div className="md:hidden bg-white border-t border-gray-200 px-4 py-4">
           <div className="flex flex-col gap-4">
             {navLinks.map((link) => (
-              <button
+              <Link
                 key={link.path}
-                onClick={() => handleNavigation(link.path)}
+                href={link.path}
+                onClick={() => setMobileMenuOpen(false)}
                 className={`text-left transition-colors cursor-pointer ${
                   isActive(link.path)
                     ? 'text-[#165DFF] font-semibold'
@@ -102,7 +98,7 @@ export default function Navbar() {
                 }`}
               >
                 {link.name}
-              </button>
+              </Link>
             ))}
           </div>
         </div>
