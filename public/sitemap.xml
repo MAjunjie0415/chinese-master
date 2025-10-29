@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  
+  <!-- Homepage - 单页官网主页 -->
+  <url>
+    <loc>https://chinesemaster.com/</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Privacy Policy - 隐私政策页面 -->
+  <url>
+    <loc>https://chinesemaster.com/privacy-policy</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- Login/Signup Page - 登录注册页面 -->
+  <url>
+    <loc>https://chinesemaster.com/login</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Word Banks - 词库列表页 -->
+  <url>
+    <loc>https://chinesemaster.com/wordbanks</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Business Chinese Word Bank -->
+  <url>
+    <loc>https://chinesemaster.com/wordbanks/business</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- HSK Level 1 -->
+  <url>
+    <loc>https://chinesemaster.com/wordbanks/hsk1</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- HSK Level 2 -->
+  <url>
+    <loc>https://chinesemaster.com/wordbanks/hsk2</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- HSK Level 3 -->
+  <url>
+    <loc>https://chinesemaster.com/wordbanks/hsk3</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- HSK Level 4 -->
+  <url>
+    <loc>https://chinesemaster.com/wordbanks/hsk4</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- HSK Level 5 -->
+  <url>
+    <loc>https://chinesemaster.com/wordbanks/hsk5</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- HSK Level 6 -->
+  <url>
+    <loc>https://chinesemaster.com/wordbanks/hsk6</loc>
+    <lastmod>2025-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>
+

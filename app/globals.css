@@ -1,26 +1,258 @@
 @import "tailwindcss";
 
+/* ========================================
+   色彩系统 - ChineseMaster Brand Colors
+   ======================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 主色调 */
+  --primary-blue: #3B82F6;      /* 商务蓝 - 功能区 */
+  --primary-emerald: #10B981;   /* 成长绿 - CTA按钮 */
+  --accent-red: #EF4444;        /* 警示红 - 重要按钮 */
+  --accent-orange: #F97316;     /* 提醒橙 - 复习提示 */
+  
+  /* 背景色 */
+  --bg-light-gray: #F3F4F6;     /* 浅灰 - 模块背景 */
+  --bg-white: #FFFFFF;          /* 纯白 - 卡片背景 */
+  
+  /* 文字色 */
+  --text-dark: #1F2937;         /* 深灰 - 标题 */
+  --text-medium: #6B7280;       /* 中灰 - 正文 */
+  --text-light: #9CA3AF;        /* 浅灰 - 辅助文字 */
+  
+  /* 渐变色 */
+  --gradient-blue-emerald: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);
+  --gradient-orange-red: linear-gradient(135deg, #F97316 0%, #EF4444 100%);
+  
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg-white);
+  --color-foreground: var(--text-dark);
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ========================================
+   平滑滚动 & 过渡效果
+   ======================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-white);
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* ========================================
+   微动效 - 悬停 & 交互动画
+   ======================================== */
+
+/* 按钮悬停效果 */
+.btn-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-hover:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-hover:active {
+  transform: scale(0.97);
+}
+
+/* 卡片悬停效果 */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* ========================================
+   滚动动画 - Fade In on Scroll
+   ======================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* 渐进式延迟动画 */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+
+/* ========================================
+   脉动动画 - 用于紧急提示
+   ======================================== */
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.02);
+  }
+}
+
+.pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* ========================================
+   平滑展开 - 用于折叠面板
+   ======================================== */
+details summary {
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] summary ~ * {
+  animation: fadeInUp 0.3s ease;
+}
+
+/* ========================================
+   加载骨架屏动画
+   ======================================== */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ========================================
+   响应式字体大小
+   ======================================== */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1025px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* ========================================
+   优化触摸反馈 (移动端)
+   ======================================== */
+@media (hover: none) and (pointer: coarse) {
+  /* 移动端触摸元素加大点击区域 */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* 移除移动端的悬停效果 */
+  .card-hover:hover {
+    transform: none;
+  }
+  
+  /* 移动端点击反馈 */
+  button:active, a:active {
+    opacity: 0.7;
+    transition: opacity 0.1s;
+  }
+}
+
+/* ========================================
+   性能优化 - 减少重绘
+   ======================================== */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* ========================================
+   可访问性优化
+   ======================================== */
+/* 焦点指示器 */
+:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+/* 跳过链接（屏幕阅读器） */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary-blue);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ========================================
+   打印样式优化
+   ======================================== */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  a {
+    text-decoration: underline;
+  }
 }

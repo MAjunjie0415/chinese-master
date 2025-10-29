@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import SignOutButton from '@/components/SignOutButton';
+import UserInfoCard from '@/components/UserInfoCard';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import { cookies } from 'next/headers';
 import { db } from '@/lib/drizzle';
@@ -55,14 +56,21 @@ export default async function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4">
-      {/* 页面标题 */}
-      <h1 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-900">
-        Your Learning Progress
-      </h1>
+    <div className="min-h-screen py-8 px-4 bg-gray-50">
+      <div className="max-w-5xl mx-auto">
+        {/* 用户信息卡片 */}
+        <UserInfoCard 
+          email={session.user.email || 'user@example.com'} 
+          createdAt={session.user.created_at}
+        />
 
-      {/* 统计卡片 */}
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* 页面标题 */}
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-900">
+          Learning Statistics
+        </h2>
+
+        {/* 统计卡片 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* 卡片1：总学习单词数 - 可点击跳转到词库 */}
         <Link
           href="/wordbanks"
@@ -107,30 +115,39 @@ export default async function ProfilePage() {
             <p className="text-sm text-green-500 mt-2">✅ All done!</p>
           </div>
         )}
-      </div>
-
-      {/* 底部：快速操作 */}
-      <div className="max-w-5xl mx-auto mt-12">
-        <div className="text-center">
-          <Link
-            href="/wordbanks"
-            className="inline-block bg-[#165DFF] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#0E42D2] transition-colors mb-6"
-          >
-            Continue Learning
-          </Link>
         </div>
 
-        {/* 退出登录按钮 */}
-        <div className="text-center mt-8">
-          <SignOutButton />
-        </div>
-      </div>
+        {/* 底部：快速操作 */}
+        <div className="mt-12">
+          <div className="text-center">
+            <Link
+              href="/wordbanks"
+              className="inline-block bg-[#165DFF] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#0E42D2] active:scale-95 transition-all shadow-md"
+            >
+              Continue Learning
+            </Link>
+          </div>
 
-      {/* 提示信息 */}
-      <div className="max-w-5xl mx-auto mt-12 text-center">
-        <p className="text-gray-500 text-sm">
-          Start learning to see your progress here!
-        </p>
+          {/* 分隔线 */}
+          <div className="my-8 border-t border-gray-200"></div>
+
+          {/* 退出登录按钮 */}
+          <div className="flex justify-center">
+            <SignOutButton />
+          </div>
+        </div>
+
+        {/* 提示信息 */}
+        {stats.totalLearned === 0 && (
+          <div className="mt-12 text-center bg-blue-50 rounded-xl p-6">
+            <p className="text-gray-600 mb-2">
+              🚀 <strong>Ready to start your learning journey?</strong>
+            </p>
+            <p className="text-gray-500 text-sm">
+              Choose a word bank above and begin mastering Chinese vocabulary!
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
