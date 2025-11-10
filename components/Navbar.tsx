@@ -11,7 +11,7 @@ export default function Navbar() {
   // 导航链接配置
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Word Banks', path: '/wordbanks' },
+    { name: 'Courses', path: '/courses' },
     { name: 'Review', path: '/review' },
     { name: 'Profile', path: '/profile' },
   ];

@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { db } from '@/lib/drizzle';
 import { userProgress } from '@/db/schema/user_progress';
 import { words } from '@/db/schema/words';
+import { courses, courseWords } from '@/db/schema/courses';
 import { and, eq, lt, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 import ReviewComponent from './ReviewComponent';
@@ -23,7 +24,8 @@ export default async function ReviewPage() {
   // 第二步：定义"今天结束时间"（今天23:59:59）
   const todayEnd = sql`now()::date + interval '1 day' - interval '1 second'`;
 
-  // 第三步：查询当前用户的待复习单词
+  // 第三步：查询当前用户的待复习单词（只显示来自 Courses 的单词）
+  // 通过 course_words JOIN 确保单词来自课程
   const reviews = await db
     .select({
       // words表字段
@@ -37,9 +39,15 @@ export default async function ReviewPage() {
       frequency: words.frequency,
       // user_progress表字段
       progressId: userProgress.id,
+      // courses表字段（课程来源信息）
+      courseId: courses.id,
+      courseTitle: courses.title,
+      courseSlug: courses.slug,
     })
     .from(userProgress)
     .innerJoin(words, eq(userProgress.word_id, words.id))
+    .innerJoin(courseWords, eq(userProgress.word_id, courseWords.word_id))
+    .innerJoin(courses, eq(courseWords.course_id, courses.id))
     .where(
       and(
         eq(userProgress.user_id, userId),

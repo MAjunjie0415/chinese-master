@@ -5,7 +5,8 @@ import { createServerSupabaseClient } from '@/lib/supabase';
 import { cookies } from 'next/headers';
 import { db } from '@/lib/drizzle';
 import { userProgress } from '@/db/schema/user_progress';
-import { eq, and, lt, sql, count } from 'drizzle-orm';
+import { userCourses, practiceRecords, courseWords } from '@/db/schema/courses';
+import { eq, and, lt, sql, count, avg } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 export default async function ProfilePage() {
@@ -37,10 +38,11 @@ export default async function ProfilePage() {
     .from(userProgress)
     .where(and(eq(userProgress.user_id, userId), eq(userProgress.mastered, true)));
 
-  // 查询今日待复习单词数
+  // 查询今日待复习单词数（只统计来自 Courses 的）
   const todayReviewsResult = await db
     .select({ count: count() })
     .from(userProgress)
+    .innerJoin(courseWords, eq(userProgress.word_id, courseWords.word_id))
     .where(
       and(
         eq(userProgress.user_id, userId),
@@ -49,10 +51,39 @@ export default async function ProfilePage() {
       )
     );
 
+  // 查询课程统计
+  const enrolledCoursesResult = await db
+    .select({ count: count() })
+    .from(userCourses)
+    .where(eq(userCourses.user_id, userId));
+
+  const completedCoursesResult = await db
+    .select({ count: count() })
+    .from(userCourses)
+    .where(
+      and(
+        eq(userCourses.user_id, userId),
+        eq(userCourses.isCompleted, true)
+      )
+    );
+
+  // 查询练习记录统计
+  const practiceStatsResult = await db
+    .select({
+      totalPractices: count(),
+      avgAccuracy: avg(practiceRecords.accuracy),
+    })
+    .from(practiceRecords)
+    .where(eq(practiceRecords.user_id, userId));
+
   const stats = {
     totalLearned: totalLearnedResult[0]?.count || 0,
     mastered: masteredResult[0]?.count || 0,
     reviewsToday: todayReviewsResult[0]?.count || 0,
+    enrolledCourses: enrolledCoursesResult[0]?.count || 0,
+    completedCourses: completedCoursesResult[0]?.count || 0,
+    totalPractices: practiceStatsResult[0]?.totalPractices || 0,
+    avgAccuracy: practiceStatsResult[0]?.avgAccuracy ? Math.round(Number(practiceStatsResult[0].avgAccuracy)) : 0,
   };
 
   return (
@@ -66,21 +97,21 @@ export default async function ProfilePage() {
 
         {/* 页面标题 */}
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-900">
-          Learning Statistics
+          Learning Dashboard
         </h2>
 
-        {/* 统计卡片 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* 卡片1：总学习单词数 - 可点击跳转到词库 */}
+        {/* 统计卡片 - 第一行：单词学习 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        {/* 卡片1：总学习单词数 - 可点击跳转到课程 */}
         <Link
-          href="/wordbanks"
+          href="/courses"
           className="bg-[#EFF6FF] rounded-xl shadow-sm p-8 text-center hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
         >
           <h2 className="text-lg text-gray-600 mb-4">Total Words Learned</h2>
           <p className="text-5xl font-bold text-blue-600 my-4">
             {stats.totalLearned}
           </p>
-          <p className="text-sm text-blue-500 mt-2">👉 Learn more words</p>
+          <p className="text-sm text-blue-500 mt-2">👉 Explore courses</p>
         </Link>
 
         {/* 卡片2：已掌握单词数 */}
@@ -117,11 +148,51 @@ export default async function ProfilePage() {
         )}
         </div>
 
+        {/* 统计卡片 - 第二行：课程和练习 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          {/* 卡片4：进行中课程 */}
+          <Link
+            href="/courses?tab=my-courses"
+            className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-sm p-8 text-center hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+          >
+            <h2 className="text-lg text-gray-600 mb-4">Enrolled Courses</h2>
+            <p className="text-5xl font-bold text-purple-600 my-4">
+              {stats.enrolledCourses}
+            </p>
+            <p className="text-sm text-purple-500 mt-2">📚 Continue learning</p>
+          </Link>
+
+          {/* 卡片5：已完成课程 */}
+          <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl shadow-sm p-8 text-center">
+            <h2 className="text-lg text-gray-600 mb-4">Completed Courses</h2>
+            <p className="text-5xl font-bold text-orange-600 my-4">
+              {stats.completedCourses}
+            </p>
+            <p className="text-sm text-orange-500 mt-2">🏆 Great achievement!</p>
+          </div>
+
+          {/* 卡片6：练习统计 */}
+          <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl shadow-sm p-8 text-center">
+            <h2 className="text-lg text-gray-600 mb-4">Practice Sessions</h2>
+            <p className="text-5xl font-bold text-indigo-600 my-4">
+              {stats.totalPractices}
+            </p>
+            {stats.avgAccuracy > 0 && (
+              <p className="text-sm text-indigo-500 mt-2">
+                Avg: {stats.avgAccuracy}% accuracy
+              </p>
+            )}
+            {stats.totalPractices === 0 && (
+              <p className="text-sm text-gray-500 mt-2">Start practicing!</p>
+            )}
+          </div>
+        </div>
+
         {/* 底部：快速操作 */}
         <div className="mt-12">
           <div className="text-center">
             <Link
-              href="/wordbanks"
+              href="/courses"
               className="inline-block bg-[#165DFF] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#0E42D2] active:scale-95 transition-all shadow-md"
             >
               Continue Learning
@@ -144,7 +215,7 @@ export default async function ProfilePage() {
               🚀 <strong>Ready to start your learning journey?</strong>
             </p>
             <p className="text-gray-500 text-sm">
-              Choose a word bank above and begin mastering Chinese vocabulary!
+              Explore courses above and begin mastering Chinese vocabulary!
             </p>
           </div>
         )}

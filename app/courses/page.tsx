@@ -1,0 +1,96 @@
+import { createServerSupabaseClient } from '@/lib/supabase';
+import { db } from '@/lib/drizzle';
+import { courses, userCourses, courseWords } from '@/db/schema/courses';
+import { eq, and, sql } from 'drizzle-orm';
+import CoursesPageClient from './CoursesPageClient';
+
+export const metadata = {
+  title: 'Courses - ChineseMaster',
+  description: 'Explore our library of Chinese courses for business and HSK exam preparation',
+};
+
+export default async function CoursesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>;
+}) {
+  // 获取用户登录状态
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const userId = session?.user?.id;
+  const params = await searchParams;
+  const currentTab = params.tab || 'explore';
+
+  // 查询所有课程
+  const allCourses = await db
+    .select({
+      id: courses.id,
+      title: courses.title,
+      slug: courses.slug,
+      category: courses.category,
+      description: courses.description,
+      totalWords: courses.totalWords,
+      difficulty: courses.difficulty,
+      coverImage: courses.coverImage,
+      createdAt: courses.createdAt,
+    })
+    .from(courses)
+    .orderBy(courses.createdAt);
+
+  // 如果用户已登录，获取用户的课程进度
+  let userCoursesData: Array<{
+    courseId: number;
+    progress: number;
+    isCompleted: boolean;
+  }> = [];
+
+  if (userId) {
+    const userProgress = await db
+      .select({
+        courseId: userCourses.course_id,
+        progress: userCourses.progress,
+        isCompleted: userCourses.isCompleted,
+      })
+      .from(userCourses)
+      .where(eq(userCourses.user_id, userId));
+
+    userCoursesData = userProgress;
+  }
+
+  // 将用户进度合并到课程数据中
+  const coursesWithProgress = allCourses.map((course) => {
+    const userCourse = userCoursesData.find((uc) => uc.courseId === course.id);
+    return {
+      ...course,
+      isEnrolled: !!userCourse,
+      progress: userCourse?.progress || 0,
+      isCompleted: userCourse?.isCompleted || false,
+    };
+  });
+
+  // 按分类分组课程
+  const coursesByCategory = {
+    business: coursesWithProgress.filter((c) => c.category === 'business'),
+    hsk: coursesWithProgress.filter((c) => c.category.startsWith('hsk')),
+  };
+
+  // 我的课程数据
+  const myCourses = {
+    inProgress: coursesWithProgress.filter((c) => c.isEnrolled && !c.isCompleted),
+    completed: coursesWithProgress.filter((c) => c.isCompleted),
+  };
+
+  return (
+    <CoursesPageClient
+      allCourses={coursesWithProgress}
+      coursesByCategory={coursesByCategory}
+      myCourses={myCourses}
+      isLoggedIn={!!userId}
+      initialTab={currentTab}
+    />
+  );
+}
+

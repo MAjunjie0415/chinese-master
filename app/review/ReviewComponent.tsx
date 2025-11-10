@@ -14,6 +14,9 @@ type Review = {
   category: string;
   frequency: number;
   progressId: number;
+  courseId: number;
+  courseTitle: string;
+  courseSlug: string;
 };
 
 type ReviewComponentProps = {
@@ -234,14 +237,14 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
               🚀 <strong>Keep the momentum going!</strong>
             </p>
             <p className="text-xs text-gray-600">
-              Learn more words to expand your vocabulary
+              You've reviewed {reviews.length} words from your courses. Keep learning to expand your vocabulary!
             </p>
           </div>
 
           <div className="space-y-3">
             {/* 优先按钮：继续学习 */}
             <button
-              onClick={() => router.push('/wordbanks')}
+              onClick={() => router.push('/courses')}
               className="w-full bg-[#165DFF] text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 active:scale-95 transition-all shadow-md"
             >
               📚 Learn More Words
@@ -308,6 +311,13 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
         )}
 
         <div className="bg-white rounded-xl shadow-lg p-8 md:p-12 transition-all duration-300 transform">
+          {/* 课程来源标签 */}
+          <div className="mb-4 text-center">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700">
+              📚 {currentWord.courseTitle}
+            </span>
+          </div>
+
           {/* 拼音 */}
           <div className="text-center mb-6">
             <p className="text-2xl text-blue-600 font-semibold mb-4">{currentWord.pinyin}</p>

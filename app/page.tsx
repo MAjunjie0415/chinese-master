@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import { db } from '@/lib/drizzle';
 import { userProgress } from '@/db/schema/user_progress';
+import { courses, courseWords } from '@/db/schema/courses';
 import { eq, and, lt, sql, count } from 'drizzle-orm';
 
 export default async function Home() {
@@ -21,9 +22,12 @@ export default async function Home() {
       const userId = session.user.id;
 
       const todayEnd = sql`now()::date + interval '1 day' - interval '1 second'`;
+      // 只查询来自 Courses 的待复习单词
       const result = await db
         .select({ count: count() })
         .from(userProgress)
+        .innerJoin(courseWords, eq(userProgress.word_id, courseWords.word_id))
+        .innerJoin(courses, eq(courseWords.course_id, courses.id))
         .where(
           and(
             eq(userProgress.user_id, userId),
@@ -70,7 +74,7 @@ export default async function Home() {
             {/* CTA按钮 */}
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
               <Link
-                href={isLoggedIn ? "/wordbanks" : "/login"}
+                href={isLoggedIn ? "/courses" : "/login"}
                 className="inline-block bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105 text-center"
               >
                 {isLoggedIn ? "Continue Learning" : "Start Learning Free"} →
@@ -153,60 +157,58 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Word Banks Section - 词库展示 */}
-      <section id="wordbanks" className="py-20 bg-white">
+      {/* Courses Section - 课程展示 */}
+      <section id="courses" className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
-            Trusted Word Banks
+            Structured Learning Courses
           </h2>
           <p className="text-center text-gray-600 mb-16 max-w-2xl mx-auto">
-            Comprehensive vocabulary verified by Chinese language teachers
+            Learn Chinese systematically with our curated courses for business and HSK exam preparation
           </p>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Business Word Bank */}
+            {/* Business Courses */}
             <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
               <div className="text-5xl mb-4">💼</div>
               <h3 className="text-2xl font-bold mb-3 text-gray-900">Business Chinese</h3>
-              <p className="text-3xl font-bold text-blue-600 mb-4">5,000+ terms</p>
+              <p className="text-lg text-gray-600 mb-4">Master essential vocabulary for professional communication</p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Negotiation</span>
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Contract</span>
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Presentation</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Meetings</span>
                 <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Email</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Presentations</span>
               </div>
               <Link
-                href="/wordbanks/business"
+                href="/courses"
                 className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-all"
               >
-                Start Learning →
+                Explore Courses →
               </Link>
             </div>
 
-            {/* HSK Word Bank */}
+            {/* HSK Courses */}
             <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
               <div className="text-5xl mb-4">📚</div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">HSK Levels</h3>
-              <p className="text-3xl font-bold text-emerald-600 mb-4">3,000+ words</p>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">HSK Exam Prep</h3>
+              <p className="text-lg text-gray-600 mb-4">Systematic learning from HSK 1 to HSK 6</p>
               <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 1</span>
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 2</span>
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 3</span>
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 4</span>
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 5</span>
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 6</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 1-2</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 3-4</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 5-6</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Exam Ready</span>
               </div>
               <Link
-                href="/wordbanks"
+                href="/courses"
                 className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3 rounded-lg transition-all"
               >
-                Choose Level →
+                Explore Courses →
               </Link>
             </div>
           </div>
 
           <p className="text-center text-gray-500 mt-8 text-sm">
-            ✓ All words verified by Chinese language teachers
+            ✓ All courses designed by Chinese language experts
           </p>
         </div>
       </section>
@@ -238,7 +240,7 @@ export default async function Home() {
               <div className="w-20 h-20 bg-emerald-500 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6 shadow-lg">
                 2
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">Choose Word Bank</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Choose Course</h3>
               <p className="text-gray-600">
                 Select Business Chinese or your HSK level — personalized to your goals.
               </p>
@@ -454,7 +456,7 @@ export default async function Home() {
               <nav className="space-y-2">
                 <a href="#hero" className="block hover:text-white transition-colors">Home</a>
                 <a href="#features" className="block hover:text-white transition-colors">Features</a>
-                <a href="#wordbanks" className="block hover:text-white transition-colors">Word Banks</a>
+                <a href="#courses" className="block hover:text-white transition-colors">Courses</a>
                 <a href="#how-it-works" className="block hover:text-white transition-colors">How It Works</a>
                 <a href="#faq" className="block hover:text-white transition-colors">FAQ</a>
               </nav>

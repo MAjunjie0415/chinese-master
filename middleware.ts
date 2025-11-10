@@ -64,7 +64,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 定义保护的路由（需要登录才能访问）
-  const protectedRoutes = ['/wordbanks', '/review', '/profile'];
+  const protectedRoutes = ['/courses', '/review', '/profile'];
 
   // 定义公开路由（无需登录）
   const publicRoutes = ['/', '/login'];

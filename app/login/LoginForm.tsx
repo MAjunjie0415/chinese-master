@@ -7,7 +7,7 @@ import { createBrowserClient } from '@supabase/ssr';
 export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirect') || '/wordbanks';
+  const redirectTo = searchParams.get('redirect') || '/courses';
 
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState('');
@@ -62,7 +62,7 @@ export default function LoginForm() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/wordbanks`,
+          emailRedirectTo: `${window.location.origin}/courses`,
         },
       });
 
