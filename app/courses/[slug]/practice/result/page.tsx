@@ -205,17 +205,23 @@ export default async function PracticeResultPage({ params, searchParams }: PageP
         </div>
 
         {/* 复习计划提示 */}
-        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-lg p-6 mb-6">
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-lg p-6 mb-6">
           <div className="flex items-start gap-3">
             <div className="text-3xl">📚</div>
             <div>
               <h4 className="font-semibold text-gray-900 mb-2">
-                Words Added to Review Plan
+                Review Plan Created!
               </h4>
               <p className="text-sm text-gray-700">
-                Great! {totalCount} word{totalCount !== 1 ? 's' : ''} from this practice session {totalCount !== 1 ? 'have' : 'has'} been added to your review plan. 
-                Review them regularly to master these words!
+                <strong>{totalCount} words</strong> from this practice have been added to your review plan. 
+                Review them regularly to strengthen your memory!
               </p>
+              <Link
+                href="/review"
+                className="inline-block mt-3 text-blue-600 hover:text-blue-700 font-medium text-sm underline"
+              >
+                Go to Review →
+              </Link>
             </div>
           </div>
         </div>
