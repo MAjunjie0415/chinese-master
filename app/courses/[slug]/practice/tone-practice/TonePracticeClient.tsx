@@ -59,7 +59,7 @@ export default function TonePracticeClient({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [score, setScore] = useState(0);
   const [wrongWords, setWrongWords] = useState<Word[]>([]);
-  const [startTime] = useState(Date.now());
+  const [startTime] = useState(() => Date.now());
   const [totalTime, setTotalTime] = useState(0);
   const [hasPlayed, setHasPlayed] = useState(false);
   // 跟踪每个单词的答题结果（用于创建复习记录）
@@ -160,7 +160,8 @@ export default function TonePracticeClient({
 
   // 完成练习
   const finishPractice = async () => {
-    const duration = Math.floor((Date.now() - startTime) / 1000);
+    const currentTime = Date.now();
+    const duration = Math.floor((currentTime - startTime) / 1000);
 
     try {
       // 1. 保存练习记录

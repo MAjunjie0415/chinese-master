@@ -1,46 +1,26 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { Suspense } from 'react';
 import { createServerSupabaseClient } from '@/lib/supabase';
-import { db } from '@/lib/drizzle';
-import { userProgress } from '@/db/schema/user_progress';
-import { courses, courseWords } from '@/db/schema/courses';
-import { eq, and, lt, sql, count } from 'drizzle-orm';
+import ReviewCard from './components/ReviewCard';
+import ReviewCount from './components/ReviewCount';
 
-export default async function Home() {
-  // 获取用户登录状态和复习数据
-  let reviewCount = 0;
-  let isLoggedIn = false;
-
+// 获取用户登录状态（轻量级，快速返回）
+async function getLoginStatus() {
   try {
     const supabase = await createServerSupabaseClient();
     const {
       data: { session },
     } = await supabase.auth.getSession();
-
-    if (session) {
-      isLoggedIn = true;
-      const userId = session.user.id;
-
-      const todayEnd = sql`now()::date + interval '1 day' - interval '1 second'`;
-      // 只查询来自 Courses 的待复习单词
-      const result = await db
-        .select({ count: count() })
-        .from(userProgress)
-        .innerJoin(courseWords, eq(userProgress.word_id, courseWords.word_id))
-        .innerJoin(courses, eq(courseWords.course_id, courses.id))
-        .where(
-          and(
-            eq(userProgress.user_id, userId),
-            lt(userProgress.next_review, todayEnd),
-            eq(userProgress.mastered, false)
-          )
-        );
-
-      reviewCount = result[0]?.count || 0;
-    }
+    return !!session;
   } catch (error) {
-    console.error('Error fetching review count:', error);
+    return false;
   }
+}
+
+export default async function Home() {
+  // 只获取登录状态，不阻塞页面渲染
+  const isLoggedIn = await getLoginStatus();
 
   return (
     <div className="min-h-screen bg-white">
@@ -56,19 +36,11 @@ export default async function Home() {
               Master vocabulary, track progress, and review with AI — designed for professionals & exam takers.
             </p>
             
-            {/* 已登录用户：显示复习提醒 */}
-            {isLoggedIn && reviewCount > 0 && (
-              <div className="bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-300 rounded-lg p-4 animate-pulse">
-                <p className="text-orange-700 font-semibold mb-2">
-                  🔥 {reviewCount} {reviewCount === 1 ? 'word' : 'words'} waiting for review!
-                </p>
-                <Link
-                  href="/review"
-                  className="inline-block bg-orange-500 hover:bg-orange-600 text-white font-medium px-6 py-2 rounded-lg transition-all"
-                >
-                  Review Now →
-                </Link>
-              </div>
+            {/* 已登录用户：显示复习提醒 - 使用 Suspense 实现流式渲染 */}
+            {isLoggedIn && (
+              <Suspense fallback={null}>
+                <ReviewCard />
+              </Suspense>
             )}
 
             {/* CTA按钮 */}
@@ -274,13 +246,9 @@ export default async function Home() {
             {/* Testimonial 1 */}
             <div className="bg-blue-50 p-6 rounded-xl shadow-md">
               <div className="flex items-center mb-4">
-                <Image
-                  src="https://i.pravatar.cc/100?img=12"
-                  alt="John"
-                  width={48}
-                  height={48}
-                  className="w-12 h-12 rounded-full mr-4"
-                />
+                <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold text-lg mr-4 flex-shrink-0">
+                  JM
+                </div>
                 <div>
                   <p className="font-semibold text-gray-900">John Miller</p>
                   <p className="text-sm text-gray-600">CEO, Tech Startup</p>
@@ -294,13 +262,9 @@ export default async function Home() {
             {/* Testimonial 2 */}
             <div className="bg-emerald-50 p-6 rounded-xl shadow-md">
               <div className="flex items-center mb-4">
-                <Image
-                  src="https://i.pravatar.cc/100?img=45"
-                  alt="Maria"
-                  width={48}
-                  height={48}
-                  className="w-12 h-12 rounded-full mr-4"
-                />
+                <div className="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center text-white font-semibold text-lg mr-4 flex-shrink-0">
+                  MR
+                </div>
                 <div>
                   <p className="font-semibold text-gray-900">Maria Rodriguez</p>
                   <p className="text-sm text-gray-600">University Student</p>
@@ -314,13 +278,9 @@ export default async function Home() {
             {/* Testimonial 3 */}
             <div className="bg-purple-50 p-6 rounded-xl shadow-md">
               <div className="flex items-center mb-4">
-                <Image
-                  src="https://i.pravatar.cc/100?img=33"
-                  alt="David"
-                  width={48}
-                  height={48}
-                  className="w-12 h-12 rounded-full mr-4"
-                />
+                <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center text-white font-semibold text-lg mr-4 flex-shrink-0">
+                  DC
+                </div>
                 <div>
                   <p className="font-semibold text-gray-900">David Chen</p>
                   <p className="text-sm text-gray-600">Business Manager</p>
@@ -410,31 +370,64 @@ export default async function Home() {
       {/* CTA Section - 最终行动召唤 */}
       <section id="cta" className="py-20 bg-gradient-to-br from-blue-600 to-emerald-600 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Start Learning Today — Free Forever
-          </h2>
-          <p className="text-xl mb-8 opacity-90">
-            No credit card required. 8,000+ words waiting for you.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/login"
-              className="inline-block bg-white text-blue-600 hover:bg-gray-100 font-bold px-10 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105"
-            >
-              Sign Up Free →
-            </Link>
-            <a
-              href="#features"
-              className="inline-block bg-transparent border-2 border-white hover:bg-white hover:text-blue-600 font-bold px-10 py-4 rounded-lg transition-all hover:scale-105"
-            >
-              Learn More
-            </a>
-          </div>
+          {isLoggedIn ? (
+            <>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4">
+                Continue Your Learning Journey
+              </h2>
+              <p className="text-xl mb-8 opacity-90">
+                Keep building your vocabulary and master Chinese step by step.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Suspense fallback={
+                  <div className="inline-block bg-white bg-opacity-20 animate-pulse text-white font-bold px-10 py-4 rounded-lg">
+                    Loading...
+                  </div>
+                }>
+                  <ReviewCount />
+                </Suspense>
+                <Link
+                  href="/profile"
+                  className="inline-block bg-transparent border-2 border-white hover:bg-white hover:text-blue-600 font-bold px-10 py-4 rounded-lg transition-all hover:scale-105"
+                >
+                  View Profile
+                </Link>
+              </div>
 
-          <p className="mt-6 text-sm opacity-75">
-            ✓ No commitment  ✓ Cancel anytime  ✓ Full access
-          </p>
+              <p className="mt-6 text-sm opacity-75">
+                ✓ Track your progress  ✓ Review anytime  ✓ Learn at your pace
+              </p>
+            </>
+          ) : (
+            <>
+              <h2 className="text-3xl md:text-5xl font-bold mb-4">
+                Start Learning Today — Free Forever
+              </h2>
+              <p className="text-xl mb-8 opacity-90">
+                No credit card required. 8,000+ words waiting for you.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  href="/login"
+                  className="inline-block bg-white text-blue-600 hover:bg-gray-100 font-bold px-10 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                >
+                  Sign Up Free →
+                </Link>
+                <a
+                  href="#features"
+                  className="inline-block bg-transparent border-2 border-white hover:bg-white hover:text-blue-600 font-bold px-10 py-4 rounded-lg transition-all hover:scale-105"
+                >
+                  Learn More
+                </a>
+              </div>
+
+              <p className="mt-6 text-sm opacity-75">
+                ✓ No commitment  ✓ Cancel anytime  ✓ Full access
+              </p>
+            </>
+          )}
         </div>
       </section>
 
@@ -472,9 +465,15 @@ export default async function Home() {
                 <a href="/sitemap.xml" className="block hover:text-white transition-colors">
                   Sitemap
                 </a>
-                <Link href="/login" className="block hover:text-white transition-colors">
-                  Login / Sign Up
-                </Link>
+                {isLoggedIn ? (
+                  <Link href="/profile" className="block hover:text-white transition-colors">
+                    My Profile
+                  </Link>
+                ) : (
+                  <Link href="/login" className="block hover:text-white transition-colors">
+                    Login / Sign Up
+                  </Link>
+                )}
               </nav>
             </div>
           </div>

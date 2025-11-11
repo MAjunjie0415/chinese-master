@@ -1,0 +1,1 @@
+CREATE INDEX "course_words_word_id_idx" ON "course_words" USING btree ("word_id");

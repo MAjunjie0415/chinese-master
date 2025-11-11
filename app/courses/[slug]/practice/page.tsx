@@ -26,8 +26,8 @@ export default async function PracticeModeSelectionPage({ params }: PageProps) {
 
   const userId = session.user.id;
 
-  // 查询课程信息
-  const [course] = await db
+  // 第一步：查询课程信息（必须首先获取，因为后续查询需要 course.id）
+  const courseResults = await db
     .select({
       id: courses.id,
       title: courses.title,
@@ -38,12 +38,14 @@ export default async function PracticeModeSelectionPage({ params }: PageProps) {
     .where(eq(courses.slug, slug))
     .limit(1);
 
-  if (!course) {
+  if (!courseResults || courseResults.length === 0) {
     notFound();
   }
 
-  // 检查用户是否已添加课程
-  const [enrollment] = await db
+  const course = courseResults[0];
+
+  // 第二步：检查用户是否已添加课程（并行查询优化空间有限，但保持代码一致性）
+  const enrollmentResults = await db
     .select({
       id: userCourses.id,
       courseId: userCourses.course_id,
@@ -57,7 +59,7 @@ export default async function PracticeModeSelectionPage({ params }: PageProps) {
     )
     .limit(1);
 
-  if (!enrollment) {
+  if (!enrollmentResults || enrollmentResults.length === 0) {
     redirect(`/courses/${slug}`);
   }
 

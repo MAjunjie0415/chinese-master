@@ -82,6 +82,7 @@ export const courseWords = pgTable(
     courseWordUnique: unique('course_words_course_word_unique').on(table.course_id, table.word_id),
     // 索引：提高课程单词查询效率
     courseIdIdx: index('course_words_course_id_idx').on(table.course_id),
+    wordIdIdx: index('course_words_word_id_idx').on(table.word_id), // 优化 review 页面查询性能
     orderIdx: index('course_words_order_idx').on(table.course_id, table.order),
   })
 );

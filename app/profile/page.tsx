@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import SignOutButton from '@/components/SignOutButton';
 import UserInfoCard from '@/components/UserInfoCard';
+import AchievementDisplay from '@/components/AchievementDisplay';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import { cookies } from 'next/headers';
 import { db } from '@/lib/drizzle';
@@ -8,6 +9,7 @@ import { userProgress } from '@/db/schema/user_progress';
 import { userCourses, practiceRecords, courseWords } from '@/db/schema/courses';
 import { eq, and, lt, sql, count, avg } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
+import { getUserAchievements } from '@/lib/achievements';
 
 export default async function ProfilePage() {
   // 第一步：验证用户登录
@@ -22,59 +24,74 @@ export default async function ProfilePage() {
 
   const userId = session.user.id;
 
-  // 第二步：查询统计数据
+  // 第二步：并行查询所有统计数据（大幅提升性能）
   // 定义"今天结束时间"（今天23:59:59）
   const todayEnd = sql`now()::date + interval '1 day' - interval '1 second'`;
 
-  // 查询总学习单词数
-  const totalLearnedResult = await db
-    .select({ count: count() })
-    .from(userProgress)
-    .where(eq(userProgress.user_id, userId));
-
-  // 查询已掌握单词数
-  const masteredResult = await db
-    .select({ count: count() })
-    .from(userProgress)
-    .where(and(eq(userProgress.user_id, userId), eq(userProgress.mastered, true)));
-
-  // 查询今日待复习单词数（只统计来自 Courses 的）
-  const todayReviewsResult = await db
-    .select({ count: count() })
-    .from(userProgress)
-    .innerJoin(courseWords, eq(userProgress.word_id, courseWords.word_id))
-    .where(
-      and(
-        eq(userProgress.user_id, userId),
-        lt(userProgress.next_review, todayEnd),
-        eq(userProgress.mastered, false)
-      )
-    );
-
-  // 查询课程统计
-  const enrolledCoursesResult = await db
-    .select({ count: count() })
-    .from(userCourses)
-    .where(eq(userCourses.user_id, userId));
-
-  const completedCoursesResult = await db
-    .select({ count: count() })
-    .from(userCourses)
-    .where(
-      and(
-        eq(userCourses.user_id, userId),
-        eq(userCourses.isCompleted, true)
-      )
-    );
-
-  // 查询练习记录统计
-  const practiceStatsResult = await db
-    .select({
-      totalPractices: count(),
-      avgAccuracy: avg(practiceRecords.accuracy),
-    })
-    .from(practiceRecords)
-    .where(eq(practiceRecords.user_id, userId));
+  // 使用 Promise.all 并行执行所有查询
+  const [
+    totalLearnedResult,
+    masteredResult,
+    todayReviewsResult,
+    enrolledCoursesResult,
+    completedCoursesResult,
+    practiceStatsResult,
+    achievements,
+  ] = await Promise.all([
+    // 查询总学习单词数
+    db
+      .select({ count: count() })
+      .from(userProgress)
+      .where(eq(userProgress.user_id, userId)),
+    
+    // 查询已掌握单词数
+    db
+      .select({ count: count() })
+      .from(userProgress)
+      .where(and(eq(userProgress.user_id, userId), eq(userProgress.mastered, true))),
+    
+    // 查询今日待复习单词数（只统计来自 Courses 的）
+    db
+      .select({ count: count() })
+      .from(userProgress)
+      .innerJoin(courseWords, eq(userProgress.word_id, courseWords.word_id))
+      .where(
+        and(
+          eq(userProgress.user_id, userId),
+          lt(userProgress.next_review, todayEnd),
+          eq(userProgress.mastered, false)
+        )
+      ),
+    
+    // 查询课程统计
+    db
+      .select({ count: count() })
+      .from(userCourses)
+      .where(eq(userCourses.user_id, userId)),
+    
+    // 查询已完成课程
+    db
+      .select({ count: count() })
+      .from(userCourses)
+      .where(
+        and(
+          eq(userCourses.user_id, userId),
+          eq(userCourses.isCompleted, true)
+        )
+      ),
+    
+    // 查询练习记录统计
+    db
+      .select({
+        totalPractices: count(),
+        avgAccuracy: avg(practiceRecords.accuracy),
+      })
+      .from(practiceRecords)
+      .where(eq(practiceRecords.user_id, userId)),
+    
+    // 获取成就数据
+    getUserAchievements(userId),
+  ]);
 
   const stats = {
     totalLearned: totalLearnedResult[0]?.count || 0,
@@ -126,7 +143,7 @@ export default async function ProfilePage() {
         {/* 卡片3：今日待复习 - 可点击跳转到复习页 */}
         {stats.reviewsToday > 0 ? (
           <Link
-            href="/review"
+            href="/review/start"
             className="bg-gradient-to-br from-orange-50 to-red-50 border-2 border-orange-300 rounded-xl shadow-md p-8 text-center hover:shadow-xl hover:scale-105 transition-all cursor-pointer animate-pulse"
           >
             <h2 className="text-lg text-gray-600 mb-4">Reviews Today</h2>
@@ -186,6 +203,11 @@ export default async function ProfilePage() {
               <p className="text-sm text-gray-500 mt-2">Start practicing!</p>
             )}
           </div>
+        </div>
+
+        {/* 成就展示 */}
+        <div className="mt-8 mb-8">
+          <AchievementDisplay initialData={achievements} />
         </div>
 
         {/* 底部：快速操作 */}

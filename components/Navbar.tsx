@@ -1,18 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [navigating, setNavigating] = useState<string | null>(null);
 
   // 导航链接配置
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Courses', path: '/courses' },
-    { name: 'Review', path: '/review' },
+    { name: 'Review', path: '/review/start' },
     { name: 'Profile', path: '/profile' },
   ];
 
@@ -21,12 +23,32 @@ export default function Navbar() {
     return pathname === path;
   };
 
+  // 处理导航点击，提供即时反馈
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    // 如果已经是当前页面，阻止导航
+    if (pathname === path) {
+      e.preventDefault();
+      return;
+    }
+
+    // 设置导航状态，提供即时视觉反馈
+    setNavigating(path);
+    
+    // 使用 router.push 进行导航，提供更好的性能
+    e.preventDefault();
+    router.push(path);
+    
+    // 清除导航状态（延迟一点以确保视觉反馈可见）
+    setTimeout(() => setNavigating(null), 300);
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
       <div className="h-16 px-6 flex items-center justify-between">
         {/* 左侧：产品名称 */}
         <Link
           href="/"
+          prefetch={true}
           className="text-xl font-bold text-[#165DFF] cursor-pointer hover:opacity-80 transition-opacity"
         >
           ChineseMaster
@@ -38,13 +60,20 @@ export default function Navbar() {
             <Link
               key={link.path}
               href={link.path}
-              className={`transition-colors cursor-pointer ${
+              prefetch={true}
+              onClick={(e) => handleNavigation(e, link.path)}
+              className={`transition-all cursor-pointer relative ${
                 isActive(link.path)
                   ? 'text-[#165DFF] font-semibold'
+                  : navigating === link.path
+                  ? 'text-[#165DFF] opacity-70'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               {link.name}
+              {navigating === link.path && (
+                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#165DFF] animate-pulse" />
+              )}
             </Link>
           ))}
         </div>
@@ -82,27 +111,31 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* 移动端菜单展开 */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200 px-4 py-4">
-          <div className="flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                href={link.path}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`text-left transition-colors cursor-pointer ${
-                  isActive(link.path)
-                    ? 'text-[#165DFF] font-semibold'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+        {/* 移动端菜单展开 */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200 px-4 py-4">
+            <div className="flex flex-col gap-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  href={link.path}
+                  prefetch={true}
+                  onClick={(e) => {
+                    handleNavigation(e, link.path);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`text-left transition-colors cursor-pointer ${
+                    isActive(link.path)
+                      ? 'text-[#165DFF] font-semibold'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </nav>
   );
 }

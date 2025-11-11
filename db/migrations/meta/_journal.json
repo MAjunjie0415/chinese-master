@@ -15,6 +15,13 @@
       "when": 1761909263784,
       "tag": "0001_friendly_morph",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762843300827,
+      "tag": "0002_striped_frightful_four",
+      "breakpoints": true
     }
   ]
 }

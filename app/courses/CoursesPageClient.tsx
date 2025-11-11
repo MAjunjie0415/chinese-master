@@ -242,7 +242,7 @@ export default function CoursesPageClient({
               <div className="text-center py-16">
                 <div className="text-6xl mb-4">📚</div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  You haven't started any courses yet
+                  You haven&apos;t started any courses yet
                 </h3>
                 <p className="text-gray-600 mb-6">
                   Explore our library to begin your Chinese learning journey!

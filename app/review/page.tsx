@@ -1,12 +1,25 @@
+import { Suspense } from 'react';
 import { createServerSupabaseClient } from '@/lib/supabase';
-import { cookies } from 'next/headers';
-import { db } from '@/lib/drizzle';
-import { userProgress } from '@/db/schema/user_progress';
-import { words } from '@/db/schema/words';
-import { courses, courseWords } from '@/db/schema/courses';
-import { and, eq, lt, sql } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
-import ReviewComponent from './ReviewComponent';
+import ReviewData from './components/ReviewData';
+
+// 骨架屏组件
+function ReviewSkeleton() {
+  return (
+    <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-blue-50 via-white to-emerald-50">
+      <div className="max-w-2xl mx-auto">
+        <div className="h-6 bg-gray-200 rounded w-1/3 mb-6 animate-pulse"></div>
+        <div className="bg-white rounded-xl shadow-lg p-8 md:p-12 animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-1/2 mx-auto mb-8"></div>
+          <div className="h-6 bg-gray-200 rounded w-full mb-6"></div>
+          <div className="h-10 bg-gray-200 rounded w-2/3 mx-auto mb-4"></div>
+          <div className="h-6 bg-gray-200 rounded w-full mb-6"></div>
+          <div className="h-12 bg-gray-200 rounded w-full"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default async function ReviewPage() {
   // 第一步：验证用户登录
@@ -21,42 +34,11 @@ export default async function ReviewPage() {
 
   const userId = session.user.id;
 
-  // 第二步：定义"今天结束时间"（今天23:59:59）
-  const todayEnd = sql`now()::date + interval '1 day' - interval '1 second'`;
-
-  // 第三步：查询当前用户的待复习单词（只显示来自 Courses 的单词）
-  // 通过 course_words JOIN 确保单词来自课程
-  const reviews = await db
-    .select({
-      // words表字段
-      id: words.id,
-      chinese: words.chinese,
-      pinyin: words.pinyin,
-      english: words.english,
-      scene: words.scene,
-      example: words.example,
-      category: words.category,
-      frequency: words.frequency,
-      // user_progress表字段
-      progressId: userProgress.id,
-      // courses表字段（课程来源信息）
-      courseId: courses.id,
-      courseTitle: courses.title,
-      courseSlug: courses.slug,
-    })
-    .from(userProgress)
-    .innerJoin(words, eq(userProgress.word_id, words.id))
-    .innerJoin(courseWords, eq(userProgress.word_id, courseWords.word_id))
-    .innerJoin(courses, eq(courseWords.course_id, courses.id))
-    .where(
-      and(
-        eq(userProgress.user_id, userId),
-        lt(userProgress.next_review, todayEnd),
-        eq(userProgress.mastered, false)
-      )
-    );
-
-  // 第四步：传递数据给客户端组件
-  return <ReviewComponent reviews={reviews} userId={userId} />;
+  // 第二步：使用 Suspense 分离数据获取，让页面先显示骨架屏
+  return (
+    <Suspense fallback={<ReviewSkeleton />}>
+      <ReviewData userId={userId} />
+    </Suspense>
+  );
 }
 

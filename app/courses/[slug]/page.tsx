@@ -3,7 +3,7 @@ import { db } from '@/lib/drizzle';
 import { courses, userCourses, courseWords } from '@/db/schema/courses';
 import { words } from '@/db/schema/words';
 import { eq, and } from 'drizzle-orm';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import CourseDetailClient from './CourseDetailClient';
 
 interface PageProps {
@@ -48,7 +48,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
 
   const userId = session?.user?.id;
 
-  // 查询课程信息（使用标准Drizzle查询）
+  // 第一步：查询课程信息（必须首先获取，因为后续查询需要 course.id）
   const courseResults = await db
     .select({
       id: courses.id,
@@ -72,52 +72,57 @@ export default async function CourseDetailPage({ params }: PageProps) {
 
   const course = courseResults[0];
 
-  // 查询课程包含的单词
-  const courseWordsData = await db
-    .select({
-      wordId: courseWords.word_id,
-      order: courseWords.order,
-      chinese: words.chinese,
-      pinyin: words.pinyin,
-      english: words.english,
-      scene: words.scene,
-      example: words.example,
-    })
-    .from(courseWords)
-    .leftJoin(words, eq(courseWords.word_id, words.id))
-    .where(eq(courseWords.course_id, course.id))
-    .orderBy(courseWords.order);
+  // 第二步：并行查询课程单词列表和用户进度（大幅提升性能）
+  const [courseWordsData, enrollmentResult] = await Promise.all([
+    // 查询课程包含的单词
+    db
+      .select({
+        wordId: courseWords.word_id,
+        order: courseWords.order,
+        chinese: words.chinese,
+        pinyin: words.pinyin,
+        english: words.english,
+        scene: words.scene,
+        example: words.example,
+      })
+      .from(courseWords)
+      .leftJoin(words, eq(courseWords.word_id, words.id))
+      .where(eq(courseWords.course_id, course.id))
+      .orderBy(courseWords.order),
+    
+    // 如果用户已登录，检查是否已添加课程（否则返回空数组）
+    userId
+      ? db
+          .select({
+            id: userCourses.id,
+            userId: userCourses.user_id,
+            courseId: userCourses.course_id,
+            progress: userCourses.progress,
+            lastLearnedAt: userCourses.lastLearnedAt,
+            isCompleted: userCourses.isCompleted,
+            addedAt: userCourses.addedAt,
+          })
+          .from(userCourses)
+          .where(
+            and(
+              eq(userCourses.user_id, userId),
+              eq(userCourses.course_id, course.id)
+            )
+          )
+          .limit(1)
+      : Promise.resolve([]),
+  ]);
 
-  // 如果用户已登录，检查是否已添加课程
+  // 处理用户注册信息
   let isEnrolled = false;
   let userProgress = 0;
   let isCompleted = false;
 
-  if (userId) {
-    const [enrollment] = await db
-      .select({
-        id: userCourses.id,
-        userId: userCourses.user_id,
-        courseId: userCourses.course_id,
-        progress: userCourses.progress,
-        lastLearnedAt: userCourses.lastLearnedAt,
-        isCompleted: userCourses.isCompleted,
-        addedAt: userCourses.addedAt,
-      })
-      .from(userCourses)
-      .where(
-        and(
-          eq(userCourses.user_id, userId),
-          eq(userCourses.course_id, course.id)
-        )
-      )
-      .limit(1);
-
-    if (enrollment) {
-      isEnrolled = true;
-      userProgress = enrollment.progress;
-      isCompleted = enrollment.isCompleted;
-    }
+  if (enrollmentResult.length > 0) {
+    const enrollment = enrollmentResult[0];
+    isEnrolled = true;
+    userProgress = enrollment.progress;
+    isCompleted = enrollment.isCompleted;
   }
 
   return (

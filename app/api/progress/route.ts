@@ -3,7 +3,6 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { db } from '@/lib/drizzle';
 import { userProgress } from '@/db/schema/user_progress';
-import { eq, and } from 'drizzle-orm';
 
 export async function POST(request: NextRequest) {
   try {

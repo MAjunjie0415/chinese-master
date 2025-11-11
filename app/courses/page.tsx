@@ -22,43 +22,44 @@ export default async function CoursesPage({
 
   const userId = session?.user?.id;
   const params = await searchParams;
-  const currentTab = params.tab || 'explore';
 
-  // 查询所有课程
-  const allCourses = await db
-    .select({
-      id: courses.id,
-      title: courses.title,
-      slug: courses.slug,
-      category: courses.category,
-      description: courses.description,
-      totalWords: courses.totalWords,
-      difficulty: courses.difficulty,
-      coverImage: courses.coverImage,
-      createdAt: courses.createdAt,
-    })
-    .from(courses)
-    .orderBy(courses.createdAt);
-
-  // 如果用户已登录，获取用户的课程进度
-  let userCoursesData: Array<{
-    courseId: number;
-    progress: number;
-    isCompleted: boolean;
-  }> = [];
-
-  if (userId) {
-    const userProgress = await db
+  // 并行查询：同时获取所有课程和用户进度（大幅提升性能）
+  const [allCoursesResult, userCoursesResult] = await Promise.all([
+    // 查询所有课程
+    db
       .select({
-        courseId: userCourses.course_id,
-        progress: userCourses.progress,
-        isCompleted: userCourses.isCompleted,
+        id: courses.id,
+        title: courses.title,
+        slug: courses.slug,
+        category: courses.category,
+        description: courses.description,
+        totalWords: courses.totalWords,
+        difficulty: courses.difficulty,
+        coverImage: courses.coverImage,
+        createdAt: courses.createdAt,
       })
-      .from(userCourses)
-      .where(eq(userCourses.user_id, userId));
+      .from(courses)
+      .orderBy(courses.createdAt),
+    
+    // 如果用户已登录，获取用户的课程进度（否则返回空数组）
+    userId
+      ? db
+          .select({
+            courseId: userCourses.course_id,
+            progress: userCourses.progress,
+            isCompleted: userCourses.isCompleted,
+          })
+          .from(userCourses)
+          .where(eq(userCourses.user_id, userId))
+      : Promise.resolve([]),
+  ]);
 
-    userCoursesData = userProgress;
-  }
+  const allCourses = allCoursesResult;
+  const userCoursesData = userCoursesResult;
+
+  // 默认tab逻辑：如果用户已登录且有课程，默认显示"My Courses"，否则显示"Explore"
+  const defaultTab = userId && userCoursesData.length > 0 ? 'my' : 'explore';
+  const currentTab = params.tab || defaultTab;
 
   // 将用户进度合并到课程数据中
   const coursesWithProgress = allCourses.map((course) => {
