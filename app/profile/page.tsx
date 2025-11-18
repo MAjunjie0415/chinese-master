@@ -10,7 +10,7 @@ import { userProgress } from '@/db/schema/user_progress';
 import { userCourses, practiceRecords, courseWords } from '@/db/schema/courses';
 import { eq, and, lt, sql, count, avg } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
-import { getUserAchievements } from '@/lib/achievements';
+import { getUserAchievements, type UserAchievements } from '@/lib/achievements';
 
 export default async function ProfilePage() {
   // 第一步：验证用户登录
@@ -121,7 +121,14 @@ export default async function ProfilePage() {
       : 0,
   };
 
-  const achievementsData = getValue(achievementsResult, []);
+  // 提供正确的默认值类型（符合UserAchievements接口）
+  const defaultAchievements: UserAchievements = {
+    streakDays: 0,
+    totalMastered: 0,
+    milestones: [],
+    nextMilestone: null,
+  };
+  const achievementsData = getValue(achievementsResult, defaultAchievements);
 
   return (
     <div className="min-h-screen py-8 px-4 bg-gray-50">
