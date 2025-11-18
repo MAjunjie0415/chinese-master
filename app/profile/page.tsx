@@ -89,7 +89,8 @@ export default async function ProfilePage() {
 
   // 安全提取结果，处理可能的错误
   // 直接从 PromiseSettledResult 中提取值，失败时使用默认值
-  const getValue = <T>(result: PromiseSettledResult<T>, defaultValue: T): T => {
+  // 注意：使用 extends 约束避免JSX解析问题
+  const getValue = <T extends any>(result: PromiseSettledResult<T>, defaultValue: T): T => {
     if (result.status === 'fulfilled') {
       return result.value;
     } else {
