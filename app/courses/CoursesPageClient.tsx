@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CourseCard from '@/components/CourseCard';
 import Link from 'next/link';
+import { WishForm } from '@/components/WishForm';
 
 interface Course {
   id: number;
@@ -90,6 +91,9 @@ export default function CoursesPageClient({
             Master Chinese through structured courses tailored for business and HSK exams
           </p>
         </div>
+
+        {/* 许愿池横幅 */}
+        <WishForm variant="banner" />
 
         {/* Tab切换 */}
         <div className="flex items-center justify-between mb-8 border-b border-gray-200">
@@ -293,6 +297,9 @@ export default function CoursesPageClient({
             )}
           </>
         )}
+
+        {/* 许愿池底部按钮 */}
+        <WishForm variant="button" />
       </div>
     </div>
   );

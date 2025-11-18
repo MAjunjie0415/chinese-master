@@ -13,7 +13,8 @@
     "db:migrate": "tsx db/migrate.ts",
     "db:test": "tsx scripts/test-v1.1-migration.ts",
     "db:studio": "drizzle-kit studio",
-    "test:review": "tsx scripts/test-review-system.ts"
+    "test:review": "tsx scripts/test-review-system.ts",
+    "test:wish-invite": "tsx scripts/test-wish-invite.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",

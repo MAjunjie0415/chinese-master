@@ -2,6 +2,7 @@ import Link from 'next/link';
 import SignOutButton from '@/components/SignOutButton';
 import UserInfoCard from '@/components/UserInfoCard';
 import AchievementDisplay from '@/components/AchievementDisplay';
+import { InviteSection } from './invite-section';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import { cookies } from 'next/headers';
 import { db } from '@/lib/drizzle';
@@ -209,6 +210,9 @@ export default async function ProfilePage() {
         <div className="mt-8 mb-8">
           <AchievementDisplay initialData={achievements} />
         </div>
+
+        {/* 邀请码功能 */}
+        <InviteSection />
 
         {/* 底部：快速操作 */}
         <div className="mt-12">
