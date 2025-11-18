@@ -10,7 +10,11 @@ export default function LoginForm() {
   const redirectTo = searchParams.get('redirect') || '/courses';
   const inviteCode = searchParams.get('invite_code');
 
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
   // 创建Supabase客户端
@@ -18,6 +22,79 @@ export default function LoginForm() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
+
+  // 邮箱登录
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setLoading(true);
+
+    try {
+      const { data, error: loginError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (loginError) {
+        throw loginError;
+      }
+
+      if (data.session) {
+        // 登录成功，跳转到目标页面
+        router.push(redirectTo);
+        router.refresh();
+      }
+    } catch (err: any) {
+      console.error('Login error:', err);
+      setError(err.message || 'Login failed. Please check your email and password.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 邮箱注册
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setLoading(true);
+
+    try {
+      const { data, error: signupError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/courses`,
+        },
+      });
+
+      if (signupError) {
+        // 检查是否是邮箱已存在的错误
+        if (signupError.message.includes('already registered') || 
+            signupError.message.includes('already exists') ||
+            signupError.message.includes('User already registered')) {
+          setError('This email is already registered. Please log in or use a different email.');
+        } else {
+          throw signupError;
+        }
+        return;
+      }
+
+      if (data.user) {
+        setSuccess('Registration successful! Please check your email to verify your account.');
+        setMode('login');
+        // 清空表单
+        setEmail('');
+        setPassword('');
+      }
+    } catch (err: any) {
+      console.error('Signup error:', err);
+      setError(err.message || 'Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Google登录
   const handleGoogleLogin = async () => {
@@ -47,7 +124,7 @@ export default function LoginForm() {
       // OAuth会重定向，不需要设置loading为false
     } catch (err: any) {
       console.error('Google login error:', err);
-      setError(err.message || '登录失败，请重试');
+      setError(err.message || 'Login failed. Please try again.');
       setLoading(false);
     }
   };
@@ -57,14 +134,16 @@ export default function LoginForm() {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        // 已登录，直接跳转（invite_code会在OAuth回调中处理）
+        // 已登录，直接跳转
         router.push(redirectTo);
         router.refresh();
       }
     };
 
     checkSession();
-  }, [redirectTo, router]);
+  }, [redirectTo, router, supabase]);
+
+  const handleSubmit = mode === 'login' ? handleLogin : handleSignup;
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-gray-50">
@@ -73,27 +152,97 @@ export default function LoginForm() {
         <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
           {/* 标题 */}
           <h1 className="text-3xl font-bold text-center mb-2 text-gray-900">
-            Welcome
+            {mode === 'login' ? 'Welcome Back' : 'Create Account'}
           </h1>
           <p className="text-center text-gray-600 mb-8">
-            Sign in to continue your learning journey
+            {mode === 'login' 
+              ? 'Log in to continue your learning journey' 
+              : 'Sign up to start mastering Chinese'}
           </p>
 
-          {/* 错误提示 */}
-          {error && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-              {error}
+          {/* 表单 */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* 邮箱输入 */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                Email Address
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="you@example.com"
+                disabled={loading}
+              />
             </div>
-          )}
+
+            {/* 密码输入 */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                placeholder="••••••••"
+                disabled={loading}
+              />
+              {mode === 'signup' && (
+                <p className="mt-2 text-sm text-gray-500">
+                  Password must be at least 6 characters
+                </p>
+              )}
+            </div>
+
+            {/* 错误提示 */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
+
+            {/* 成功提示 */}
+            {success && (
+              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
+                {success}
+              </div>
+            )}
+
+            {/* 提交按钮 */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed active:scale-95"
+            >
+              {loading
+                ? (mode === 'login' ? 'Logging in...' : 'Signing up...')
+                : (mode === 'login' ? 'Log In' : 'Sign Up')}
+            </button>
+          </form>
+
+          {/* 分隔线 */}
+          <div className="my-6 flex items-center">
+            <div className="flex-1 border-t border-gray-300"></div>
+            <span className="px-4 text-sm text-gray-500">OR</span>
+            <div className="flex-1 border-t border-gray-300"></div>
+          </div>
 
           {/* Google登录按钮 */}
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full bg-white border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 flex items-center justify-center gap-3 shadow-sm hover:shadow-md"
+            className="w-full bg-white border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 flex items-center justify-center gap-3 shadow-sm hover:shadow-md mb-6"
           >
             {loading ? (
-              <span>登录中...</span>
+              <span>Logging in...</span>
             ) : (
               <>
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -121,10 +270,27 @@ export default function LoginForm() {
 
           {/* 邀请码提示 */}
           {inviteCode && (
-            <div className="mt-6 bg-purple-50 border border-purple-200 text-purple-700 px-4 py-3 rounded-lg text-sm text-center">
-              🎁 使用邀请码注册，您将获得3次复习额度
+            <div className="bg-purple-50 border border-purple-200 text-purple-700 px-4 py-3 rounded-lg text-sm text-center">
+              🎁 Register with invite code to get 3 review credits
             </div>
           )}
+
+          {/* 模式切换 */}
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => {
+                setMode(mode === 'login' ? 'signup' : 'login');
+                setError('');
+                setSuccess('');
+              }}
+              className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
+              disabled={loading}
+            >
+              {mode === 'login'
+                ? "Don't have an account? Sign up"
+                : 'Already have an account? Log in'}
+            </button>
+          </div>
         </div>
 
         {/* 返回首页链接 */}

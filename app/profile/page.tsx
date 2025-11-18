@@ -29,16 +29,9 @@ export default async function ProfilePage() {
   // 定义"今天结束时间"（今天23:59:59）
   const todayEnd = sql`now()::date + interval '1 day' - interval '1 second'`;
 
-  // 使用 Promise.all 并行执行所有查询
-  const [
-    totalLearnedResult,
-    masteredResult,
-    todayReviewsResult,
-    enrolledCoursesResult,
-    completedCoursesResult,
-    practiceStatsResult,
-    achievements,
-  ] = await Promise.all([
+  // 使用 Promise.allSettled 并行执行所有查询
+  // 添加错误处理，确保单个查询失败不影响其他查询
+  const results = await Promise.allSettled([
     // 查询总学习单词数
     db
       .select({ count: count() })
@@ -94,15 +87,40 @@ export default async function ProfilePage() {
     getUserAchievements(userId),
   ]);
 
-  const stats = {
-    totalLearned: totalLearnedResult[0]?.count || 0,
-    mastered: masteredResult[0]?.count || 0,
-    reviewsToday: todayReviewsResult[0]?.count || 0,
-    enrolledCourses: enrolledCoursesResult[0]?.count || 0,
-    completedCourses: completedCoursesResult[0]?.count || 0,
-    totalPractices: practiceStatsResult[0]?.totalPractices || 0,
-    avgAccuracy: practiceStatsResult[0]?.avgAccuracy ? Math.round(Number(practiceStatsResult[0].avgAccuracy)) : 0,
+  // 安全提取结果，处理可能的错误
+  // 直接从 PromiseSettledResult 中提取值，失败时使用默认值
+  const getValue = <T>(result: PromiseSettledResult<T>, defaultValue: T): T => {
+    if (result.status === 'fulfilled') {
+      return result.value;
+    } else {
+      console.error('Query failed:', result.reason);
+      return defaultValue;
+    }
   };
+
+  const [
+    totalLearnedResult,
+    masteredResult,
+    todayReviewsResult,
+    enrolledCoursesResult,
+    completedCoursesResult,
+    practiceStatsResult,
+    achievementsResult,
+  ] = results;
+
+  const stats = {
+    totalLearned: getValue(totalLearnedResult, [{ count: 0 }])[0]?.count || 0,
+    mastered: getValue(masteredResult, [{ count: 0 }])[0]?.count || 0,
+    reviewsToday: getValue(todayReviewsResult, [{ count: 0 }])[0]?.count || 0,
+    enrolledCourses: getValue(enrolledCoursesResult, [{ count: 0 }])[0]?.count || 0,
+    completedCourses: getValue(completedCoursesResult, [{ count: 0 }])[0]?.count || 0,
+    totalPractices: getValue(practiceStatsResult, [{ totalPractices: 0, avgAccuracy: null }])[0]?.totalPractices || 0,
+    avgAccuracy: getValue(practiceStatsResult, [{ totalPractices: 0, avgAccuracy: null }])[0]?.avgAccuracy 
+      ? Math.round(Number(getValue(practiceStatsResult, [{ totalPractices: 0, avgAccuracy: null }])[0]?.avgAccuracy)) 
+      : 0,
+  };
+
+  const achievementsData = getValue(achievementsResult, []);
 
   return (
     <div className="min-h-screen py-8 px-4 bg-gray-50">
@@ -208,7 +226,7 @@ export default async function ProfilePage() {
 
         {/* 成就展示 */}
         <div className="mt-8 mb-8">
-          <AchievementDisplay initialData={achievements} />
+          <AchievementDisplay initialData={achievementsData} />
         </div>
 
         {/* 邀请码功能 */}

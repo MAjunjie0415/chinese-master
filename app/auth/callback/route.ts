@@ -8,6 +8,9 @@ export async function GET(request: NextRequest) {
   const inviteCode = requestUrl.searchParams.get('invite_code');
   const redirectTo = requestUrl.searchParams.get('redirect') || '/courses';
 
+  // 创建响应对象（用于设置cookie）
+  let response = NextResponse.redirect(new URL(redirectTo, requestUrl.origin));
+
   if (code) {
     const cookieStore = await cookies();
     const supabase = createServerClient(
@@ -21,6 +24,8 @@ export async function GET(request: NextRequest) {
           set(name: string, value: string, options: any) {
             try {
               cookieStore.set({ name, value, ...options });
+              // 同时设置到response中
+              response.cookies.set({ name, value, ...options });
             } catch (error) {
               // 在服务端组件中调用时可能会失败，这是正常的
             }
@@ -28,6 +33,7 @@ export async function GET(request: NextRequest) {
           remove(name: string, options: any) {
             try {
               cookieStore.set({ name, value: '', ...options });
+              response.cookies.set({ name, value: '', ...options });
             } catch (error) {
               // 在服务端组件中调用时可能会失败，这是正常的
             }
@@ -36,7 +42,7 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    // 交换code获取session
+    // 交换code获取session（这会自动设置cookie）
     const { data: { session }, error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error || !session) {
@@ -46,6 +52,29 @@ export async function GET(request: NextRequest) {
         loginUrl.searchParams.set('invite_code', inviteCode);
       }
       return NextResponse.redirect(loginUrl);
+    }
+
+    // 确保Google登录后也更新users表（即使没有invite_code）
+    try {
+      const { data: userData } = await supabase
+        .from('users')
+        .select('id')
+        .eq('id', session.user.id)
+        .single();
+
+      // 如果users表中没有记录，创建一条
+      if (!userData) {
+        await supabase
+          .from('users')
+          .insert({
+            id: session.user.id,
+            invite_quota: 3,
+            invited_count: 0,
+          });
+      }
+    } catch (error) {
+      console.error('更新users表失败:', error);
+      // 继续登录流程，不阻塞
     }
 
     // 如果有invite_code，处理邀请码逻辑
@@ -120,9 +149,12 @@ export async function GET(request: NextRequest) {
         // 即使处理失败，也继续登录流程
       }
     }
+
+    // 使用包含cookie的response重定向
+    response = NextResponse.redirect(new URL(redirectTo, requestUrl.origin));
   }
 
-  // 重定向到目标页面
-  return NextResponse.redirect(new URL(redirectTo, requestUrl.origin));
+  // 重定向到目标页面（包含session cookie）
+  return response;
 }
 

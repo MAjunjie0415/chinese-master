@@ -1,14 +1,13 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
+import { createServerSupabaseClient } from '@/lib/supabase';
+import { db } from '@/lib/drizzle';
+import { userProgress } from '@/db/schema/user_progress';
+import { courses, courseWords } from '@/db/schema/courses';
+import { eq, and, lt, sql, count } from 'drizzle-orm';
 
 // 获取复习数量的组件
 async function ReviewCountData() {
-  const { createServerSupabaseClient } = await import('@/lib/supabase');
-  const { db } = await import('@/lib/drizzle');
-  const { userProgress } = await import('@/db/schema/user_progress');
-  const { courses, courseWords } = await import('@/db/schema/courses');
-  const { eq, and, lt, sql, count } = await import('drizzle-orm');
-
   try {
     const supabase = await createServerSupabaseClient();
     const {
@@ -36,7 +35,7 @@ async function ReviewCountData() {
         )
       );
 
-    const reviewCount = result[0]?.count || 0;
+    const reviewCount = Number(result[0]?.count || 0);
 
     if (reviewCount === 0) {
       return (
@@ -57,8 +56,15 @@ async function ReviewCountData() {
         Start Review ({reviewCount} words) →
       </Link>
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching review count:', error);
+    // 记录详细错误信息以便调试
+    if (error?.message) {
+      console.error('Error message:', error.message);
+    }
+    if (error?.stack) {
+      console.error('Error stack:', error.stack);
+    }
     // 出错时显示默认按钮
     return (
       <Link
