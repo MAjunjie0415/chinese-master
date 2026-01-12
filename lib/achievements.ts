@@ -54,11 +54,11 @@ export async function calculateStreakDays(userId: string): Promise<number> {
     const [reviewDates, practiceDates] = await Promise.all([
       db
         .select({
-          date: sql<string>`DATE(${userProgress.last_reviewed})`.as('date'),
+          date: sql<string>`DATE(${userProgress.lastReviewedAt})`.as('date'),
         })
         .from(userProgress)
-        .where(eq(userProgress.user_id, userId))
-        .groupBy(sql`DATE(${userProgress.last_reviewed})`),
+        .where(eq(userProgress.userId, userId))
+        .groupBy(sql`DATE(${userProgress.lastReviewedAt})`),
 
       db
         .select({
@@ -124,7 +124,7 @@ export async function getUserAchievements(userId: string): Promise<UserAchieveme
     db
       .select({ count: count() })
       .from(userProgress)
-      .where(and(eq(userProgress.user_id, userId), eq(userProgress.mastered, true))),
+      .where(and(eq(userProgress.userId, userId), sql`${userProgress.masteryScore} >= 100`)),
 
     // 计算连续学习天数
     calculateStreakDays(userId),
