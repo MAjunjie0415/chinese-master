@@ -13,21 +13,24 @@ const isPooler = connectionString.includes('pooler.supabase.com');
 const isDirect = connectionString.includes('db.') && connectionString.includes('.supabase.co');
 
 // 创建PostgreSQL连接 - 使用单例模式确保连接复用
+console.log('🔌 Initializing Postgres client to:', isPooler ? 'Supabase Pooler' : isDirect ? 'Supabase Direct' : 'Unknown');
+
 export const client = postgres(connectionString, {
   // Supabase Pooler 和 Direct 都要求禁用 prepare
   prepare: false,
 
   // SSL配置：生产环境下始终开启 SSL，并允许自签名证书
-  ssl: process.env.NODE_ENV === 'production' ? {
-    rejectUnauthorized: false,
-  } : (isPooler || isDirect ? { rejectUnauthorized: false } : false),
+  ssl: process.env.NODE_ENV === 'production' || isPooler || isDirect ? {
+    rejectUnauthorized: false, // 允许 Supabase 自签名证书
+  } : false,
 
-  // 连接池配置 - 优化配置 (Serverless环境降低连接数)
-  // max: 3 is safer for Supabase Free Tier when multiple instances are warm.
-  max: 3,
-  idle_timeout: 20,           // 减少空闲超时（秒）
-  connect_timeout: 10,        // 减少连接超时（秒）
-  max_lifetime: 0,            // 0 表示尽可能复用连接，避免频繁重连
+  // 连接池配置 - 优化配置 (服务器端降低连接数防瓶颈)
+  // 对于 Supabase 免费版，并行实例多时连接数很容易耗尽
+  // max: 2 是最保守、最安全的配置，防止 500 错误
+  max: 2,
+  idle_timeout: 15,           // 缩短空闲超时
+  connect_timeout: 10,        // 连接超时
+  max_lifetime: 60 * 30,      // 30分钟后自动回收连接
 
   // 错误处理和重试
   onnotice: () => { },         // 忽略通知

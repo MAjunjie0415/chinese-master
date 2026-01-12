@@ -9,57 +9,78 @@ export async function middleware(request: NextRequest) {
     },
   });
 
+  // 检查环境变量
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error('🔴 Middleware Error: Supabase env vars are missing');
+    return response;
+  }
+
   // 创建Supabase服务端客户端
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         get(name: string) {
           return request.cookies.get(name)?.value;
         },
         set(name: string, value: string, options: any) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          });
+          try {
+            request.cookies.set({
+              name,
+              value,
+              ...options,
+            });
+            response = NextResponse.next({
+              request: {
+                headers: request.headers,
+              },
+            });
+            response.cookies.set({
+              name,
+              value,
+              ...options,
+            });
+          } catch (e) {
+            // Safe to ignore in middleware if it's a read-only pass
+          }
         },
         remove(name: string, options: any) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
-          response.cookies.set({
-            name,
-            value: '',
-            ...options,
-          });
+          try {
+            request.cookies.set({
+              name,
+              value: '',
+              ...options,
+            });
+            response = NextResponse.next({
+              request: {
+                headers: request.headers,
+              },
+            });
+            response.cookies.set({
+              name,
+              value: '',
+              ...options,
+            });
+          } catch (e) {
+            // Safe to ignore
+          }
         },
       },
     }
   );
 
-  // 获取当前用户会话
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  // 获取当前用户 (getUser 更安全，因为它会向 Supabase Auth 服务器验证 token)
+  let user = null;
+  try {
+    const { data: { user: authUser } } = await supabase.auth.getUser();
+    user = authUser;
+  } catch (err) {
+    console.error('🔴 Middleware Auth Error:', err);
+  }
 
   const { pathname } = request.nextUrl;
 
@@ -78,7 +99,7 @@ export async function middleware(request: NextRequest) {
   const isLoginPage = pathname === '/login';
 
   // 未登录用户访问保护路由 → 重定向到登录页
-  if (isProtectedRoute && !session) {
+  if (isProtectedRoute && !user) {
     const redirectUrl = new URL('/login', request.url);
     // 保存原始URL，登录后可以跳转回来
     redirectUrl.searchParams.set('redirect', pathname);
@@ -86,7 +107,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // 已登录用户访问登录页 → 重定向到首页
-  if (isLoginPage && session) {
+  if (isLoginPage && user) {
     // 检查是否有重定向参数
     const redirect = request.nextUrl.searchParams.get('redirect');
     if (redirect && redirect !== '/login') {
