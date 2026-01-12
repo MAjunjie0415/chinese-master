@@ -19,26 +19,31 @@ const isDirect = connectionString.includes('db.') && connectionString.includes('
 export const client = postgres(connectionString, {
   // Supabase Pooler 和 Direct 都要求禁用 prepare
   prepare: false,
-  
+
   // SSL配置：Pooler需要显式SSL配置
   ssl: isPooler || isDirect ? {
     rejectUnauthorized: false, // Supabase 使用自签名证书
   } : false,
-  
-  // 连接池配置 - 优化配置
-  max: 20,                    // 增加最大连接数（适应并行查询）
-  idle_timeout: 30,           // 增加空闲超时（秒）
-  connect_timeout: 30,        // 连接超时（秒）
-  max_lifetime: 60 * 30,      // 连接最大生命周期（30分钟）
-  
+
+  // 连接池配置 - 优化配置 (Serverless环境降低连接数)
+  // Vercel serverless functions create new instances frequently.
+  // Using a large pool size (e.g. 20) typically exhausts the database connection limit quickly.
+  // max: 1 is recommended for serverless + Supabase Transaction/Session pooler.
+  max: 1,
+  idle_timeout: 20,           // 减少空闲超时（秒）
+  connect_timeout: 10,        // 减少连接超时（秒）
+  max_lifetime: 0,            // 0 表示尽可能复用连接，避免频繁重连（或者设为 60s）
+  // 对于 Serverless，通常设为 0 或短时间都行，postgres.js处理较好
+  // 保持默认或简单配置即可
+
   // 错误处理和重试
-  onnotice: () => {},         // 忽略通知
-  
+  onnotice: () => { },         // 忽略通知
+
   // 数据转换
   transform: {
     undefined: null,           // undefined 转为 null
   },
-  
+
   // 连接健康检查
   connection: {
     application_name: 'chinese-master',
@@ -46,7 +51,7 @@ export const client = postgres(connectionString, {
 });
 
 // 创建Drizzle实例，使用schema进行类型推断
-export const db = drizzle(client, { 
+export const db = drizzle(client, {
   schema,
   // 确保字段名正确映射（snake_case -> camelCase）
   logger: process.env.NODE_ENV === 'development' ? {
