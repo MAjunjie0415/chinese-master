@@ -6,3 +6,4 @@ export * from './progress';
 export * from './cache';
 export * from './marketing';
 export * from './courses';
+export * from './words';
