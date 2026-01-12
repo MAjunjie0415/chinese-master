@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { createServerSupabaseClient } from '@/lib/supabase';
 import { db } from '@/lib/drizzle';
 import { userCourses, courses } from '@/db/schema/courses';
 import { eq, and } from 'drizzle-orm';
@@ -11,29 +10,21 @@ import { eq, and } from 'drizzle-orm';
  */
 export async function POST(request: NextRequest) {
   try {
-    // 验证用户登录状态
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value;
-          },
-        },
-      }
-    );
+    // 验证用户登录状态 - 使用集中的工具函数
+    const supabase = await createServerSupabaseClient();
 
+    // 使用 getUser() 代替 getSession()，更安全且能验证会话有效性
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+      error: authError
+    } = await supabase.auth.getUser();
 
-    if (!session) {
+    if (authError || !user) {
+      console.error('Enrollment Auth Error:', authError);
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const userId = session.user.id;
+    const userId = user.id;
 
     // 解析请求体
     const body = await request.json();
@@ -80,19 +71,36 @@ export async function POST(request: NextRequest) {
     }
 
     // 添加课程
-    await db.insert(userCourses).values({
-      user_id: userId,
-      course_id: courseId,
-      progress: 0,
-      isCompleted: false,
-    });
+    try {
+      await db.insert(userCourses).values({
+        user_id: userId,
+        course_id: courseId,
+        progress: 0,
+        isCompleted: false,
+      });
 
-    return NextResponse.json({
-      success: true,
-      message: 'Course added successfully',
+      return NextResponse.json({
+        success: true,
+        message: 'Course added successfully',
+      });
+    } catch (dbError: any) {
+      console.error('Database Error during enrollment:', {
+        message: dbError.message,
+        detail: dbError.detail,
+        code: dbError.code,
+        userId,
+        courseId
+      });
+      return NextResponse.json(
+        { error: 'Failed to save enrollment to database' },
+        { status: 500 }
+      );
+    }
+  } catch (error: any) {
+    console.error('Unexpected Error enrolling in course:', {
+      message: error.message,
+      stack: error.stack
     });
-  } catch (error) {
-    console.error('Error enrolling in course:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

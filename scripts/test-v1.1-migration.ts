@@ -7,7 +7,7 @@ import postgres from 'postgres';
 import * as dotenv from 'dotenv';
 import { courses, userCourses, courseWords, practiceRecords } from '../db/schema/courses';
 import { words } from '../db/schema/words';
-import { userProgress } from '../db/schema/user_progress';
+import { userProgress } from '../db/schema/progress';
 import { sql, eq } from 'drizzle-orm';
 
 dotenv.config({ path: '.env.local' });
@@ -38,7 +38,7 @@ async function main() {
   }
 
   console.log('🧪 开始执行v1.1迁移测试...\n');
-  console.log('=' .repeat(60));
+  console.log('='.repeat(60));
 
   const client = postgres(databaseUrl);
   const db = drizzle(client);
@@ -58,7 +58,7 @@ async function main() {
 
     const expectedTables = ['courses', 'user_courses', 'course_words', 'practice_records'];
     const foundTables = tableQuery.map(row => row.table_name);
-    
+
     expectedTables.forEach(tableName => {
       const exists = foundTables.includes(tableName);
       logTest(
@@ -70,7 +70,7 @@ async function main() {
 
     // 测试表结构
     console.log('\n📋 验证表结构:');
-    
+
     // 验证courses表字段
     const coursesColumns = await client`
       SELECT column_name, data_type 
@@ -119,9 +119,9 @@ async function main() {
     // 随机抽取一条words记录验证完整性
     if (wordsTotal > 0) {
       const sampleWord = await db.select().from(words).limit(1);
-      const hasAllFields = sampleWord[0] && 
-        sampleWord[0].chinese && 
-        sampleWord[0].pinyin && 
+      const hasAllFields = sampleWord[0] &&
+        sampleWord[0].chinese &&
+        sampleWord[0].pinyin &&
         sampleWord[0].english;
       logTest(
         'words表记录完整性',
@@ -156,8 +156,8 @@ async function main() {
       logTest(
         'user_progress与words表关联完整',
         relationIntact,
-        relationIntact 
-          ? `用户 ${sampleProgress[0].userId.substring(0, 8)}... 的进度记录正常` 
+        relationIntact
+          ? `用户 ${sampleProgress[0].userId.substring(0, 8)}... 的进度记录正常`
           : '关联关系损坏'
       );
     }
@@ -179,9 +179,9 @@ async function main() {
         '❌ 允许插入不存在的course_id，外键约束未生效'
       );
     } catch (error: any) {
-      const isForeignKeyError = error.message.includes('foreign key') || 
-                                error.message.includes('violates') ||
-                                error.code === '23503';
+      const isForeignKeyError = error.message.includes('foreign key') ||
+        error.message.includes('violates') ||
+        error.code === '23503';
       logTest(
         'course_words -> courses外键约束',
         isForeignKeyError,
@@ -215,9 +215,9 @@ async function main() {
       // 清理测试数据
       await db.delete(courses).where(eq(courses.id, testCourse.id));
     } catch (error: any) {
-      const isForeignKeyError = error.message.includes('foreign key') || 
-                                error.message.includes('violates') ||
-                                error.code === '23503';
+      const isForeignKeyError = error.message.includes('foreign key') ||
+        error.message.includes('violates') ||
+        error.code === '23503';
       logTest(
         'course_words -> words外键约束',
         isForeignKeyError,
@@ -227,7 +227,7 @@ async function main() {
       // 尝试清理（如果课程已创建）
       try {
         await db.delete(courses).where(eq(courses.slug, 'test-course-temp'));
-      } catch {}
+      } catch { }
     }
 
     // 测试3.3：user_courses唯一约束
@@ -273,9 +273,9 @@ async function main() {
       await db.delete(userCourses).where(eq(userCourses.course_id, testCourseId));
       await db.delete(courses).where(eq(courses.id, testCourseId));
     } catch (error: any) {
-      const isUniqueError = error.message.includes('unique') || 
-                           error.message.includes('duplicate') ||
-                           error.code === '23505';
+      const isUniqueError = error.message.includes('unique') ||
+        error.message.includes('duplicate') ||
+        error.code === '23505';
       logTest(
         'user_courses唯一约束',
         isUniqueError,
@@ -289,7 +289,7 @@ async function main() {
           await db.delete(userCourses).where(eq(userCourses.course_id, testCourse[0].id));
           await db.delete(courses).where(eq(courses.id, testCourse[0].id));
         }
-      } catch {}
+      } catch { }
     }
 
     // ==================== 测试4：索引创建成功 ====================
@@ -332,7 +332,7 @@ async function main() {
       console.log('     DROP TABLE IF EXISTS course_words CASCADE;');
       console.log('     DROP TABLE IF EXISTS user_courses CASCADE;');
       console.log('     DROP TABLE IF EXISTS courses CASCADE;');
-      
+
       process.exit(1);
     } else {
       console.log('\n🎉 所有测试通过！迁移成功！');
