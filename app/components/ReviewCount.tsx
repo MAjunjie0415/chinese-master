@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import { db } from '@/lib/drizzle';
-import { userProgress } from '@/db/schema/user_progress';
+import { userProgress } from '@/db/schema/progress';
 import { courses, courseWords } from '@/db/schema/courses';
 import { eq, and, lt, sql, count } from 'drizzle-orm';
 
@@ -20,18 +20,18 @@ async function ReviewCountData() {
 
     const userId = session.user.id;
     const todayEnd = sql`now()::date + interval '1 day' - interval '1 second'`;
-    
+
     // 快速查询待复习单词总数
     const result = await db
       .select({ count: count() })
       .from(userProgress)
-      .innerJoin(courseWords, eq(userProgress.word_id, courseWords.word_id))
+      .innerJoin(courseWords, eq(userProgress.wordId, courseWords.word_id))
       .innerJoin(courses, eq(courseWords.course_id, courses.id))
       .where(
         and(
-          eq(userProgress.user_id, userId),
-          lt(userProgress.next_review, todayEnd),
-          eq(userProgress.mastered, false)
+          eq(userProgress.userId, userId),
+          lt(userProgress.nextReviewAt, todayEnd),
+          lt(userProgress.masteryScore, 100)
         )
       );
 

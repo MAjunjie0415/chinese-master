@@ -27,7 +27,7 @@ function ReviewCardSkeleton() {
 async function ReviewData() {
   const { createServerSupabaseClient } = await import('@/lib/supabase');
   const { db } = await import('@/lib/drizzle');
-  const { userProgress } = await import('@/db/schema/user_progress');
+  const { userProgress } = await import('@/db/schema/progress');
   const { courses, courseWords } = await import('@/db/schema/courses');
   const { eq, and, lt, sql, count } = await import('drizzle-orm');
 
@@ -44,18 +44,18 @@ async function ReviewData() {
     if (session) {
       const userId = session.user.id;
       const todayEnd = sql`now()::date + interval '1 day' - interval '1 second'`;
-      
+
       // 先快速查询待复习单词总数
       const countResult = await db
         .select({ count: count() })
         .from(userProgress)
-        .innerJoin(courseWords, eq(userProgress.word_id, courseWords.word_id))
+        .innerJoin(courseWords, eq(userProgress.wordId, courseWords.word_id))
         .innerJoin(courses, eq(courseWords.course_id, courses.id))
         .where(
           and(
-            eq(userProgress.user_id, userId),
-            lt(userProgress.next_review, todayEnd),
-            eq(userProgress.mastered, false)
+            eq(userProgress.userId, userId),
+            lt(userProgress.nextReviewAt, todayEnd),
+            lt(userProgress.masteryScore, 100)
           )
         );
 
@@ -69,13 +69,13 @@ async function ReviewData() {
             count: count(),
           })
           .from(userProgress)
-          .innerJoin(courseWords, eq(userProgress.word_id, courseWords.word_id))
+          .innerJoin(courseWords, eq(userProgress.wordId, courseWords.word_id))
           .innerJoin(courses, eq(courseWords.course_id, courses.id))
           .where(
             and(
-              eq(userProgress.user_id, userId),
-              lt(userProgress.next_review, todayEnd),
-              eq(userProgress.mastered, false)
+              eq(userProgress.userId, userId),
+              lt(userProgress.nextReviewAt, todayEnd),
+              lt(userProgress.masteryScore, 100)
             )
           )
           .groupBy(courses.title)
@@ -102,7 +102,7 @@ async function ReviewData() {
       {/* 背景装饰 */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
       <div className="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-10 rounded-full -ml-12 -mb-12"></div>
-      
+
       <div className="relative z-10">
         {/* 头部：图标和标题 */}
         <div className="flex items-center gap-3 mb-4">

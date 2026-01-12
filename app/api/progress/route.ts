@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { db } from '@/lib/drizzle';
-import { userProgress } from '@/db/schema/user_progress';
+import { userProgress } from '@/db/schema/progress';
 
 export async function POST(request: NextRequest) {
   try {
@@ -70,18 +70,18 @@ export async function POST(request: NextRequest) {
     await db
       .insert(userProgress)
       .values({
-        user_id: userId,
-        word_id: wordId,
-        last_reviewed: now,
-        next_review: nextReview,
-        mastered: known,
+        userId,
+        wordId,
+        lastReviewedAt: now,
+        nextReviewAt: nextReview,
+        masteryScore: known ? 100 : 0, // Simple boolean mapping for now
       })
       .onConflictDoUpdate({
-        target: [userProgress.user_id, userProgress.word_id],
+        target: [userProgress.userId, userProgress.wordId],
         set: {
-          last_reviewed: now,
-          next_review: nextReview,
-          mastered: known,
+          lastReviewedAt: now,
+          nextReviewAt: nextReview,
+          masteryScore: known ? 100 : 0,
         },
       });
 
