@@ -1,13 +1,13 @@
 import { pgTable, text, integer, timestamp, jsonb, uuid, uniqueIndex, index } from 'drizzle-orm/pg-core';
 import { users } from './users';
-import { goldenCorpus } from './corpus';
+import { words } from './words';
 
 export const userProgress = pgTable(
     'user_progress',
     {
         id: integer('id').primaryKey().generatedAlwaysAsIdentity().notNull(),
         userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-        wordId: integer('word_id').notNull().references(() => goldenCorpus.id, { onDelete: 'cascade' }),
+        wordId: integer('word_id').notNull().references(() => words.id, { onDelete: 'cascade' }),
         masteryScore: integer('mastery_score').default(0).notNull(), // 0-100
         reviewCount: integer('review_count').default(0).notNull(),
         correctCount: integer('correct_count').default(0).notNull(),
