@@ -17,13 +17,13 @@ export default function LoginForm() {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // 创建Supabase客户端
+  // Create Supabase client
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  // 邮箱登录
+  // Email login
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -41,7 +41,7 @@ export default function LoginForm() {
       }
 
       if (data.session) {
-        // 登录成功，跳转到目标页面
+        // Login successful, redirect to target page
         router.push(redirectTo);
         router.refresh();
       }
@@ -53,7 +53,7 @@ export default function LoginForm() {
     }
   };
 
-  // 邮箱注册
+  // Email signup
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -70,10 +70,10 @@ export default function LoginForm() {
       });
 
       if (signupError) {
-        // 检查是否是邮箱已存在的错误
-        if (signupError.message.includes('already registered') || 
-            signupError.message.includes('already exists') ||
-            signupError.message.includes('User already registered')) {
+        // Check if email already exists
+        if (signupError.message.includes('already registered') ||
+          signupError.message.includes('already exists') ||
+          signupError.message.includes('User already registered')) {
           setError('This email is already registered. Please log in or use a different email.');
         } else {
           throw signupError;
@@ -84,7 +84,7 @@ export default function LoginForm() {
       if (data.user) {
         setSuccess('Registration successful! Please check your email to verify your account.');
         setMode('login');
-        // 清空表单
+        // Clear form
         setEmail('');
         setPassword('');
       }
@@ -96,13 +96,13 @@ export default function LoginForm() {
     }
   };
 
-  // Google登录
+  // Google login
   const handleGoogleLogin = async () => {
     setError('');
     setLoading(true);
 
     try {
-      // 构建回调URL，保留invite_code和redirect参数
+      // Build callback URL, preserving invite_code and redirect params
       const callbackUrl = new URL('/auth/callback', window.location.origin);
       if (inviteCode) {
         callbackUrl.searchParams.set('invite_code', inviteCode);
@@ -121,7 +121,7 @@ export default function LoginForm() {
       if (signInError) {
         throw signInError;
       }
-      // OAuth会重定向，不需要设置loading为false
+      // OAuth will redirect, no need to set loading to false manually here
     } catch (err: any) {
       console.error('Google login error:', err);
       setError(err.message || 'Login failed. Please try again.');
@@ -129,12 +129,12 @@ export default function LoginForm() {
     }
   };
 
-  // 检查是否已有session（已登录）
+  // Check if session exists (already logged in)
   useEffect(() => {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        // 已登录，直接跳转
+        // Already logged in, redirect directly
         router.push(redirectTo);
         router.refresh();
       }
@@ -148,21 +148,21 @@ export default function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-gray-50">
       <div className="w-full max-w-md">
-        {/* 表单容器 */}
+        {/* Form Container */}
         <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
-          {/* 标题 */}
+          {/* Title */}
           <h1 className="text-3xl font-bold text-center mb-2 text-gray-900">
             {mode === 'login' ? 'Welcome Back' : 'Create Account'}
           </h1>
           <p className="text-center text-gray-600 mb-8">
-            {mode === 'login' 
-              ? 'Log in to continue your learning journey' 
+            {mode === 'login'
+              ? 'Log in to continue your learning journey'
               : 'Sign up to start mastering Chinese'}
           </p>
 
-          {/* 表单 */}
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* 邮箱输入 */}
+            {/* Email Input */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                 Email Address
@@ -179,7 +179,7 @@ export default function LoginForm() {
               />
             </div>
 
-            {/* 密码输入 */}
+            {/* Password Input */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 Password
@@ -202,21 +202,21 @@ export default function LoginForm() {
               )}
             </div>
 
-            {/* 错误提示 */}
+            {/* Error Message */}
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
                 {error}
               </div>
             )}
 
-            {/* 成功提示 */}
+            {/* Success Message */}
             {success && (
               <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
                 {success}
               </div>
             )}
 
-            {/* 提交按钮 */}
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
@@ -228,14 +228,14 @@ export default function LoginForm() {
             </button>
           </form>
 
-          {/* 分隔线 */}
+          {/* Divider */}
           <div className="my-6 flex items-center">
             <div className="flex-1 border-t border-gray-300"></div>
             <span className="px-4 text-sm text-gray-500">OR</span>
             <div className="flex-1 border-t border-gray-300"></div>
           </div>
 
-          {/* Google登录按钮 */}
+          {/* Google Login Button */}
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
@@ -268,14 +268,14 @@ export default function LoginForm() {
             )}
           </button>
 
-          {/* 邀请码提示 */}
+          {/* Invite Code Feedback */}
           {inviteCode && (
             <div className="bg-purple-50 border border-purple-200 text-purple-700 px-4 py-3 rounded-lg text-sm text-center">
               🎁 Register with invite code to get 3 review credits
             </div>
           )}
 
-          {/* 模式切换 */}
+          {/* Mode Switch */}
           <div className="mt-6 text-center">
             <button
               onClick={() => {
@@ -293,7 +293,7 @@ export default function LoginForm() {
           </div>
         </div>
 
-        {/* 返回首页链接 */}
+        {/* Back to Home Link */}
         <div className="mt-6 text-center">
           <a
             href="/"

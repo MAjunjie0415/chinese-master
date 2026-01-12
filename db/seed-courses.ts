@@ -21,13 +21,13 @@ async function main() {
 
   console.log('🌱 开始创建初始课程数据...\n');
 
-  const client = postgres(databaseUrl);
+  const client = postgres(databaseUrl, { max: 1 });
   const db = drizzle(client);
 
   try {
     // 1. 创建商务汉语课程
     console.log('📚 创建商务汉语课程...');
-    
+
     const businessCourses = [
       {
         title: 'Business Negotiation Essentials',
@@ -57,7 +57,7 @@ async function main() {
         .insert(courses)
         .values(course)
         .returning();
-      
+
       console.log(`  ✓ 创建课程: ${course.title}`);
 
       // 从words表中查询对应category的单词
@@ -77,7 +77,7 @@ async function main() {
         }));
 
         await db.insert(courseWords).values(courseWordValues);
-        
+
         // 更新课程的总单词数
         await db
           .update(courses)
@@ -90,7 +90,7 @@ async function main() {
 
     // 2. 创建HSK等级课程
     console.log('\n📚 创建HSK等级课程...');
-    
+
     const hskLevels = [
       { level: 1, title: 'HSK 1 Foundation', description: 'Master 150 basic Chinese words for HSK 1 exam', difficulty: 'beginner' },
       { level: 2, title: 'HSK 2 Building Blocks', description: 'Learn 150 essential words for HSK 2 exam', difficulty: 'beginner' },
@@ -113,7 +113,7 @@ async function main() {
         .insert(courses)
         .values(courseData)
         .returning();
-      
+
       console.log(`  ✓ 创建课程: ${hsk.title}`);
 
       // 从words表中查询对应HSK等级的单词
@@ -133,7 +133,7 @@ async function main() {
         }));
 
         await db.insert(courseWords).values(courseWordValues);
-        
+
         // 更新课程的总单词数
         await db
           .update(courses)

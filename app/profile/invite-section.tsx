@@ -12,7 +12,7 @@ export function InviteSection() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
 
-  // 加载已邀请人数
+  // Load invited count
   const loadData = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -21,7 +21,7 @@ export function InviteSection() {
         return;
       }
 
-      // 只统计已使用的邀请码数量
+      // Only count used invite codes
       const { data } = await supabase
         .from('invite_codes')
         .select('id')
@@ -40,10 +40,10 @@ export function InviteSection() {
     loadData();
   }, [loadData]);
 
-  // 生成邀请链接
+  // Generate invite link
   const handleGenerateLink = async () => {
     setGenerating(true);
-    
+
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -51,15 +51,15 @@ export function InviteSection() {
         return;
       }
 
-      // 生成邀请码（简单随机字符串）
+      // Generate invite code (simple random string)
       const code = Math.random().toString(36).substring(2, 8).toUpperCase();
       const link = `${window.location.origin}/login?invite_code=${code}`;
 
-      // 乐观更新：立即显示链接
+      // Optimistic update: show link immediately
       setInviteLink(link);
       setShowLink(true);
 
-      // 后台保存到数据库（不阻塞UI）
+      // Save to database in background (non-blocking)
       const { error } = await supabase
         .from('invite_codes')
         .insert({
@@ -70,7 +70,7 @@ export function InviteSection() {
 
       if (error) {
         console.error('Failed to save invite code:', error);
-        // 即使保存失败，也保留链接显示（用户仍可使用）
+        // Even if save fails, keep link visible for current session
       }
     } catch (error) {
       console.error('Failed to generate invite link:', error);
@@ -80,7 +80,7 @@ export function InviteSection() {
     }
   };
 
-  // 复制链接
+  // Copy link to clipboard
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(inviteLink);
@@ -112,7 +112,7 @@ export function InviteSection() {
         </p>
       </div>
 
-      {/* 已邀请人数 - 大数字显示 */}
+      {/* Invited count - Large number display */}
       <div className="text-center mb-4 md:mb-6">
         <div className="text-4xl md:text-5xl font-bold text-purple-600 mb-2">
           {invitedCount}
@@ -120,7 +120,7 @@ export function InviteSection() {
         <div className="text-xs md:text-sm text-gray-600">Friends Invited</div>
       </div>
 
-      {/* 邀请按钮 */}
+      {/* Invite Button */}
       {!showLink ? (
         <button
           onClick={handleGenerateLink}
@@ -131,7 +131,7 @@ export function InviteSection() {
         </button>
       ) : (
         <div className="space-y-3">
-          {/* 邀请链接显示 */}
+          {/* Invite Link Display */}
           <div className="bg-white p-3 md:p-4 rounded-lg border-2 border-purple-300">
             <div className="text-xs text-gray-500 mb-2">Share Link:</div>
             <div className="font-mono text-xs md:text-sm text-gray-900 break-all mb-3">
@@ -145,7 +145,7 @@ export function InviteSection() {
             </button>
           </div>
 
-          {/* 重新生成按钮 */}
+          {/* Regenerate Button */}
           <button
             onClick={() => {
               setShowLink(false);
@@ -158,7 +158,7 @@ export function InviteSection() {
         </div>
       )}
 
-      {/* 说明文字 */}
+      {/* Description Text */}
       <div className="mt-4 text-center text-xs text-gray-500">
         When your friend registers successfully, you both get 3 review credits
       </div>

@@ -13,7 +13,7 @@ dotenv.config({ path: '.env.local' });
 const connectionString = process.env.DATABASE_URL!;
 
 // 创建数据库连接
-const client = postgres(connectionString);
+const client = postgres(connectionString, { max: 1 });
 const db = drizzle(client);
 
 // CSV行类型定义
@@ -39,12 +39,12 @@ interface HSKWordRow {
 function readCSV<T>(filePath: string): Promise<T[]> {
   return new Promise((resolve, reject) => {
     const results: T[] = [];
-    
+
     if (!fs.existsSync(filePath)) {
       reject(new Error(`File not found: ${filePath}`));
       return;
     }
-    
+
     fs.createReadStream(filePath, { encoding: 'utf-8' })
       .pipe(csvParser())
       .on('data', (data) => results.push(data))
@@ -57,18 +57,18 @@ function readCSV<T>(filePath: string): Promise<T[]> {
 async function batchInsert(data: any[], batchSize: number = 500) {
   let inserted = 0;
   let skipped = 0;
-  
+
   // 先获取数据库中所有现有的词汇（用于去重）
   console.log('  检查数据库中已存在的词汇...');
   const existingWords = await db.select({
     chinese: words.chinese,
     category: words.category
   }).from(words);
-  
+
   const existingSet = new Set(
     existingWords.map(w => `${w.chinese}:${w.category}`)
   );
-  
+
   // 过滤出需要插入的数据
   const toInsert = data.filter(item => {
     const key = `${item.chinese}:${item.category}`;
@@ -78,13 +78,13 @@ async function batchInsert(data: any[], batchSize: number = 500) {
     }
     return true;
   });
-  
+
   console.log(`  需要插入: ${toInsert.length} 条, 跳过重复: ${skipped} 条`);
-  
+
   // 批量插入
   for (let i = 0; i < toInsert.length; i += batchSize) {
     const batch = toInsert.slice(i, i + batchSize);
-    
+
     try {
       await db.insert(words).values(batch);
       inserted += batch.length;
@@ -103,19 +103,19 @@ async function batchInsert(data: any[], batchSize: number = 500) {
       }
     }
   }
-  
+
   return { inserted, skipped };
 }
 
 async function main() {
   console.log('🚀 开始导入词库数据...\n');
-  
+
   try {
     // 1. 导入商务汉语词库
     console.log('📚 导入商务汉语词库...');
     const businessCsvPath = path.join(process.cwd(), 'business_words_clean.csv');
     const businessRows = await readCSV<BusinessWordRow>(businessCsvPath);
-    
+
     const businessData = businessRows.map(row => ({
       chinese: row.汉字,
       pinyin: row.拼音,
@@ -125,15 +125,15 @@ async function main() {
       category: row.category,
       frequency: 3,
     }));
-    
+
     const businessResult = await batchInsert(businessData);
     console.log(`✅ 商务汉语：成功导入 ${businessResult.inserted} 条，跳过重复 ${businessResult.skipped} 条\n`);
-    
+
     // 2. 导入HSK词库
     console.log('📚 导入HSK词库...');
     const hskCsvPath = path.join(process.cwd(), 'hsk_words_clean.csv');
     const hskRows = await readCSV<HSKWordRow>(hskCsvPath);
-    
+
     const hskData = hskRows.map(row => ({
       chinese: row.汉字,
       pinyin: row.拼音,
@@ -143,20 +143,20 @@ async function main() {
       category: row.category,
       frequency: parseInt(row.词频) || 3,
     }));
-    
+
     const hskResult = await batchInsert(hskData);
     console.log(`✅ HSK词库：成功导入 ${hskResult.inserted} 条，跳过重复 ${hskResult.skipped} 条\n`);
-    
+
     // 3. 打印总结
     const totalInserted = businessResult.inserted + hskResult.inserted;
     const totalSkipped = businessResult.skipped + hskResult.skipped;
-    
+
     console.log('═'.repeat(60));
     console.log('🎉 导入完成！');
     console.log(`✅ 总计：成功导入 ${totalInserted} 条`);
     console.log(`⏭️  跳过重复：${totalSkipped} 条`);
     console.log('═'.repeat(60));
-    
+
   } catch (error) {
     console.error('❌ 导入失败:', error);
     process.exit(1);

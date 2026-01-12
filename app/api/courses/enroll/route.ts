@@ -87,11 +87,12 @@ export async function POST(request: NextRequest) {
         success: true,
         message: 'Course added successfully',
       });
-    } catch (dbError: any) {
+    } catch (dbError) {
+      const error = dbError as Error & { detail?: string; code?: string };
       console.error('Database Error during enrollment:', {
-        message: dbError.message,
-        detail: dbError.detail,
-        code: dbError.code,
+        message: error.message,
+        detail: error.detail,
+        code: error.code,
         userId,
         courseId
       });
@@ -100,10 +101,11 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as Error;
     console.error('Unexpected Error enrolling in course:', {
-      message: error.message,
-      stack: error.stack
+      message: err.message,
+      stack: err.stack
     });
     return NextResponse.json(
       { error: 'Internal server error' },

@@ -3,9 +3,10 @@ import Image from 'next/image';
 import { Suspense } from 'react';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import ReviewCard from './components/ReviewCard';
+import SearchCard from '@/components/SearchCard';
 import ReviewCount from './components/ReviewCount';
 
-// 获取用户登录状态（轻量级，快速返回）
+// Get login status (lightweight, returns fast)
 async function getLoginStatus() {
   try {
     const supabase = await createServerSupabaseClient();
@@ -19,12 +20,12 @@ async function getLoginStatus() {
 }
 
 export default async function Home() {
-  // 只获取登录状态，不阻塞页面渲染
+  // Get login status only, don't block page rendering
   const isLoggedIn = await getLoginStatus();
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section - 首屏 */}
+      {/* Hero Section */}
       <section id="hero" className="min-h-screen flex items-center px-4 py-16 md:py-24 bg-gradient-to-br from-blue-50 via-white to-emerald-50">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
@@ -35,15 +36,20 @@ export default async function Home() {
             <p className="text-xl text-gray-600 leading-relaxed">
               Master vocabulary, track progress, and review with AI — designed for professionals & exam takers.
             </p>
-            
-            {/* 已登录用户：显示复习提醒 - 使用 Suspense 实现流式渲染 */}
+
+            {/* Logged in users: show review reminder and search card - using Suspense */}
             {isLoggedIn && (
-              <Suspense fallback={null}>
-                <ReviewCard />
-              </Suspense>
+              <div className="flex flex-col gap-6">
+                <Suspense fallback={null}>
+                  <ReviewCard />
+                </Suspense>
+                <Suspense fallback={null}>
+                  <SearchCard />
+                </Suspense>
+              </div>
             )}
 
-            {/* CTA按钮 */}
+            {/* CTA Buttons */}
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
               <Link
                 href={isLoggedIn ? "/courses" : "/login"}
@@ -64,7 +70,7 @@ export default async function Home() {
           <div className="hidden md:block">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-emerald-400 rounded-2xl transform rotate-3 opacity-20"></div>
-        <Image
+              <Image
                 src="https://images.unsplash.com/photo-1513001900722-370f803f498d?w=800&h=600&fit=crop"
                 alt="Foreign professionals learning Chinese with our tool"
                 width={800}
@@ -76,7 +82,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Features Section - 核心功能 */}
+      {/* Features Section */}
       <section id="features" className="py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
@@ -85,7 +91,7 @@ export default async function Home() {
           <p className="text-center text-gray-600 mb-16 max-w-2xl mx-auto">
             Three powerful features designed specifically for foreign learners
           </p>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {/* Feature 1: Business Scenarios */}
             <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-1 duration-300">
@@ -129,7 +135,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Courses Section - 课程展示 */}
+      {/* Courses Section */}
       <section id="courses" className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
@@ -185,7 +191,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* How It Works Section - 使用流程 */}
+      {/* How It Works Section */}
       <section id="how-it-works" className="py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
@@ -232,7 +238,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section - 用户评价 */}
+      {/* Testimonials Section */}
       <section id="testimonials" className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
@@ -294,80 +300,156 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Methodology Section - SEO & Authority Building */}
+      <section id="methodology" className="py-20 bg-emerald-900 text-emerald-50">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <span className="text-emerald-300 font-semibold tracking-wider uppercase text-sm mb-2 block">
+              The Science Behind Learning
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Why Traditional Flashcards Fail
+            </h2>
+            <p className="text-emerald-100 max-w-2xl mx-auto">
+              Our approach combines cognitive science (Spaced Repetition) with business context to ensure long-term retention.
+            </p>
+          </div>
+
+          <div className="space-y-12">
+            {/* Concept 1 */}
+            <div className="flex flex-col md:flex-row gap-8 items-start">
+              <div className="bg-emerald-800 p-4 rounded-xl flex-shrink-0">
+                <span className="text-3xl">🧠</span>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white mb-3">Contextual Encoding</h3>
+                <p className="text-emerald-200 leading-relaxed">
+                  Words memorized in isolation are forgotten quickly. ChineseMaster embeds every HSK and Business term into
+                  <strong className="text-white"> real-world sentences</strong>. When you learn the word "negotiation" (谈判),
+                  you don't just see the definition; you see it used in a contract dispute scenario. This "contextual hook" doubles
+                  memory retention rates compared to rote memorization.
+                </p>
+              </div>
+            </div>
+
+            {/* Concept 2 */}
+            <div className="flex flex-col md:flex-row gap-8 items-start">
+              <div className="bg-emerald-800 p-4 rounded-xl flex-shrink-0">
+                <span className="text-3xl">📉</span>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white mb-3">The Forgetting Curve</h3>
+                <p className="text-emerald-200 leading-relaxed">
+                  According to Ebbinghaus's Forgetting Curve, you forget 70% of new information within 24 hours.
+                  Our <strong>AI Algorithm</strong> tracks exactly when you are about to forget a word and schedules a review
+                  at that precise moment. This efficiency means you spend less time reviewing easy words and more time
+                  mastering difficult ones (like those tricky Chengyu idioms).
+                </p>
+              </div>
+            </div>
+
+            {/* Concept 3 */}
+            <div className="flex flex-col md:flex-row gap-8 items-start">
+              <div className="bg-emerald-800 p-4 rounded-xl flex-shrink-0">
+                <span className="text-3xl">🎯</span>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white mb-3">Active Recall & HSK Standard</h3>
+                <p className="text-emerald-200 leading-relaxed">
+                  Passive reading isn't enough. Our system forces <strong className="text-white">Active Recall</strong> —
+                  you must produce the answer before seeing it. Combined with the official HSK 3.0 vocabulary list
+                  (from HSK 1 to the advanced HSK 7-9 levels), this creates the robust neural pathways needed for
+                  passing exams and handling high-stakes business meetings in China.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section id="faq" className="py-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4">
+        <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
-            Frequently Asked Questions
+            Common Questions
           </h2>
           <p className="text-center text-gray-600 mb-16">
-            Everything you need to know
+            About Business Chinese, HSK & Our Platform
           </p>
 
           <div className="space-y-4">
             {/* FAQ Item 1 */}
             <details className="bg-white p-6 rounded-xl shadow-md group">
               <summary className="font-semibold text-lg cursor-pointer text-gray-900 flex justify-between items-center">
-                Is it free to use?
+                How is this different from Duolingo or Anki?
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                Yes! Basic features are completely free forever, including access to all word banks and spaced repetition. Premium features will be available in the future.
+                Unlike general apps (Duolingo), ChineseMaster is built <strong>specifically for professionals</strong>.
+                We focus on high-value Business vocab and HSK exam prep, not "the apple is red".
+                Unlike Anki, you don't need to build decks — our AI curators have already selected the 8,000 most important words
+                and example sentences for you.
               </p>
             </details>
 
             {/* FAQ Item 2 */}
             <details className="bg-white p-6 rounded-xl shadow-md group">
               <summary className="font-semibold text-lg cursor-pointer text-gray-900 flex justify-between items-center">
-                Which devices are supported?
+                Is this suitable for HSK 3.0 (New Standard)?
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                Works on phones, tablets, and computers. Your progress syncs automatically across all devices.
+                Yes! We have updated our word banks to align with the new <strong>HSK 3.0 standards</strong>.
+                Whether you are aiming for the basics (Level 1-3) or the advanced translation bands (Level 7-9),
+                our corpus covers the required vocabulary, characters, and grammar points demanded by the new exam format.
               </p>
             </details>
 
             {/* FAQ Item 3 */}
             <details className="bg-white p-6 rounded-xl shadow-md group">
               <summary className="font-semibold text-lg cursor-pointer text-gray-900 flex justify-between items-center">
-                Does pinyin include tones?
+                Can I start if I am a complete beginner?
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                Absolutely! All pinyin includes accurate tone marks, and we provide AI-generated standard pronunciation for every word.
+                Absolutely. We recommend starting with the <strong>HSK 1 Course</strong>.
+                It introduces the phonetic system (Pinyin), tones, and the first 150 essential words.
+                The interface helps you build confidence before moving into complex business scenarios.
               </p>
             </details>
 
             {/* FAQ Item 4 */}
             <details className="bg-white p-6 rounded-xl shadow-md group">
               <summary className="font-semibold text-lg cursor-pointer text-gray-900 flex justify-between items-center">
-                Will word banks be updated?
+                Is it free to use forever?
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                Yes! We add new business terms monthly and continuously improve HSK vocabulary based on the latest exam requirements.
+                Yes! The core learning features — accessing standard courses and using the Spaced Repetition review system —
+                are <strong>free forever</strong>. We believe access to language education should be open.
+                In the future, we may introduce premium features for advanced analytics or 1-on-1 tutoring,
+                but your daily study routine will always be free.
               </p>
             </details>
 
             {/* FAQ Item 5 */}
             <details className="bg-white p-6 rounded-xl shadow-md group">
               <summary className="font-semibold text-lg cursor-pointer text-gray-900 flex justify-between items-center">
-                Is my data secure?
+                How does the "Smart Search" work?
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                Your privacy is our priority. All data is encrypted and stored securely. Read our{' '}
-                <Link href="/privacy-policy" className="text-blue-600 hover:underline">
-                  Privacy Policy
-                </Link>{' '}
-                for details.
+                Our "Research 2.0" engine uses vector embeddings. This means you can search for a concept like
+                "words to use when angry in a meeting" or "polite decline via email", and our AI will understand
+                the <strong>semantic meaning</strong>, not just keyword matching. It retrieves the most culturally appropriate
+                business terms for your specific context.
               </p>
             </details>
           </div>
         </div>
       </section>
 
-      {/* CTA Section - 最终行动召唤 */}
+      {/* CTA Section */}
       <section id="cta" className="py-20 bg-gradient-to-br from-blue-600 to-emerald-600 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           {isLoggedIn ? (
@@ -378,7 +460,7 @@ export default async function Home() {
               <p className="text-xl mb-8 opacity-90">
                 Keep building your vocabulary and master Chinese step by step.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Suspense fallback={
                   <div className="inline-block bg-white bg-opacity-20 animate-pulse text-white font-bold px-10 py-4 rounded-lg">
@@ -407,7 +489,7 @@ export default async function Home() {
               <p className="text-xl mb-8 opacity-90">
                 No credit card required. 8,000+ words waiting for you.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/login"

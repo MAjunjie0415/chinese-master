@@ -10,42 +10,43 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [navigating, setNavigating] = useState<string | null>(null);
 
-  // 导航链接配置
+  // Navigation links configuration
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Courses', path: '/courses' },
+    { name: 'Search', path: '/search' },
     { name: 'Review', path: '/review/start' },
     { name: 'Profile', path: '/profile' },
   ];
 
-  // 判断链接是否为当前页面
+  // Check if link is the current page
   const isActive = (path: string) => {
     return pathname === path;
   };
 
-  // 处理导航点击，提供即时反馈
+  // Handle navigation click with instant feedback
   const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
-    // 如果已经是当前页面，阻止导航
+    // If already on the page, prevent navigation
     if (pathname === path) {
       e.preventDefault();
       return;
     }
 
-    // 设置导航状态，提供即时视觉反馈
+    // Set navigating state for visual feedback
     setNavigating(path);
-    
-    // 使用 router.push 进行导航，提供更好的性能
+
+    // Use router.push for better performance
     e.preventDefault();
     router.push(path);
-    
-    // 清除导航状态（延迟一点以确保视觉反馈可见）
+
+    // Clear navigating state after a delay
     setTimeout(() => setNavigating(null), 300);
   };
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
       <div className="h-16 px-6 flex items-center justify-between">
-        {/* 左侧：产品名称 */}
+        {/* Left: Product Name */}
         <Link
           href="/"
           prefetch={true}
@@ -54,7 +55,7 @@ export default function Navbar() {
           ChineseMaster
         </Link>
 
-        {/* 右侧：桌面端导航链接 */}
+        {/* Right: Desktop Navigation Links */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
@@ -62,13 +63,12 @@ export default function Navbar() {
               href={link.path}
               prefetch={true}
               onClick={(e) => handleNavigation(e, link.path)}
-              className={`transition-all cursor-pointer relative ${
-                isActive(link.path)
-                  ? 'text-[#165DFF] font-semibold'
-                  : navigating === link.path
+              className={`transition-all cursor-pointer relative ${isActive(link.path)
+                ? 'text-[#165DFF] font-semibold'
+                : navigating === link.path
                   ? 'text-[#165DFF] opacity-70'
                   : 'text-gray-600 hover:text-gray-900'
-              }`}
+                }`}
             >
               {link.name}
               {navigating === link.path && (
@@ -78,7 +78,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* 右侧：移动端汉堡菜单图标 */}
+        {/* Right: Mobile Hamburger Menu Icon */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden text-gray-600 cursor-pointer"
@@ -111,31 +111,30 @@ export default function Navbar() {
         </button>
       </div>
 
-        {/* 移动端菜单展开 */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200 px-4 py-4">
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  href={link.path}
-                  prefetch={true}
-                  onClick={(e) => {
-                    handleNavigation(e, link.path);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`text-left transition-colors cursor-pointer ${
-                    isActive(link.path)
-                      ? 'text-[#165DFF] font-semibold'
-                      : 'text-gray-600 hover:text-gray-900'
+      {/* Mobile Menu Expansion */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-200 px-4 py-4">
+          <div className="flex flex-col gap-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                href={link.path}
+                prefetch={true}
+                onClick={(e) => {
+                  handleNavigation(e, link.path);
+                  setMobileMenuOpen(false);
+                }}
+                className={`text-left transition-colors cursor-pointer ${isActive(link.path)
+                  ? 'text-[#165DFF] font-semibold'
+                  : 'text-gray-600 hover:text-gray-900'
                   }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
+              >
+                {link.name}
+              </Link>
+            ))}
           </div>
-        )}
+        </div>
+      )}
     </nav>
   );
 }

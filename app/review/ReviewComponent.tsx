@@ -7,7 +7,7 @@ import ReviewProgressRing from '@/components/ReviewProgressRing';
 import ReviewCelebration from '@/components/ReviewCelebration';
 import AchievementDisplay from '@/components/AchievementDisplay';
 
-type Review = {
+export type Review = {
   id: number;
   chinese: string;
   pinyin: string;
@@ -78,7 +78,7 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
           <h2 className="text-2xl font-bold text-green-600 mb-2">Great job!</h2>
           <p className="text-xl text-gray-900 mb-4">No reviews today!</p>
           <p className="text-gray-600 mb-8">
-            You've completed all your reviews. Come back tomorrow for more!
+            You&apos;ve completed all your reviews. Come back tomorrow for more!
           </p>
           <button
             onClick={() => router.push('/')}
@@ -133,14 +133,14 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
     // 【乐观更新】立即切换到下一个单词
     const previousIndex = currentIndex;
     const wasShowingAnswer = showAnswer;
-    
+
     setTimeout(() => {
       const nextIndex = currentIndex + 1;
       setCurrentIndex(nextIndex);
       setShowAnswer(false);
       setShowUndo(true);
       setTimeout(() => setShowUndo(false), 3000);
-      
+
       // 如果完成，显示庆祝动画
       if (nextIndex >= reviews.length) {
         setShowCelebration(true);
@@ -150,7 +150,7 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
     // 【后台异步保存】
     try {
       setLoading(true);
-      
+
       const response = await fetch('/api/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -169,7 +169,7 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
       // 【错误回滚】
       setCurrentIndex(previousIndex);
       setShowAnswer(wasShowingAnswer);
-      
+
       if (err instanceof Error) {
         if (err.message.includes('network') || err.message.includes('fetch')) {
           setError('⚠️ Network issue - progress not saved. Please check your connection and try again.');
@@ -202,14 +202,14 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
     // 【乐观更新】立即切换到下一个单词
     const previousIndex = currentIndex;
     const wasShowingAnswer = showAnswer;
-    
+
     setTimeout(() => {
       const nextIndex = currentIndex + 1;
       setCurrentIndex(nextIndex);
       setShowAnswer(false);
       setShowUndo(true);
       setTimeout(() => setShowUndo(false), 3000);
-      
+
       // 如果完成，显示庆祝动画
       if (nextIndex >= reviews.length) {
         setShowCelebration(true);
@@ -219,7 +219,7 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
     // 【后台异步保存】
     try {
       setLoading(true);
-      
+
       const response = await fetch('/api/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -238,7 +238,7 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
       // 【错误回滚】
       setCurrentIndex(previousIndex);
       setShowAnswer(wasShowingAnswer);
-      
+
       if (err instanceof Error) {
         if (err.message.includes('network') || err.message.includes('fetch')) {
           setError('⚠️ Network issue - progress not saved. Please check your connection and try again.');
@@ -274,7 +274,7 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
         <div className="text-center max-w-2xl w-full">
           {/* 完成图标 */}
           <div className="text-8xl mb-6 animate-bounce">🎉</div>
-          
+
           <h2 className="text-4xl font-bold mb-4 text-gray-900">Review Complete!</h2>
           <p className="text-xl text-gray-600 mb-8">
             Great job! You&apos;ve reviewed <strong className="text-orange-600">{reviews.length}</strong> words today.
@@ -283,7 +283,7 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
           {/* 复习统计卡片 */}
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Your Review Stats</h3>
-            
+
             <div className="grid grid-cols-3 gap-4 mb-6">
               {/* 正确率 */}
               <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center">
@@ -389,7 +389,7 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
               size={100}
               strokeWidth={8}
             />
-            
+
             {/* 进度信息 */}
             <div className="flex-1 ml-6">
               <div className="flex items-center justify-between mb-2">
@@ -450,12 +450,10 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
 
           {/* 即时反馈动画 */}
           {showFeedback && (
-            <div className={`fixed inset-0 flex items-center justify-center pointer-events-none z-50 ${
-              showFeedback.type === 'correct' ? 'animate-bounce' : 'animate-pulse'
-            }`}>
-              <div className={`text-8xl ${
-                showFeedback.type === 'correct' ? 'text-green-500' : 'text-red-500'
+            <div className={`fixed inset-0 flex items-center justify-center pointer-events-none z-50 ${showFeedback.type === 'correct' ? 'animate-bounce' : 'animate-pulse'
               }`}>
+              <div className={`text-8xl ${showFeedback.type === 'correct' ? 'text-green-500' : 'text-red-500'
+                }`}>
                 {showFeedback.type === 'correct' ? '✅' : '❌'}
               </div>
             </div>

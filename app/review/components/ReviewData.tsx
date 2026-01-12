@@ -3,10 +3,25 @@ import { userProgress } from '@/db/schema/progress';
 import { words } from '@/db/schema/words';
 import { courses, courseWords } from '@/db/schema/courses';
 import { and, eq, lt, sql } from 'drizzle-orm';
-import ReviewComponent from '../ReviewComponent';
+import ReviewComponent, { type Review } from '../ReviewComponent';
 
 interface ReviewDataProps {
   userId: string;
+}
+
+interface ReviewItem {
+  id: number;
+  chinese: string | null;
+  pinyin: string | null;
+  english: string | null;
+  scene: string | null;
+  example: string | null;
+  category: string | null;
+  frequency: number | null;
+  progressId: number;
+  courseId: number;
+  courseTitle: string;
+  courseSlug: string;
 }
 
 // 获取复习数据的组件
@@ -14,6 +29,7 @@ export default async function ReviewData({ userId }: ReviewDataProps) {
   // 定义"今天结束时间"（今天23:59:59）
   const todayEnd = sql`now()::date + interval '1 day' - interval '1 second'`;
 
+  let reviewsData: ReviewItem[] = [];
   try {
     // 优化查询 - 先过滤 user_progress，再 JOIN 其他表
     // 这样可以充分利用 nextReviewIdx 索引
@@ -52,15 +68,18 @@ export default async function ReviewData({ userId }: ReviewDataProps) {
       // 添加排序，确保结果一致性（可选，但有助于缓存）
       .orderBy(userProgress.nextReviewAt);
 
-    return <ReviewComponent reviews={reviews} userId={userId} />;
-  } catch (error: any) {
+    reviewsData = reviews as ReviewItem[];
+  } catch (error) {
+    const err = error as Error;
     console.error('CRITICAL: Error fetching review data:', {
-      message: error.message,
-      stack: error.stack,
+      message: err.message,
+      stack: err.stack,
       userId
     });
-    // return Error component or empty state instead of crashing
-    return <ReviewComponent reviews={[]} userId={userId} />;
+    // Fallback to empty reviews
+    reviewsData = [];
   }
+
+  return <ReviewComponent reviews={reviewsData as unknown as Review[]} userId={userId} />;
 }
 
