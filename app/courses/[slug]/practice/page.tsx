@@ -99,6 +99,40 @@ export default async function PracticeModeSelectionPage({ params }: PageProps) {
         'Compare different tones',
       ],
     },
+    {
+      id: 'translation',
+      name: 'Translation',
+      description: 'Practice translating between Chinese and English in both directions.',
+      difficulty: '⭐⭐⭐ Intermediate',
+      icon: '🔀',
+      color: 'from-purple-50 to-purple-100',
+      borderColor: 'border-purple-300',
+      textColor: 'text-purple-700',
+      href: `/courses/${slug}/practice/translation`,
+      features: [
+        'Both-way translation',
+        'Hanyu/Pinyin recognition',
+        'Multiple choice challenges',
+        'Instant audio feedback',
+      ],
+    },
+    {
+      id: 'dictation',
+      name: 'Dictation',
+      description: 'Choose the correct characters after listening to the audio.',
+      difficulty: '⭐⭐⭐⭐ Advanced',
+      icon: '✍️',
+      color: 'from-orange-50 to-orange-100',
+      borderColor: 'border-orange-300',
+      textColor: 'text-orange-700',
+      href: `/courses/${slug}/practice/dictation`,
+      features: [
+        'Pure listening challenge',
+        'Character recognition',
+        'Audio-to-Hanzi mapping',
+        'Optional hints for meaning',
+      ],
+    },
   ];
 
   return (

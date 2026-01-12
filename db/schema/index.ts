@@ -1,9 +1,7 @@
-// 导出所有数据库表schema
+// 导出所有数据库表 schema
 
-// v1.0 核心表
-export * from './words';
-export * from './user_progress';
-
-// v1.1 新增表（课程系统）
-export * from './courses';
-
+export * from './users';
+export * from './corpus';
+export * from './progress';
+export * from './cache';
+export * from './marketing';

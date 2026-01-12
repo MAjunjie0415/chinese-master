@@ -48,24 +48,24 @@ export default function CoursesPageClient({
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'business' | 'hsk'>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // 切换Tab时更新URL
+  // Update URL when switching tabs
   const handleTabChange = (tab: 'explore' | 'my') => {
     setActiveTab(tab);
     router.push(`/courses?tab=${tab}`, { scroll: false });
   };
 
-  // 筛选课程
+  // Filter courses
   const getFilteredCourses = () => {
     let filtered = allCourses;
 
-    // 按分类筛选
+    // Filter by category
     if (selectedCategory === 'business') {
       filtered = coursesByCategory.business;
     } else if (selectedCategory === 'hsk') {
       filtered = coursesByCategory.hsk;
     }
 
-    // 按搜索关键词筛选
+    // Filter by search query
     if (searchQuery) {
       filtered = filtered.filter(
         (course) =>
@@ -82,7 +82,7 @@ export default function CoursesPageClient({
   return (
     <div className="min-h-screen py-8 px-4 bg-gray-50">
       <div className="max-w-7xl mx-auto">
-        {/* 页面标题 */}
+        {/* Page Title */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
             Courses
@@ -92,19 +92,18 @@ export default function CoursesPageClient({
           </p>
         </div>
 
-        {/* 许愿池横幅 */}
+        {/* Wish Pool Banner */}
         <WishForm variant="banner" />
 
-        {/* Tab切换 */}
+        {/* Tab Switching */}
         <div className="flex items-center justify-between mb-8 border-b border-gray-200">
           <div className="flex gap-4">
             <button
               onClick={() => handleTabChange('explore')}
-              className={`px-4 py-3 font-semibold transition-colors relative ${
-                activeTab === 'explore'
+              className={`px-4 py-3 font-semibold transition-colors relative ${activeTab === 'explore'
                   ? 'text-blue-600'
                   : 'text-gray-600 hover:text-gray-900'
-              }`}
+                }`}
             >
               Explore
               {activeTab === 'explore' && (
@@ -113,11 +112,10 @@ export default function CoursesPageClient({
             </button>
             <button
               onClick={() => handleTabChange('my')}
-              className={`px-4 py-3 font-semibold transition-colors relative ${
-                activeTab === 'my'
+              className={`px-4 py-3 font-semibold transition-colors relative ${activeTab === 'my'
                   ? 'text-blue-600'
                   : 'text-gray-600 hover:text-gray-900'
-              }`}
+                }`}
             >
               My Courses
               {myCourses.inProgress.length + myCourses.completed.length > 0 && (
@@ -131,7 +129,7 @@ export default function CoursesPageClient({
             </button>
           </div>
 
-          {/* 搜索框（仅Explore Tab显示） */}
+          {/* Search Box (Only show in Explore Tab) */}
           {activeTab === 'explore' && (
             <div className="relative">
               <input
@@ -158,44 +156,41 @@ export default function CoursesPageClient({
           )}
         </div>
 
-        {/* Tab内容 */}
+        {/* Tab Content */}
         {activeTab === 'explore' ? (
           <>
-            {/* 筛选器 */}
+            {/* Filters */}
             <div className="mb-6 flex gap-3">
               <button
                 onClick={() => setSelectedCategory('all')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  selectedCategory === 'all'
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${selectedCategory === 'all'
                     ? 'bg-blue-100 text-blue-700'
                     : 'bg-white text-gray-700 hover:bg-gray-100'
-                }`}
+                  }`}
               >
                 All Categories
               </button>
               <button
                 onClick={() => setSelectedCategory('business')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  selectedCategory === 'business'
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${selectedCategory === 'business'
                     ? 'bg-blue-100 text-blue-700'
                     : 'bg-white text-gray-700 hover:bg-gray-100'
-                }`}
+                  }`}
               >
                 💼 Business ({coursesByCategory.business.length})
               </button>
               <button
                 onClick={() => setSelectedCategory('hsk')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  selectedCategory === 'hsk'
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${selectedCategory === 'hsk'
                     ? 'bg-blue-100 text-blue-700'
                     : 'bg-white text-gray-700 hover:bg-gray-100'
-                }`}
+                  }`}
               >
                 📚 HSK ({coursesByCategory.hsk.length})
               </button>
             </div>
 
-            {/* 课程网格 */}
+            {/* Course Grid */}
             {filteredCourses.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredCourses.map((course) => (
@@ -298,7 +293,7 @@ export default function CoursesPageClient({
           </>
         )}
 
-        {/* 许愿池底部按钮 */}
+        {/* Wish Pool Bottom Button */}
         <WishForm variant="button" />
       </div>
     </div>
