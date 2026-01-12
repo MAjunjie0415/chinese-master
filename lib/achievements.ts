@@ -4,7 +4,7 @@
  */
 
 import { db } from '@/lib/drizzle';
-import { userProgress } from '@/db/schema/user_progress';
+import { userProgress } from '@/db/schema/progress';
 import { practiceRecords } from '@/db/schema/courses';
 import { eq, and, sql, count } from 'drizzle-orm';
 
@@ -59,7 +59,7 @@ export async function calculateStreakDays(userId: string): Promise<number> {
         .from(userProgress)
         .where(eq(userProgress.user_id, userId))
         .groupBy(sql`DATE(${userProgress.last_reviewed})`),
-      
+
       db
         .select({
           date: sql<string>`DATE(${practiceRecords.createdAt})`.as('date'),
@@ -125,7 +125,7 @@ export async function getUserAchievements(userId: string): Promise<UserAchieveme
       .select({ count: count() })
       .from(userProgress)
       .where(and(eq(userProgress.user_id, userId), eq(userProgress.mastered, true))),
-    
+
     // 计算连续学习天数
     calculateStreakDays(userId),
   ]);
