@@ -28,8 +28,9 @@ export const client = postgres(connectionString, {
   // 连接池配置 - 优化配置 (Serverless环境降低连接数)
   // Vercel serverless functions create new instances frequently.
   // Using a large pool size (e.g. 20) typically exhausts the database connection limit quickly.
-  // max: 1 is recommended for serverless + Supabase Transaction/Session pooler.
-  max: 1,
+  // max: 5 is a balanced choice for serverless + Supabase Transaction/Session pooler.
+  // Using 1 was too restrictive when multiple Server Components run parallel queries.
+  max: 5,
   idle_timeout: 20,           // 减少空闲超时（秒）
   connect_timeout: 10,        // 减少连接超时（秒）
   max_lifetime: 0,            // 0 表示尽可能复用连接，避免频繁重连（或者设为 60s）

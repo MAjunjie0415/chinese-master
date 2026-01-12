@@ -65,8 +65,12 @@ export async function POST(request: NextRequest) {
 
     if (existingEnrollment) {
       return NextResponse.json(
-        { error: 'Course already added' },
-        { status: 400 }
+        {
+          success: true,
+          message: 'Course already added',
+          isAlreadyEnrolled: true
+        },
+        { status: 200 }
       );
     }
 

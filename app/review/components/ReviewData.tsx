@@ -53,12 +53,13 @@ export default async function ReviewData({ userId }: ReviewDataProps) {
       .orderBy(userProgress.nextReviewAt);
 
     return <ReviewComponent reviews={reviews} userId={userId} />;
-  } catch (error) {
-    console.error('Error fetching review data:', error);
+  } catch (error: any) {
+    console.error('CRITICAL: Error fetching review data:', {
+      message: error.message,
+      stack: error.stack,
+      userId
+    });
     // return Error component or empty state instead of crashing
-    // For now, let's return the ReviewComponent with empty reviews to show the "Great job" state
-    // accompanied by a console error for debugging. 
-    // Ideally we might want to pass an error prop, but ReviewComponent handles empty reviews nicely.
     return <ReviewComponent reviews={[]} userId={userId} />;
   }
 }
