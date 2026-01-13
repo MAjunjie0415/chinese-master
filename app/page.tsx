@@ -326,7 +326,7 @@ export default async function Home() {
               <div>
                 <h3 className="text-xl font-bold text-white mb-3">Contextual Encoding</h3>
                 <p className="text-emerald-200 leading-relaxed">
-                  Words memorized in isolation are forgotten quickly. ChineseMaster embeds every HSK and Business term into
+                  Words memorized in isolation are forgotten quickly. BizChinese embeds every business term into
                   <strong className="text-white"> real-world sentences</strong>. When you learn the word "negotiation" (谈判),
                   you don't just see the definition; you see it used in a contract dispute scenario. This "contextual hook" doubles
                   memory retention rates compared to rote memorization.
@@ -356,12 +356,12 @@ export default async function Home() {
                 <span className="text-3xl">🎯</span>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white mb-3">Active Recall & HSK Standard</h3>
+                <h3 className="text-xl font-bold text-white mb-3">Active Recall for Business</h3>
                 <p className="text-emerald-200 leading-relaxed">
                   Passive reading isn't enough. Our system forces <strong className="text-white">Active Recall</strong> —
-                  you must produce the answer before seeing it. Combined with the official HSK 3.0 vocabulary list
-                  (from HSK 1 to the advanced HSK 7-9 levels), this creates the robust neural pathways needed for
-                  passing exams and handling high-stakes business meetings in China.
+                  you must produce the answer before seeing it. Combined with real workplace vocabulary from emails,
+                  contracts, and meetings, this creates the robust neural pathways needed for
+                  handling high-stakes business situations in China.
                 </p>
               </div>
             </div>
@@ -376,7 +376,7 @@ export default async function Home() {
             Common Questions
           </h2>
           <p className="text-center text-gray-600 mb-16">
-            About Business Chinese, HSK & Our Platform
+            About Business Chinese & Our Platform
           </p>
 
           <div className="space-y-4">
@@ -387,8 +387,8 @@ export default async function Home() {
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                Unlike general apps (Duolingo), ChineseMaster is built <strong>specifically for professionals</strong>.
-                We focus on high-value Business vocab and HSK exam prep, not "the apple is red".
+                Unlike general apps (Duolingo), BizChinese is built <strong>specifically for professionals</strong>.
+                We focus on high-value business vocabulary for real workplace scenarios, not "the apple is red".
                 Unlike Anki, you don't need to build decks — our AI curators have already selected the 8,000 most important words
                 and example sentences for you.
               </p>
@@ -397,13 +397,13 @@ export default async function Home() {
             {/* FAQ Item 2 */}
             <details className="bg-white p-6 rounded-xl shadow-md group">
               <summary className="font-semibold text-lg cursor-pointer text-gray-900 flex justify-between items-center">
-                Is this suitable for HSK 3.0 (New Standard)?
+                Can I create courses from my own documents?
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                Yes! We have updated our word banks to align with the new <strong>HSK 3.0 standards</strong>.
-                Whether you are aiming for the basics (Level 1-3) or the advanced translation bands (Level 7-9),
-                our corpus covers the required vocabulary, characters, and grammar points demanded by the new exam format.
+                Yes! Our <strong>Create Your Course</strong> feature lets you upload any Chinese text —
+                emails, contracts, meeting notes, or chat logs. Our AI extracts vocabulary, matches it with our dictionary,
+                and generates a personalized course just for you.
               </p>
             </details>
 
@@ -414,9 +414,8 @@ export default async function Home() {
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                Absolutely. We recommend starting with the <strong>HSK 1 Course</strong>.
-                It introduces the phonetic system (Pinyin), tones, and the first 150 essential words.
-                The interface helps you build confidence before moving into complex business scenarios.
+                Absolutely. We recommend starting with the <strong>Office Daily</strong> or <strong>Business Socializing</strong> courses.
+                They introduce essential workplace phrases with pinyin and audio. The interface builds confidence before moving into complex scenarios like negotiations.
               </p>
             </details>
 
@@ -437,14 +436,14 @@ export default async function Home() {
             {/* FAQ Item 5 */}
             <details className="bg-white p-6 rounded-xl shadow-md group">
               <summary className="font-semibold text-lg cursor-pointer text-gray-900 flex justify-between items-center">
-                How does the "Smart Search" work?
+                How does "Create Your Course" work?
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                Our "Research 2.0" engine uses vector embeddings. This means you can search for a concept like
-                "words to use when angry in a meeting" or "polite decline via email", and our AI will understand
-                the <strong>semantic meaning</strong>, not just keyword matching. It retrieves the most culturally appropriate
-                business terms for your specific context.
+                Paste any Chinese text (email, contract, meeting notes) and our AI analyzes it.
+                We extract unique vocabulary, match it with our dictionary for pinyin and translations,
+                filter out words you've already mastered, and create a <strong>custom course</strong>
+                with just the new words you need to learn.
               </p>
             </details>
           </div>
@@ -521,9 +520,9 @@ export default async function Home() {
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {/* Brand */}
             <div>
-              <h3 className="text-2xl font-bold text-white mb-4">ChineseMaster</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">BizChinese</h3>
               <p className="text-gray-400 leading-relaxed">
-                The smartest way for foreigners to learn Business Chinese and pass HSK exams.
+                The smartest way for professionals to master Business Chinese.
               </p>
             </div>
 
