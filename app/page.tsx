@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Suspense } from 'react';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import ReviewCard from './components/ReviewCard';
-import SearchCard from '@/components/SearchCard';
+import CreateCourseCard from '@/components/CreateCourseCard';
 import ReviewCount from './components/ReviewCount';
 
 // Get login status (lightweight, returns fast)
@@ -46,7 +46,7 @@ export default async function Home() {
                   <ReviewCard />
                 </Suspense>
                 <Suspense fallback={null}>
-                  <SearchCard />
+                  <CreateCourseCard />
                 </Suspense>
               </div>
             )}
