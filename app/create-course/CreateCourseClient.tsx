@@ -67,9 +67,34 @@ export default function CreateCourseClient() {
     };
 
     const handleCreateCourse = async () => {
-        // TODO: Implement P2 - Create course from selected words
-        alert(`Creating course with ${selectedWords.size} words...`);
+        if (selectedWords.size === 0) return;
+
+        setIsLoading(true);
+        try {
+            const response = await fetch('/api/courses/create-custom', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: result?.suggestedCourseTitle || 'My Custom Course',
+                    wordIds: Array.from(selectedWords),
+                    sourceText: text,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to create course');
+            }
+
+            // Redirect to the new course
+            window.location.href = `/courses/${data.course.slug}`;
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to create course');
+            setIsLoading(false);
+        }
     };
+
 
     // Show form if no result
     if (!result) {
@@ -147,8 +172,8 @@ export default function CreateCourseClient() {
                         <label
                             key={word.id}
                             className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${selectedWords.has(word.id)
-                                    ? 'bg-teal-50 border-2 border-teal-300'
-                                    : 'bg-gray-50 border-2 border-transparent hover:bg-gray-100'
+                                ? 'bg-teal-50 border-2 border-teal-300'
+                                : 'bg-gray-50 border-2 border-transparent hover:bg-gray-100'
                                 }`}
                         >
                             <input

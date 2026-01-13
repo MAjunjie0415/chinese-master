@@ -15,12 +15,18 @@ export const courses = pgTable('courses', {
   description: text('description'), // 课程描述
   totalWords: integer('total_words').default(0).notNull(), // 课程包含的单词总数
   difficulty: text('difficulty').default('beginner'), // 难度：beginner/intermediate/advanced
+  // v2.0: Custom course fields
+  isCustom: boolean('is_custom').default(false).notNull(), // 是否为用户自定义课程
+  createdBy: text('created_by'), // 创建者的用户ID（Supabase Auth UUID）
+  sourceText: text('source_text'), // 原始文本（用于用户上传的材料）
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 }, (table) => ({
   categoryIdx: index('courses_category_idx').on(table.category),
   slugIdx: index('courses_slug_idx').on(table.slug),
+  createdByIdx: index('courses_created_by_idx').on(table.createdBy),
 }));
+
 
 /**
  * 用户-课程关联表（v1.1新增）
