@@ -141,48 +141,48 @@ export default async function Home() {
       <section id="courses" className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
-            Structured Learning Courses
+            Business Chinese Courses
           </h2>
           <p className="text-center text-gray-600 mb-16 max-w-2xl mx-auto">
-            Learn Chinese systematically with our curated courses for business and HSK exam preparation
+            Learn Chinese for the real workplace — courses designed for professionals
           </p>
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Business Courses */}
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
               <div className="text-5xl mb-4">💼</div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Business Chinese</h3>
-              <p className="text-lg text-gray-600 mb-4">Master essential vocabulary for professional communication</p>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">Ready-Made Courses</h3>
+              <p className="text-lg text-gray-600 mb-4">Expert-curated vocabulary for common business scenarios</p>
               <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Negotiation</span>
                 <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Meetings</span>
                 <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Email</span>
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Presentations</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Negotiation</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Daily Office</span>
               </div>
               <Link
                 href="/courses"
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-all"
+                className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-3 rounded-lg transition-all"
               >
-                Explore Courses →
+                Browse Courses →
               </Link>
             </div>
 
-            {/* HSK Courses */}
-            <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
-              <div className="text-5xl mb-4">📚</div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">HSK Exam Prep</h3>
-              <p className="text-lg text-gray-600 mb-4">Systematic learning from HSK 1 to HSK 6</p>
+            {/* Create Your Course */}
+            <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
+              <div className="text-5xl mb-4">✨</div>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">Create Your Own Course</h3>
+              <p className="text-lg text-gray-600 mb-4">Upload your work documents — AI generates personalized courses</p>
               <div className="flex flex-wrap gap-2 mb-6">
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 1-2</span>
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 3-4</span>
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">HSK 5-6</span>
-                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">Exam Ready</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">📧 Emails</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">📄 Contracts</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">📊 Reports</span>
+                <span className="px-3 py-1 bg-white rounded-full text-sm text-gray-700">💬 Chats</span>
               </div>
               <Link
-                href="/courses"
+                href="/create-course"
                 className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3 rounded-lg transition-all"
               >
-                Explore Courses →
+                Create Course →
               </Link>
             </div>
           </div>
@@ -217,12 +217,12 @@ export default async function Home() {
 
             {/* Step 2 */}
             <div className="text-center">
-              <div className="w-20 h-20 bg-emerald-500 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6 shadow-lg">
+              <div className="w-20 h-20 bg-teal-500 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6 shadow-lg">
                 2
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">Choose Course</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Choose or Create</h3>
               <p className="text-gray-600">
-                Select Business Chinese or your HSK level — personalized to your goals.
+                Pick a ready-made business course or upload your own documents to create a custom course.
               </p>
             </div>
 
@@ -268,18 +268,18 @@ export default async function Home() {
             </div>
 
             {/* Testimonial 2 */}
-            <div className="bg-emerald-50 p-6 rounded-xl shadow-md">
+            <div className="bg-teal-50 p-6 rounded-xl shadow-md">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center text-white font-semibold text-lg mr-4 flex-shrink-0">
-                  MR
+                <div className="w-12 h-12 rounded-full bg-teal-500 flex items-center justify-center text-white font-semibold text-lg mr-4 flex-shrink-0">
+                  SK
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">Maria Rodriguez</p>
-                  <p className="text-sm text-gray-600">University Student</p>
+                  <p className="font-semibold text-gray-900">Sarah Kim</p>
+                  <p className="text-sm text-gray-600">Marketing Director</p>
                 </div>
               </div>
               <p className="text-gray-700 leading-relaxed">
-                &ldquo;HSK 4 exam passed! The spaced review made memorizing words so easy. I studied 30 minutes daily for 2 months.&rdquo;
+                &ldquo;I uploaded a Chinese contract and within minutes had a custom course! Now I can understand what I&apos;m signing.&rdquo;
               </p>
             </div>
 
