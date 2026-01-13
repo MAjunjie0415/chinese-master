@@ -74,7 +74,10 @@ export async function POST(request: NextRequest) {
         wordId,
         lastReviewedAt: now,
         nextReviewAt: nextReview,
-        masteryScore: known ? 100 : 0, // Simple boolean mapping for now
+        masteryScore: known ? 100 : 0,
+        reviewCount: 1,
+        correctCount: known ? 1 : 0,
+        firstSeenAt: now,
       })
       .onConflictDoUpdate({
         target: [userProgress.userId, userProgress.wordId],
@@ -90,9 +93,10 @@ export async function POST(request: NextRequest) {
       message: 'Progress recorded successfully',
     });
   } catch (error) {
-    console.error('Error recording progress:', error);
+    const err = error as Error;
+    console.error('Error recording progress:', err.message, err.stack);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: err.message },
       { status: 500 }
     );
   }
