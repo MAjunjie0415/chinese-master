@@ -102,21 +102,21 @@ export default function CreateCourseClient() {
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                     <label htmlFor="text" className="block text-sm font-medium text-gray-700 mb-2">
-                        Paste your Chinese text
+                        Describe what you want to learn, or paste Chinese text
                     </label>
                     <textarea
                         id="text"
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         rows={10}
-                        minLength={50}
+                        minLength={20}
                         maxLength={10000}
                         required
-                        placeholder="尊敬的李总，感谢贵公司对本次合作的支持..."
+                        placeholder="Examples:&#10;• I want to learn words for business meetings&#10;• Words for negotiating a contract&#10;• 尊敬的李总，感谢贵公司对本次合作的支持..."
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 resize-none text-gray-900 placeholder-gray-400"
                     />
                     <p className="mt-1 text-xs text-gray-500">
-                        {text.length} / 10,000 characters (min 50)
+                        {text.length} / 10,000 characters (min 20) • English description or Chinese text both work!
                     </p>
                 </div>
 
@@ -128,7 +128,7 @@ export default function CreateCourseClient() {
 
                 <button
                     type="submit"
-                    disabled={isLoading || text.length < 50}
+                    disabled={isLoading || text.length < 20}
                     className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-bold py-4 rounded-xl hover:from-teal-600 hover:to-emerald-600 transition-all shadow-lg hover:shadow-xl active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isLoading ? (

@@ -16,8 +16,14 @@ interface ExtractedWord {
     frequency: number;
 }
 
-// Use AI to extract words from text
-async function extractWordsWithAI(text: string): Promise<string[]> {
+// Detect if text is primarily Chinese
+function isChineseText(text: string): boolean {
+    const chineseChars = text.match(/[\u4e00-\u9fff]/g) || [];
+    return chineseChars.length > text.length * 0.3;
+}
+
+// Use AI to extract words from Chinese text
+async function extractWordsFromChinese(text: string): Promise<string[]> {
     if (!DASHSCOPE_API_KEY) {
         throw new Error('DASHSCOPE_API_KEY is not set');
     }
@@ -64,7 +70,6 @@ Chinese words (one per line):`;
         const data = await response.json();
         const content = data.choices[0]?.message?.content || '';
 
-        // Parse words from response
         const extractedWords = content
             .split('\n')
             .map((line: string) => line.trim())
@@ -73,6 +78,66 @@ Chinese words (one per line):`;
         return extractedWords;
     } catch (error) {
         console.error('AI extraction error:', error);
+        return [];
+    }
+}
+
+// Use AI to recommend Chinese words based on English description
+async function recommendWordsFromEnglish(description: string): Promise<string[]> {
+    if (!DASHSCOPE_API_KEY) {
+        throw new Error('DASHSCOPE_API_KEY is not set');
+    }
+
+    const prompt = `You are a Chinese language teacher. Based on the user's learning needs, recommend the most useful Chinese words/phrases.
+
+User's request: "${description}"
+
+Rules:
+1. Return ONLY Chinese words/phrases, one per line
+2. Include 2-4 character words that are commonly used
+3. Focus on practical, high-frequency vocabulary
+4. Choose words relevant to the user's described scenario
+5. Maximum 30 words
+6. Do not include any explanation, just the Chinese words
+
+Chinese words (one per line):`;
+
+    try {
+        const response = await fetch(
+            'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${DASHSCOPE_API_KEY}`,
+                },
+                body: JSON.stringify({
+                    model: 'qwen-turbo',
+                    messages: [
+                        { role: 'user', content: prompt }
+                    ],
+                    temperature: 0.3,
+                    max_tokens: 500,
+                }),
+            }
+        );
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`DashScope API error: ${JSON.stringify(error)}`);
+        }
+
+        const data = await response.json();
+        const content = data.choices[0]?.message?.content || '';
+
+        const recommendedWords = content
+            .split('\n')
+            .map((line: string) => line.trim())
+            .filter((word: string) => word && /^[\u4e00-\u9fff]+$/.test(word));
+
+        return recommendedWords;
+    } catch (error) {
+        console.error('AI recommendation error:', error);
         return [];
     }
 }
@@ -123,9 +188,9 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        if (text.length < 50) {
+        if (text.length < 20) {
             return NextResponse.json(
-                { error: 'Text must be at least 50 characters' },
+                { error: 'Text must be at least 20 characters' },
                 { status: 400 }
             );
         }
@@ -137,12 +202,24 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Step 1: Extract words using AI
-        const extractedWords = await extractWordsWithAI(text);
+        // Step 1: Detect input type and extract/recommend words
+        const isChinese = isChineseText(text);
+        let extractedWords: string[];
+        let mode: 'extract' | 'recommend';
+
+        if (isChinese) {
+            // Chinese input: extract words from text
+            extractedWords = await extractWordsFromChinese(text);
+            mode = 'extract';
+        } else {
+            // English input: recommend words based on description
+            extractedWords = await recommendWordsFromEnglish(text);
+            mode = 'recommend';
+        }
 
         if (extractedWords.length === 0) {
             return NextResponse.json(
-                { error: 'No Chinese words found in text' },
+                { error: mode === 'extract' ? 'No Chinese words found in text' : 'Could not generate word recommendations. Please try a different description.' },
                 { status: 400 }
             );
         }
@@ -169,7 +246,7 @@ export async function POST(request: NextRequest) {
                 )
             );
 
-        const masteredSet = new Set(masteredWordIds.map(w => w.wordId));
+        const masteredSet = new Set(masteredWordIds.map((w: { wordId: number }) => w.wordId));
 
         // Step 4: Filter out mastered words
         const newWords: ExtractedWord[] = matchedWords
@@ -179,15 +256,18 @@ export async function POST(request: NextRequest) {
                 chinese: word.chinese,
                 pinyin: word.pinyin,
                 english: word.english,
-                frequency: extractedWords.filter(w => w === word.chinese).length,
+                frequency: extractedWords.filter((w: string) => w === word.chinese).length,
             }))
             .sort((a, b) => b.frequency - a.frequency);
 
         // Step 5: Generate suggested course title
-        const suggestedTitle = `Custom Course - ${new Date().toLocaleDateString()}`;
+        const suggestedTitle = mode === 'extract'
+            ? `Custom Course - ${new Date().toLocaleDateString()}`
+            : `${text.slice(0, 30)}... - ${new Date().toLocaleDateString()}`;
 
         return NextResponse.json({
             success: true,
+            mode,
             totalWordsInText: text.length,
             extractedCount: extractedWords.length,
             matchedCount: matchedWords.length,
