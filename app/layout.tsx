@@ -12,29 +12,29 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://chinesemaster.com'),
-  title: "ChineseMaster - Business Chinese & HSK Learning Tool for Foreigners",
-  description: "Master Business Chinese and HSK vocabulary with AI-powered spaced repetition. 8,000+ words, scenario-based learning, and smart review system. Free forever for foreign learners.",
-  keywords: "business chinese learning, HSK vocabulary tool, chinese for foreigners, mandarin learning app, HSK exam preparation, business chinese vocabulary, learn chinese online, spaced repetition chinese",
-  authors: [{ name: "ChineseMaster Team" }],
-  creator: "ChineseMaster",
-  publisher: "ChineseMaster",
+  metadataBase: new URL('https://bizchinese.com'),
+  title: "BizChinese - Learn Business Chinese for Professionals",
+  description: "Master Business Chinese for meetings, emails & negotiations. AI-powered learning from your own work materials. Upload documents, get personalized courses. Start free today.",
+  keywords: "business chinese, learn chinese for work, mandarin for professionals, chinese for business meetings, business mandarin, corporate chinese training, chinese for executives",
+  authors: [{ name: "BizChinese Team" }],
+  creator: "BizChinese",
+  publisher: "BizChinese",
   robots: "index, follow",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://chinesemaster.com/",
-    title: "ChineseMaster - Business Chinese & HSK Learning Tool",
-    description: "Master Business Chinese and HSK vocabulary with AI-powered spaced repetition. 8,000+ words waiting for you.",
-    siteName: "ChineseMaster",
+    url: "https://bizchinese.com/",
+    title: "BizChinese - Business Chinese for Professionals",
+    description: "Learn Chinese for the boardroom. AI extracts vocabulary from your real work documents. Courses for meetings, emails, and negotiations.",
+    siteName: "BizChinese",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ChineseMaster - Business Chinese & HSK Learning Tool",
-    description: "Master Business Chinese and HSK vocabulary with AI-powered spaced repetition.",
+    title: "BizChinese - Business Chinese for Professionals",
+    description: "Learn Chinese for the boardroom. AI-powered personalized learning from your work materials.",
   },
   alternates: {
-    canonical: "https://chinesemaster.com/",
+    canonical: "https://bizchinese.com/",
   },
 };
 
@@ -48,7 +48,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-        <meta name="theme-color" content="#10B981" />
+        <meta name="theme-color" content="#14B8A6" />
       </head>
       <body className={`${inter.className} min-h-screen antialiased`}>
         <script
@@ -56,20 +56,21 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "ChineseMaster",
-              "applicationCategory": "EducationalApplication",
-              "operatingSystem": "Web",
+              "@type": "EducationalOrganization",
+              "name": "BizChinese",
+              "url": "https://bizchinese.com",
+              "description": "Business Chinese learning platform for professionals. Master Chinese for meetings, emails, and negotiations with AI-powered personalized courses.",
+              "sameAs": [],
               "offers": {
                 "@type": "Offer",
+                "category": "Language Learning",
                 "price": "0",
                 "priceCurrency": "USD"
               },
-              "description": "Master Business Chinese and HSK vocabulary with AI-powered spaced repetition.",
               "aggregateRating": {
                 "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "ratingCount": "1250"
+                "ratingValue": "4.9",
+                "ratingCount": "856"
               }
             })
           }}

@@ -28,18 +28,18 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section id="hero" className="min-h-screen flex items-center px-4 py-16 md:py-24 bg-gradient-to-br from-blue-50 via-white to-emerald-50">
+      <section id="hero" className="min-h-screen flex items-center px-4 py-16 md:py-24 bg-gradient-to-br from-teal-50 via-white to-cyan-50">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
-              Business Chinese + HSK{' '}
-              <span className="text-emerald-500">Learning Tool</span>
+              Learn Business Chinese{' '}
+              <span className="text-teal-500">That Actually Works</span>
             </h1>
             <p className="text-xl text-gray-600 leading-relaxed">
-              Master vocabulary, track progress, and review with AI — designed for professionals & exam takers.
+              Master Chinese for meetings, emails, and negotiations. Upload your work materials — AI creates personalized courses just for you.
             </p>
 
-            {/* Logged in users: show review reminder and search card - using Suspense */}
+            {/* Logged in users: show review reminder and create course card */}
             {isLoggedIn && (
               <div className="flex flex-col gap-6">
                 <Suspense fallback={null}>
@@ -55,15 +55,15 @@ export default async function Home() {
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
               <Link
                 href={isLoggedIn ? "/courses" : "/login"}
-                className="inline-block bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105 text-center"
+                className="inline-block bg-teal-500 hover:bg-teal-600 text-white font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105 text-center"
               >
-                {isLoggedIn ? "Continue Learning" : "Start Learning Free"} →
+                {isLoggedIn ? "Continue Learning" : "Start Free →"}
               </Link>
               <a
                 href="#features"
-                className="inline-block bg-white border-2 border-gray-300 hover:border-emerald-500 text-gray-700 font-semibold px-8 py-4 rounded-lg transition-all hover:scale-105 text-center"
+                className="inline-block bg-white border-2 border-gray-300 hover:border-teal-500 text-gray-700 font-semibold px-8 py-4 rounded-lg transition-all hover:scale-105 text-center"
               >
-                Learn More
+                See How It Works
               </a>
             </div>
           </div>
@@ -71,10 +71,10 @@ export default async function Home() {
           {/* Hero Image */}
           <div className="hidden md:block">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-emerald-400 rounded-2xl transform rotate-3 opacity-20"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-400 rounded-2xl transform rotate-3 opacity-20"></div>
               <Image
-                src="https://images.unsplash.com/photo-1513001900722-370f803f498d?w=800&h=600&fit=crop"
-                alt="Foreign professionals learning Chinese with our tool"
+                src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&h=600&fit=crop"
+                alt="Business professional learning Chinese for work meetings"
                 width={800}
                 height={600}
                 className="relative rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
@@ -88,49 +88,49 @@ export default async function Home() {
       <section id="features" className="py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
-            Why Our Tool Stands Out
+            Why Professionals Choose BizChinese
           </h2>
           <p className="text-center text-gray-600 mb-16 max-w-2xl mx-auto">
-            Three powerful features designed specifically for foreign learners
+            Three powerful features designed for busy professionals who need results
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Feature 1: Business Scenarios */}
+            {/* Feature 1: Real Workplace Vocabulary */}
             <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-1 duration-300">
-              <div className="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-14 h-14 bg-teal-100 rounded-lg flex items-center justify-center mb-6">
+                <svg className="w-7 h-7 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">Business Scenarios</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Real Workplace Vocabulary</h3>
               <p className="text-gray-600 leading-relaxed">
-                Negotiation, meetings, emails — vocabulary sorted by real work scenes to help you communicate confidently.
+                Learn words from actual emails, contracts, and meeting notes — not textbook Chinese that nobody uses.
               </p>
             </div>
 
-            {/* Feature 2: HSK Leveled */}
+            {/* Feature 2: AI-Powered Personalization */}
+            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-1 duration-300">
+              <div className="w-14 h-14 bg-cyan-100 rounded-lg flex items-center justify-center mb-6">
+                <svg className="w-7 h-7 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">AI-Powered Personalization</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Upload your work documents — our AI extracts vocabulary and creates personalized courses instantly.
+              </p>
+            </div>
+
+            {/* Feature 3: Track Your Progress */}
             <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-1 duration-300">
               <div className="w-14 h-14 bg-emerald-100 rounded-lg flex items-center justify-center mb-6">
                 <svg className="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">HSK Leveled Practice</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Track Your Progress</h3>
               <p className="text-gray-600 leading-relaxed">
-                From HSK 1 to 6, focus on high-frequency words with exam-oriented examples to pass your test.
-              </p>
-            </div>
-
-            {/* Feature 3: AI-Powered Review */}
-            <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-1 duration-300">
-              <div className="w-14 h-14 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
-                <svg className="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">AI-Powered Review</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Spaced repetition based on your memory curve — never forget what you learn, scientifically proven.
+                Smart spaced repetition ensures you never forget. See your improvement with detailed analytics.
               </p>
             </div>
           </div>

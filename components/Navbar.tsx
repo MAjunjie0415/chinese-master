@@ -14,7 +14,7 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Courses', path: '/courses' },
-    { name: 'Search', path: '/search' },
+    { name: 'Create', path: '/create-course' },
     { name: 'Review', path: '/review/start' },
     { name: 'Profile', path: '/profile' },
   ];
@@ -50,9 +50,9 @@ export default function Navbar() {
         <Link
           href="/"
           prefetch={true}
-          className="text-xl font-bold text-[#165DFF] cursor-pointer hover:opacity-80 transition-opacity"
+          className="text-xl font-bold text-teal-600 cursor-pointer hover:opacity-80 transition-opacity"
         >
-          ChineseMaster
+          BizChinese
         </Link>
 
         {/* Right: Desktop Navigation Links */}
@@ -64,15 +64,15 @@ export default function Navbar() {
               prefetch={true}
               onClick={(e) => handleNavigation(e, link.path)}
               className={`transition-all cursor-pointer relative ${isActive(link.path)
-                ? 'text-[#165DFF] font-semibold'
+                ? 'text-teal-600 font-semibold'
                 : navigating === link.path
-                  ? 'text-[#165DFF] opacity-70'
+                  ? 'text-teal-600 opacity-70'
                   : 'text-gray-600 hover:text-gray-900'
                 }`}
             >
               {link.name}
               {navigating === link.path && (
-                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[#165DFF] animate-pulse" />
+                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-teal-600 animate-pulse" />
               )}
             </Link>
           ))}
