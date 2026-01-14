@@ -256,3 +256,254 @@ details[open] summary ~ * {
     text-decoration: underline;
   }
 }
+
+/* ========================================
+   Premium Design System - BizChinese 2.0
+   ======================================== */
+
+/* Dark Theme Gradients */
+:root {
+  --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #134e4a 100%);
+  --gradient-hero-alt: linear-gradient(180deg, #0c1222 0%, #1a1a2e 50%, #16213e 100%);
+  --gradient-text: linear-gradient(90deg, #22d3ee 0%, #a78bfa 50%, #f472b6 100%);
+  --gradient-text-warm: linear-gradient(90deg, #f97316 0%, #ef4444 50%, #ec4899 100%);
+  --gradient-glow-cyan: linear-gradient(90deg, #06b6d4, #22d3ee, #67e8f9);
+  --gradient-glow-purple: linear-gradient(90deg, #8b5cf6, #a78bfa, #c4b5fd);
+  
+  /* Glass Effect */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-bg-light: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-light: rgba(255, 255, 255, 0.15);
+  
+  /* Glow Colors */
+  --glow-cyan: rgba(34, 211, 238, 0.4);
+  --glow-purple: rgba(167, 139, 250, 0.4);
+  --glow-emerald: rgba(52, 211, 153, 0.4);
+}
+
+/* ========================================
+   Glassmorphism Effect
+   ======================================== */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+}
+
+.glass-light {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border-light);
+  border-radius: 16px;
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
+   Glow Button Effects
+   ======================================== */
+.btn-glow {
+  position: relative;
+  background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%);
+  color: white;
+  font-weight: 600;
+  padding: 16px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px var(--glow-cyan), 0 0 40px rgba(34, 211, 238, 0.2);
+}
+
+.btn-glow:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 30px var(--glow-cyan), 0 0 60px rgba(34, 211, 238, 0.3);
+}
+
+.btn-glow-purple {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+  box-shadow: 0 0 20px var(--glow-purple), 0 0 40px rgba(167, 139, 250, 0.2);
+}
+
+.btn-glow-purple:hover {
+  box-shadow: 0 0 30px var(--glow-purple), 0 0 60px rgba(167, 139, 250, 0.3);
+}
+
+.btn-glow-emerald {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  box-shadow: 0 0 20px var(--glow-emerald), 0 0 40px rgba(52, 211, 153, 0.2);
+}
+
+.btn-glow-emerald:hover {
+  box-shadow: 0 0 30px var(--glow-emerald), 0 0 60px rgba(52, 211, 153, 0.3);
+}
+
+/* ========================================
+   Gradient Text
+   ======================================== */
+.text-gradient {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-warm {
+  background: var(--gradient-text-warm);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========================================
+   Floating Animation for Chinese Characters
+   ======================================== */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+    opacity: 0.25;
+  }
+}
+
+@keyframes float-medium {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateY(-30px) rotate(-5deg);
+    opacity: 0.2;
+  }
+}
+
+@keyframes float-fast {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translateY(-15px) rotate(3deg);
+    opacity: 0.22;
+  }
+}
+
+.float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.float-medium {
+  animation: float-medium 6s ease-in-out infinite;
+}
+
+.float-fast {
+  animation: float-fast 4s ease-in-out infinite;
+}
+
+/* ========================================
+   Spotlight / Ambient Glow Effect
+   ======================================== */
+.spotlight {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.15) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.spotlight-purple {
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.15) 0%, transparent 70%);
+}
+
+.spotlight-emerald {
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.12) 0%, transparent 70%);
+}
+
+/* ========================================
+   Hero Background Gradient
+   ======================================== */
+.bg-hero-gradient {
+  background: var(--gradient-hero);
+}
+
+.bg-hero-gradient-alt {
+  background: var(--gradient-hero-alt);
+}
+
+/* ========================================
+   Particle / Decoration positioning
+   ======================================== */
+.hero-decoration {
+  position: absolute;
+  font-size: 3rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.08);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ========================================
+   Border Glow Effect
+   ======================================== */
+.border-glow {
+  position: relative;
+}
+
+.border-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: var(--gradient-text);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.border-glow:hover::before {
+  opacity: 1;
+}
+
+/* ========================================
+   Smooth Section Transitions
+   ======================================== */
+.section-transition {
+  position: relative;
+}
+
+.section-transition::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent, var(--bg-white));
+  pointer-events: none;
+}

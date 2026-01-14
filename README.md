@@ -1,10 +1,10 @@
-# ChineseMaster - 外国人汉语学习工具
+# BizChinese - Business Chinese Learning Platform
 
-一个现代化的汉语学习平台，专注于商务汉语和HSK考试准备，提供课程化学习和多模态练习功能。
+A modern Chinese learning platform focused on business Chinese and HSK exam preparation, with course-based learning and multi-modal practice features.
 
-## 📚 项目简介
+## 📚 Project Overview
 
-ChineseMaster 是一个专为外国人设计的汉语学习工具，采用**课程化学习体系**，结合：
+BizChinese is a Chinese learning tool designed specifically for business professionals, featuring a **course-based learning system** that combines:
 - **结构化课程**：商务场景课程和HSK等级课程
 - **多模态练习**：图片联想、声调训练等多种练习模式
 - **智能复习**：基于遗忘曲线的复习系统
@@ -651,55 +651,35 @@ npm run db:test
 
 ## 🔄 更新日志
 
-### v1.3 (最新)
-- 🌟 **许愿池功能（Wish Pool）**：
-  - 用户可提交新课程建议
-  - 支持多种类别（商务/旅游/考试/文化/其他）
-  - 乐观更新：提交后立即显示成功反馈
-  - 移动端完美适配
-  - 数据保存在 `user_wishes` 表，可在Supabase Dashboard查看
-- 🎁 **邀请码系统（Invite Code）**：
-  - 一键生成邀请链接
-  - 复制分享功能
-  - 邀请成功双方各获得3次复习额度
-  - 自动统计已邀请人数
-  - 支持Google登录和邮箱登录
-- 🔐 **登录系统优化**：
-  - 恢复邮箱登录和注册功能
-  - 保留Google登录选项
-  - 邮箱重复检查（友好提示）
-  - OAuth session持久化修复
-  - Google登录后自动更新users表
-- 🐛 **Bug修复**：
-  - 修复数据库查询错误（Promise.allSettled处理）
-  - 修复移动端响应式设计
-  - 所有文本改为英文（符合产品定位）
-  - 优化数据库连接池配置
+### v1.4 (Latest)
+- 🏯 **Premium UI Redesign**:
+  - Dark gradient hero with floating Chinese characters (商务, 谈判, 会议)
+  - Glassmorphism cards and glow buttons
+  - Gradient text effects and spotlight animations
+  - Modern SaaS aesthetic
+- 🔊 **Tone Training UX Fix**:
+  - Removed pinyin hints from answer options
+  - Students must now listen to identify correct tone
+  - Only shows "1st Tone — High flat" etc.
+- 🎯 **Rebranding**:
+  - ChineseMaster → BizChinese
+  - Updated all pages, metadata, and legal pages
+
+### v1.3
+- 🌟 **Wish Pool**: Submit course suggestions
+- 🎁 **Invite Code System**: Invite friends for bonus
+- 🔐 **Login Optimization**: Email + Google login
 
 ### v1.2
-- ⚡ **全面性能优化**：
-  - 所有页面实现并行数据库查询（Promise.all）
-  - 为所有路由添加 `loading.tsx` 骨架屏
-  - Review 页面使用 Suspense 流式渲染
-  - 数据库索引优化（`course_words.word_id`）
-  - 查询性能提升 50-70%
-- 🎨 **用户体验优化**：
-  - 导航栏即时反馈（蓝色下划线动画）
-  - 智能返回按钮（根据来源显示）
-  - 修复登录状态下的 CTA 和 Footer 链接问题
-  - 修复首页 "What Users Say" 模块头像加载问题（使用首字母缩写头像）
-- 📱 **响应式优化**：改进移动端体验
-- 🐛 **Bug修复**：
-  - 修复 `reviewCount is not defined` 错误
-  - 修复头像图片加载失败问题
+- ⚡ **Performance Optimization**: Parallel queries, loading skeletons
+- 🎨 **UX Improvements**: Navigation feedback, smart back button
 
-### v1.1 (重构版)
-- 🏗️ 架构重构：统一到Courses体系，移除Word Banks
-- ✨ 新功能：课程系统、多模态练习、智能复习
-- 📊 数据统计：学习仪表盘、成就系统
+### v1.1 (Refactor)
+- 🏗️ Architecture refactor: Unified Courses system
+- ✨ New features: Course system, multi-modal practice, smart review
 
 ---
 
-**版本**: v1.2  
-**最后更新**: 2025-01-XX  
-**架构**: Next.js 16 App Router + React 19 + Drizzle ORM
+**Version**: v1.4  
+**Last Updated**: 2026-01-14  
+**Stack**: Next.js 16 App Router + React 19 + Drizzle ORM

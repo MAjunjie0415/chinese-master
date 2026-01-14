@@ -14,7 +14,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  
+
   const [course] = await db
     .select({
       title: courses.title,
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   return {
-    title: `${course.title} - ChineseMaster`,
+    title: `${course.title} - BizChinese`,
     description: course.description || `Learn ${course.totalWords} Chinese words in this course`,
   };
 }
@@ -89,27 +89,27 @@ export default async function CourseDetailPage({ params }: PageProps) {
       .leftJoin(words, eq(courseWords.word_id, words.id))
       .where(eq(courseWords.course_id, course.id))
       .orderBy(courseWords.order),
-    
+
     // 如果用户已登录，检查是否已添加课程（否则返回空数组）
     userId
       ? db
-          .select({
-            id: userCourses.id,
-            userId: userCourses.user_id,
-            courseId: userCourses.course_id,
-            progress: userCourses.progress,
-            lastLearnedAt: userCourses.lastLearnedAt,
-            isCompleted: userCourses.isCompleted,
-            addedAt: userCourses.addedAt,
-          })
-          .from(userCourses)
-          .where(
-            and(
-              eq(userCourses.user_id, userId),
-              eq(userCourses.course_id, course.id)
-            )
+        .select({
+          id: userCourses.id,
+          userId: userCourses.user_id,
+          courseId: userCourses.course_id,
+          progress: userCourses.progress,
+          lastLearnedAt: userCourses.lastLearnedAt,
+          isCompleted: userCourses.isCompleted,
+          addedAt: userCourses.addedAt,
+        })
+        .from(userCourses)
+        .where(
+          and(
+            eq(userCourses.user_id, userId),
+            eq(userCourses.course_id, course.id)
           )
-          .limit(1)
+        )
+        .limit(1)
       : Promise.resolve([]),
   ]);
 

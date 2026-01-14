@@ -22,6 +22,13 @@
       "when": 1762843300827,
       "tag": "0002_striped_frightful_four",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1768356746289,
+      "tag": "0003_happy_odin",
+      "breakpoints": true
     }
   ]
 }

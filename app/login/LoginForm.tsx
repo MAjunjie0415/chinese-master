@@ -146,10 +146,10 @@ export default function LoginForm() {
   const handleSubmit = mode === 'login' ? handleLogin : handleSignup;
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-white via-emerald-50 to-cyan-50">
       <div className="w-full max-w-md">
         {/* Form Container */}
-        <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
           {/* Title */}
           <h1 className="text-3xl font-bold text-center mb-2 text-gray-900">
             {mode === 'login' ? 'Welcome Back' : 'Create Account'}
@@ -173,7 +173,7 @@ export default function LoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                 placeholder="you@example.com"
                 disabled={loading}
               />
@@ -191,7 +191,7 @@ export default function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                 placeholder="••••••••"
                 disabled={loading}
               />
@@ -204,14 +204,14 @@ export default function LoginForm() {
 
             {/* Error Message */}
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
                 {error}
               </div>
             )}
 
             {/* Success Message */}
             {success && (
-              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
+              <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl text-sm">
                 {success}
               </div>
             )}
@@ -220,7 +220,7 @@ export default function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed active:scale-95"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading
                 ? (mode === 'login' ? 'Logging in...' : 'Signing up...')
@@ -230,16 +230,16 @@ export default function LoginForm() {
 
           {/* Divider */}
           <div className="my-6 flex items-center">
-            <div className="flex-1 border-t border-gray-300"></div>
-            <span className="px-4 text-sm text-gray-500">OR</span>
-            <div className="flex-1 border-t border-gray-300"></div>
+            <div className="flex-1 border-t border-gray-200"></div>
+            <span className="px-4 text-sm text-gray-400">OR</span>
+            <div className="flex-1 border-t border-gray-200"></div>
           </div>
 
           {/* Google Login Button */}
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full bg-white border-2 border-gray-300 hover:border-gray-400 text-gray-700 font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 flex items-center justify-center gap-3 shadow-sm hover:shadow-md mb-6"
+            className="w-full bg-white border-2 border-gray-200 hover:border-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 mb-6"
           >
             {loading ? (
               <span>Logging in...</span>
@@ -270,7 +270,7 @@ export default function LoginForm() {
 
           {/* Invite Code Feedback */}
           {inviteCode && (
-            <div className="bg-purple-50 border border-purple-200 text-purple-700 px-4 py-3 rounded-lg text-sm text-center">
+            <div className="bg-purple-50 border border-purple-200 text-purple-700 px-4 py-3 rounded-xl text-sm text-center">
               🎁 Register with invite code to get 3 review credits
             </div>
           )}
@@ -283,7 +283,7 @@ export default function LoginForm() {
                 setError('');
                 setSuccess('');
               }}
-              className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
+              className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
               disabled={loading}
             >
               {mode === 'login'
@@ -297,7 +297,7 @@ export default function LoginForm() {
         <div className="mt-6 text-center">
           <a
             href="/"
-            className="text-gray-600 hover:text-gray-900 transition-colors"
+            className="text-gray-500 hover:text-gray-700 transition-colors"
           >
             ← Back to Home
           </a>
@@ -306,3 +306,4 @@ export default function LoginForm() {
     </div>
   );
 }
+

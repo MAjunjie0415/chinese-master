@@ -77,34 +77,18 @@ export default function TonePracticeClient({
     return 1; // 默认第1声
   };
 
-  // 生成声调选项（包含正确答案和其他声调）
+  // 生成声调选项（只显示声调编号，不显示拼音）
   const generateToneOptions = (correctPinyin: string) => {
-    const correctTone = getToneNumber(correctPinyin);
-    
-    // 创建4种声调的选项
-    const basePinyin = correctPinyin.replace(/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/g, (match) => {
-      // 移除声调，返回基础字母
-      const toneMap: { [key: string]: string } = {
-        'ā': 'a', 'á': 'a', 'ǎ': 'a', 'à': 'a',
-        'ē': 'e', 'é': 'e', 'ě': 'e', 'è': 'e',
-        'ī': 'i', 'í': 'i', 'ǐ': 'i', 'ì': 'i',
-        'ō': 'o', 'ó': 'o', 'ǒ': 'o', 'ò': 'o',
-        'ū': 'u', 'ú': 'u', 'ǔ': 'u', 'ù': 'u',
-        'ǖ': 'ü', 'ǘ': 'ü', 'ǚ': 'ü', 'ǜ': 'ü',
-      };
-      return toneMap[match] || match;
-    });
-
-    // 应用不同声调（简化版，只显示基础拼音 + 数字）
+    // 只返回4个声调选项，不暴露任何拼音信息
     return [
-      { pinyin: `${basePinyin}¹`, tone: 1, label: `${correctPinyin.replace(/[¹²³⁴]/g, '')}¹ (1st tone)` },
-      { pinyin: `${basePinyin}²`, tone: 2, label: `${correctPinyin.replace(/[¹²³⁴]/g, '')}² (2nd tone)` },
-      { pinyin: `${basePinyin}³`, tone: 3, label: `${correctPinyin.replace(/[¹²³⁴]/g, '')}³ (3rd tone)` },
-      { pinyin: `${basePinyin}⁴`, tone: 4, label: `${correctPinyin.replace(/[¹²³⁴]/g, '')}⁴ (4th tone)` },
+      { tone: 1, label: '1st Tone — High flat' },
+      { tone: 2, label: '2nd Tone — Rising' },
+      { tone: 3, label: '3rd Tone — Dipping' },
+      { tone: 4, label: '4th Tone — Falling' },
     ];
   };
 
-  const [options, setOptions] = useState<Array<{ pinyin: string; tone: number; label: string }>>([]);
+  const [options, setOptions] = useState<Array<{ tone: number; label: string }>>([]);;
 
   // 初始化选项并播放发音
   useEffect(() => {
@@ -130,10 +114,10 @@ export default function TonePracticeClient({
   };
 
   // 处理答案选择
-  const handleAnswerSelect = (selectedOption: { pinyin: string; tone: number; label: string }) => {
+  const handleAnswerSelect = (selectedOption: { tone: number; label: string }) => {
     if (selectedAnswer !== null) return; // 已经选择过了
 
-    setSelectedAnswer(selectedOption.pinyin);
+    setSelectedAnswer(selectedOption.tone.toString());
     const correctTone = getToneNumber(currentWord.pinyin);
     const correct = selectedOption.tone === correctTone;
     setIsCorrect(correct);
@@ -255,11 +239,11 @@ export default function TonePracticeClient({
           {/* 声调选项 */}
           <div className="grid grid-cols-1 gap-4">
             {options.map((option, index) => {
-              const isSelected = selectedAnswer === option.pinyin;
+              const isSelected = selectedAnswer === option.tone.toString();
               const isCorrectAnswer = option.tone === correctTone;
-              
+
               let buttonClass = 'w-full p-5 text-left rounded-xl border-2 font-medium transition-all ';
-              
+
               if (isSelected) {
                 if (isCorrect) {
                   buttonClass += 'bg-green-50 border-green-500';

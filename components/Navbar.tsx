@@ -44,13 +44,13 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+    <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50">
       <div className="h-16 px-6 flex items-center justify-between">
         {/* Left: Product Name */}
         <Link
           href="/"
           prefetch={true}
-          className="text-xl font-bold text-teal-600 cursor-pointer hover:opacity-80 transition-opacity"
+          className="text-xl font-bold text-emerald-600 cursor-pointer hover:opacity-80 transition-opacity"
         >
           BizChinese
         </Link>
@@ -64,15 +64,15 @@ export default function Navbar() {
               prefetch={true}
               onClick={(e) => handleNavigation(e, link.path)}
               className={`transition-all cursor-pointer relative ${isActive(link.path)
-                ? 'text-teal-600 font-semibold'
+                ? 'text-emerald-600 font-semibold'
                 : navigating === link.path
-                  ? 'text-teal-600 opacity-70'
+                  ? 'text-emerald-600 opacity-70'
                   : 'text-gray-600 hover:text-gray-900'
                 }`}
             >
               {link.name}
               {navigating === link.path && (
-                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-teal-600 animate-pulse" />
+                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-emerald-600 animate-pulse" />
               )}
             </Link>
           ))}
@@ -125,7 +125,7 @@ export default function Navbar() {
                   setMobileMenuOpen(false);
                 }}
                 className={`text-left transition-colors cursor-pointer ${isActive(link.path)
-                  ? 'text-[#165DFF] font-semibold'
+                  ? 'text-emerald-600 font-semibold'
                   : 'text-gray-600 hover:text-gray-900'
                   }`}
               >

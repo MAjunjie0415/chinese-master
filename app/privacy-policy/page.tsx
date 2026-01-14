@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Privacy Policy | ChineseMaster',
-  description: 'Privacy policy for ChineseMaster - How we protect your data and respect your privacy.',
+  title: 'Privacy Policy | BizChinese',
+  description: 'Privacy policy for BizChinese - How we protect your data and respect your privacy.',
 };
 
 export default function PrivacyPolicy() {
@@ -11,8 +11,8 @@ export default function PrivacyPolicy() {
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="bg-white rounded-xl shadow-md p-8 mb-8">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-6 transition-colors"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -20,7 +20,7 @@ export default function PrivacyPolicy() {
             </svg>
             Back to Home
           </Link>
-          
+
           <h1 className="text-4xl font-bold mb-4 text-gray-900">Privacy Policy</h1>
           <p className="text-gray-600">
             Last updated: <strong>October 29, 2025</strong>
@@ -32,7 +32,7 @@ export default function PrivacyPolicy() {
           {/* Introduction */}
           <section>
             <p className="text-gray-700 leading-relaxed">
-              At ChineseMaster, we take your privacy seriously. This Privacy Policy explains how we collect, use, protect, and share your personal information when you use our Chinese learning platform.
+              At BizChinese, we take your privacy seriously. This Privacy Policy explains how we collect, use, protect, and share your personal information when you use our Chinese learning platform.
             </p>
           </section>
 
@@ -43,7 +43,7 @@ export default function PrivacyPolicy() {
             </h2>
             <div className="space-y-4 text-gray-700 leading-relaxed">
               <p>We collect the following types of information:</p>
-              
+
               <div className="ml-4">
                 <h3 className="font-semibold text-gray-900 mb-2">Account Information:</h3>
                 <ul className="list-disc ml-6 space-y-1">
@@ -118,7 +118,7 @@ export default function PrivacyPolicy() {
               <p>We use the following trusted third-party services:</p>
               <ul className="list-disc ml-6 space-y-2">
                 <li>
-                  <strong>Supabase:</strong> Database hosting and authentication services. 
+                  <strong>Supabase:</strong> Database hosting and authentication services.
                   <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-1">
                     View their privacy policy →
                   </a>
@@ -231,7 +231,7 @@ export default function PrivacyPolicy() {
                 If you have any questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact us:
               </p>
               <div className="bg-gray-100 rounded-lg p-4 space-y-2">
-                <p><strong>Email:</strong> privacy@chinesemaster.com</p>
+                <p><strong>Email:</strong> privacy@bizchinese.com</p>
                 <p><strong>Response time:</strong> We aim to respond within 48 hours</p>
               </div>
             </div>
@@ -240,15 +240,15 @@ export default function PrivacyPolicy() {
           {/* Closing */}
           <section className="pt-6 border-t border-gray-200">
             <p className="text-gray-600 italic">
-              By using ChineseMaster, you acknowledge that you have read and understood this Privacy Policy and agree to its terms.
+              By using BizChinese, you acknowledge that you have read and understood this Privacy Policy and agree to its terms.
             </p>
           </section>
         </div>
 
         {/* Back to Home */}
         <div className="text-center mt-8">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-all"
           >
             Back to Home

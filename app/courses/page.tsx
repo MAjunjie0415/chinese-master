@@ -5,7 +5,7 @@ import { eq, and, sql } from 'drizzle-orm';
 import CoursesPageClient from './CoursesPageClient';
 
 export const metadata = {
-  title: 'Courses - ChineseMaster',
+  title: 'Courses - BizChinese',
   description: 'Explore our library of Chinese courses for business and HSK exam preparation',
 };
 

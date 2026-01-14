@@ -98,71 +98,62 @@ async function ReviewData() {
   }
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 rounded-2xl p-6 shadow-xl transform hover:scale-[1.02] transition-all duration-300">
-      {/* 背景装饰 */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-10 rounded-full -ml-12 -mb-12"></div>
+    <div className="relative overflow-hidden bg-white rounded-2xl p-6 shadow-lg border border-orange-100 transform hover:scale-[1.02] transition-all duration-300">
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-full -mr-16 -mt-16 opacity-50"></div>
 
       <div className="relative z-10">
-        {/* 头部：图标和标题 */}
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <span className="text-2xl">🔥</span>
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
           </div>
           <div>
-            <h3 className="text-white font-bold text-lg">
+            <h3 className="text-gray-900 font-bold text-lg">
               Time to Review!
             </h3>
-            <p className="text-white text-sm opacity-90">
+            <p className="text-gray-500 text-sm">
               {reviewCount} {reviewCount === 1 ? 'word' : 'words'} waiting
             </p>
           </div>
         </div>
 
-        {/* 信息卡片 */}
-        <div className="bg-white bg-opacity-15 backdrop-blur-sm rounded-xl p-4 mb-4 space-y-2">
-          {/* 预计时间 */}
-          <div className="flex items-center gap-2 text-gray-800">
+        {/* Info Card */}
+        <div className="bg-orange-50 rounded-xl p-4 mb-6 space-y-3">
+          {/* Estimated Time */}
+          <div className="flex items-center gap-2 text-orange-700">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span className="text-sm font-medium text-gray-800">
-              Estimated: ~{estimatedMinutes} {estimatedMinutes === 1 ? 'minute' : 'minutes'}
+            <span className="text-sm font-medium">
+              ~{estimatedMinutes} {estimatedMinutes === 1 ? 'minute' : 'minutes'}
             </span>
           </div>
 
-          {/* 单词来源 */}
+          {/* Sources */}
           {reviewSources.length > 0 && (
-            <div className="flex items-start gap-2 text-gray-800">
-              <svg className="w-5 h-5 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-              <div className="flex-1">
-                <span className="text-sm font-medium text-gray-800 block mb-1">From courses:</span>
-                <div className="flex flex-wrap gap-2">
-                  {reviewSources.map((source, idx) => (
-                    <span
-                      key={idx}
-                      className="text-xs bg-white bg-opacity-20 text-gray-800 px-2 py-1 rounded-full backdrop-blur-sm font-medium"
-                    >
-                      {source.courseTitle} ({source.count})
-                    </span>
-                  ))}
-                  {reviewCount > reviewSources.reduce((sum, s) => sum + s.count, 0) && (
-                    <span className="text-xs bg-white bg-opacity-20 text-gray-800 px-2 py-1 rounded-full backdrop-blur-sm font-medium">
-                      +{reviewCount - reviewSources.reduce((sum, s) => sum + s.count, 0)} more
-                    </span>
-                  )}
-                </div>
+            <div className="space-y-2">
+              <p className="text-xs font-semibold text-orange-800 uppercase tracking-wider">From courses</p>
+              <div className="flex flex-wrap gap-2">
+                {reviewSources.map((source, idx) => (
+                  <span
+                    key={idx}
+                    className="text-xs bg-white text-orange-700 px-2 py-1 rounded-md border border-orange-200 font-medium"
+                  >
+                    {source.courseTitle}
+                  </span>
+                ))}
               </div>
             </div>
           )}
         </div>
 
-        {/* CTA按钮 */}
+        {/* Action Button */}
         <Link
           href="/review/start?from=home"
-          className="block w-full bg-white text-orange-600 hover:bg-gray-100 font-bold px-6 py-3 rounded-xl text-center transition-all shadow-lg hover:shadow-xl active:scale-95"
+          className="block w-full bg-orange-600 hover:bg-orange-700 text-white font-bold px-6 py-3 rounded-xl text-center transition-all shadow-md hover:shadow-orange-200"
         >
           Start Review →
         </Link>
