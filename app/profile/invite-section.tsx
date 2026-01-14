@@ -106,7 +106,13 @@ export function InviteSection() {
   return (
     <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl p-4 md:p-6 shadow-md mt-6">
       <div className="text-center mb-4 md:mb-6">
-        <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">🎁 Invite Friends</h3>
+        <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-2">
+          <svg className="w-6 h-6 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clipRule="evenodd" />
+            <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z" />
+          </svg>
+          Invite Friends
+        </h3>
         <p className="text-gray-600 text-xs md:text-sm mb-4">
           Invite friends to register, and you both get 3 review credits
         </p>
@@ -139,9 +145,13 @@ export function InviteSection() {
             </div>
             <button
               onClick={handleCopyLink}
-              className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-700 transition-all active:scale-95 text-sm md:text-base"
+              className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-700 transition-all active:scale-95 text-sm md:text-base flex items-center justify-center gap-2"
             >
-              {copied ? '✅ Copied!' : '📋 Copy Link'}
+              {copied ? (
+                <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Copied!</>
+              ) : (
+                <><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg> Copy Link</>
+              )}
             </button>
           </div>
 

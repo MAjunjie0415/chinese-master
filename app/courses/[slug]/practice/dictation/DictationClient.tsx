@@ -149,7 +149,10 @@ export default function DictationClient({
                 <div className="mb-6 bg-white rounded-xl shadow-md p-6">
                     <div className="flex items-center justify-between mb-4">
                         <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                            <span className="text-2xl">✍️</span> Dictation Practice
+                            <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                            Dictation Practice
                         </h1>
                         <PracticeTimer isActive={true} onTimeUpdate={setTotalTime} />
                     </div>
@@ -235,8 +238,12 @@ export default function DictationClient({
                     {/* 反馈信息 */}
                     <div className="h-10 mt-8">
                         {selectedAnswer && (
-                            <p className={`text-lg font-bold ${isCorrect ? 'text-green-600' : 'text-red-500'}`}>
-                                {isCorrect ? '✓ Well done!' : `✗ It's "${currentWord.pinyin}"`}
+                            <p className={`text-lg font-bold flex items-center justify-center gap-2 ${isCorrect ? 'text-green-600' : 'text-red-500'}`}>
+                                {isCorrect ? (
+                                    <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Well done!</>
+                                ) : (
+                                    <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg> It's "{currentWord.pinyin}"</>
+                                )}
                             </p>
                         )}
                     </div>

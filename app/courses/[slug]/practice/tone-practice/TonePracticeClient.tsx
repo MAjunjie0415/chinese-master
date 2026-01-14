@@ -190,8 +190,11 @@ export default function TonePracticeClient({
         {/* 头部 */}
         <div className="mb-6 bg-white rounded-xl shadow-md p-6">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-xl font-bold text-gray-900">
-              🔊 Tone Training
+            <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              </svg>
+              Tone Training
             </h1>
             <PracticeTimer isActive={true} onTimeUpdate={setTotalTime} />
           </div>
@@ -209,9 +212,18 @@ export default function TonePracticeClient({
             <div className="relative w-48 h-48 mx-auto bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full flex items-center justify-center shadow-inner">
               <div className="text-center">
                 {hasPlayed ? (
-                  <div className="text-8xl animate-pulse">🔊</div>
+                  <div className="animate-pulse">
+                    <svg className="w-24 h-24 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                  </div>
                 ) : (
-                  <div className="text-6xl text-gray-400">🔇</div>
+                  <div>
+                    <svg className="w-20 h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                    </svg>
+                  </div>
                 )}
               </div>
             </div>
@@ -283,8 +295,12 @@ export default function TonePracticeClient({
           {/* 即时反馈 */}
           {selectedAnswer && (
             <div className={`mt-6 p-4 rounded-lg ${isCorrect ? 'bg-green-50' : 'bg-red-50'}`}>
-              <p className={`text-center font-semibold mb-2 ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
-                {isCorrect ? '🎉 Excellent! Correct tone!' : '❌ Not quite. Listen carefully to the tone.'}
+              <p className={`text-center font-semibold mb-2 flex items-center justify-center gap-2 ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
+                {isCorrect ? (
+                  <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Excellent! Correct tone!</>
+                ) : (
+                  <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg> Not quite. Listen carefully to the tone.</>
+                )}
               </p>
               <p className="text-center text-sm text-gray-600">
                 Word: <span className="font-semibold">{currentWord.chinese}</span> ({currentWord.pinyin}) - {currentWord.english}
@@ -296,7 +312,11 @@ export default function TonePracticeClient({
         {/* 底部提示 */}
         <div className="bg-emerald-100 border-2 border-emerald-300 rounded-lg p-4">
           <div className="flex items-start gap-3">
-            <div className="text-2xl">💡</div>
+            <div className="w-8 h-8 bg-emerald-200 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 text-emerald-700" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" />
+              </svg>
+            </div>
             <div className="flex-1">
               <h4 className="font-semibold text-gray-900 mb-1">Tone Guide</h4>
               <ul className="text-sm text-gray-700 space-y-1">

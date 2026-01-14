@@ -155,7 +155,12 @@ export default async function ProfilePage() {
             <p className="text-5xl font-bold text-blue-600 my-4">
               {stats.totalLearned}
             </p>
-            <p className="text-sm text-blue-500 mt-2">👉 Explore courses</p>
+            <p className="text-sm text-blue-500 mt-2 flex items-center justify-center gap-1">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+              Explore courses
+            </p>
           </Link>
 
           {/* Card 2: Mastered Words */}
@@ -164,7 +169,12 @@ export default async function ProfilePage() {
             <p className="text-5xl font-bold text-green-600 my-4">
               {stats.mastered}
             </p>
-            <p className="text-sm text-green-500 mt-2">✅ Keep it up!</p>
+            <p className="text-sm text-green-500 mt-2 flex items-center justify-center gap-1">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              Keep it up!
+            </p>
           </div>
 
           {/* Card 3: Today's Reviews - Clickable to Review Page */}
@@ -177,8 +187,11 @@ export default async function ProfilePage() {
               <p className="text-5xl font-bold text-orange-600 my-4">
                 {stats.reviewsToday}
               </p>
-              <p className="text-sm text-orange-600 font-semibold mt-2">
-                🔥 Click to start review!
+              <p className="text-sm text-orange-600 font-semibold mt-2 flex items-center justify-center gap-1">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
+                </svg>
+                Click to start review!
               </p>
             </Link>
           ) : (
@@ -187,7 +200,12 @@ export default async function ProfilePage() {
               <p className="text-5xl font-bold text-yellow-600 my-4">
                 {stats.reviewsToday}
               </p>
-              <p className="text-sm text-green-500 mt-2">✅ All done!</p>
+              <p className="text-sm text-green-500 mt-2 flex items-center justify-center gap-1">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                All done!
+              </p>
             </div>
           )}
         </div>
@@ -203,7 +221,12 @@ export default async function ProfilePage() {
             <p className="text-5xl font-bold text-purple-600 my-4">
               {stats.enrolledCourses}
             </p>
-            <p className="text-sm text-purple-500 mt-2">📚 Continue learning</p>
+            <p className="text-sm text-purple-500 mt-2 flex items-center justify-center gap-1">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              Continue learning
+            </p>
           </Link>
 
           {/* Card 5: Completed Courses */}
@@ -212,7 +235,12 @@ export default async function ProfilePage() {
             <p className="text-5xl font-bold text-orange-600 my-4">
               {stats.completedCourses}
             </p>
-            <p className="text-sm text-orange-500 mt-2">🏆 Great achievement!</p>
+            <p className="text-sm text-orange-500 mt-2 flex items-center justify-center gap-1">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clipRule="evenodd" />
+              </svg>
+              Great achievement!
+            </p>
           </div>
 
           {/* Card 6: Practice Stats */}
@@ -263,8 +291,11 @@ export default async function ProfilePage() {
         {/* Tips */}
         {stats.totalLearned === 0 && (
           <div className="mt-12 text-center bg-blue-50 rounded-xl p-6">
-            <p className="text-gray-600 mb-2">
-              🚀 <strong>Ready to start your learning journey?</strong>
+            <p className="text-gray-600 mb-2 flex items-center justify-center gap-2">
+              <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
+              </svg>
+              <strong>Ready to start your learning journey?</strong>
             </p>
             <p className="text-gray-500 text-sm">
               Explore courses above and begin mastering Chinese vocabulary!

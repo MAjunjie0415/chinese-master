@@ -156,8 +156,11 @@ export default function PictureMatchClient({
         {/* 头部：标题、计时器、进度 */}
         <div className="mb-6 bg-white rounded-xl shadow-md p-6">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-xl font-bold text-gray-900">
-              🖼️ Picture Match
+            <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Picture Match
             </h1>
             <PracticeTimer isActive={true} onTimeUpdate={setTotalTime} />
           </div>
@@ -207,9 +210,9 @@ export default function PictureMatchClient({
             {options.map((option, index) => {
               const isSelected = selectedAnswer === option;
               const isCorrectAnswer = option === currentWord.english;
-              
+
               let buttonClass = 'w-full p-4 text-left rounded-lg border-2 font-medium transition-all ';
-              
+
               if (isSelected) {
                 if (isCorrect) {
                   buttonClass += 'bg-green-50 border-green-500 text-green-700';
@@ -233,10 +236,14 @@ export default function PictureMatchClient({
                   <div className="flex items-center justify-between">
                     <span>{String.fromCharCode(65 + index)}. {option}</span>
                     {isSelected && isCorrect && (
-                      <span className="text-2xl">✓</span>
+                      <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
                     )}
                     {isSelected && !isCorrect && (
-                      <span className="text-2xl">✗</span>
+                      <svg className="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
                     )}
                   </div>
                 </button>
@@ -247,8 +254,12 @@ export default function PictureMatchClient({
           {/* 即时反馈 */}
           {selectedAnswer && (
             <div className={`mt-6 p-4 rounded-lg ${isCorrect ? 'bg-green-50' : 'bg-red-50'}`}>
-              <p className={`text-center font-semibold ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
-                {isCorrect ? '🎉 Perfect! Correct answer!' : '❌ Not quite. The correct answer is highlighted.'}
+              <p className={`text-center font-semibold flex items-center justify-center gap-2 ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
+                {isCorrect ? (
+                  <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Perfect! Correct answer!</>
+                ) : (
+                  <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg> Not quite. The correct answer is highlighted.</>
+                )}
               </p>
             </div>
           )}
