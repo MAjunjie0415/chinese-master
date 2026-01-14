@@ -1,11 +1,8 @@
 export const dynamic = 'force-dynamic';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { Suspense } from 'react';
 import { createServerSupabaseClient } from '@/lib/supabase';
-import ReviewCard from './components/ReviewCard';
-import CreateCourseCard from '@/components/CreateCourseCard';
 import ReviewCount from './components/ReviewCount';
 
 // Get login status (lightweight, returns fast)
@@ -36,51 +33,50 @@ export default async function Home() {
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-              AI-Powered Business Chinese
+              {isLoggedIn ? 'Welcome Back!' : 'AI-Powered Business Chinese'}
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
-              Master Business Chinese
-              <br />
-              <span className="text-emerald-600">That Actually Works</span>
+            {/* Main Headline - larger for logged in users */}
+            <h1 className={`font-extrabold leading-tight text-gray-900 ${isLoggedIn ? 'text-5xl md:text-6xl lg:text-7xl' : 'text-4xl md:text-5xl lg:text-6xl'}`}>
+              {isLoggedIn ? (
+                <>
+                  Continue Your
+                  <br />
+                  <span className="text-emerald-600">Learning Journey</span>
+                </>
+              ) : (
+                <>
+                  Master Business Chinese
+                  <br />
+                  <span className="text-emerald-600">That Actually Works</span>
+                </>
+              )}
             </h1>
 
             {/* Subheadline */}
             <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
-              Upload your work materials — AI creates personalized courses from your emails, contracts, and meeting notes. Learn Chinese that matters for your career.
+              {isLoggedIn
+                ? 'Pick up where you left off. Review your vocabulary and keep building your Chinese skills.'
+                : 'Upload your work materials — AI creates personalized courses from your emails, contracts, and meeting notes. Learn Chinese that matters for your career.'
+              }
             </p>
 
-            {/* Logged in users: show cards */}
-            {isLoggedIn && (
-              <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-xl mx-auto">
-                <Suspense fallback={null}>
-                  <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-100 flex-1">
-                    <ReviewCard />
-                  </div>
-                </Suspense>
-                <Suspense fallback={null}>
-                  <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-100 flex-1">
-                    <CreateCourseCard />
-                  </div>
-                </Suspense>
-              </div>
-            )}
-
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Simplified for logged-in users */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Link
                 href={isLoggedIn ? "/courses" : "/login"}
-                className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-lg shadow-lg shadow-emerald-200 transition-all hover:scale-105"
+                className="inline-flex items-center justify-center px-10 py-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xl shadow-lg shadow-emerald-200 transition-all hover:scale-105"
               >
-                {isLoggedIn ? "Continue Learning →" : "Start Free →"}
+                {isLoggedIn ? "Browse Courses →" : "Start Free →"}
               </Link>
-              <a
-                href="#features"
-                className="inline-flex items-center justify-center px-8 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all"
-              >
-                See How It Works
-              </a>
+              {!isLoggedIn && (
+                <a
+                  href="#features"
+                  className="inline-flex items-center justify-center px-8 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all"
+                >
+                  See How It Works
+                </a>
+              )}
             </div>
 
             {/* Trust Badges */}
@@ -520,41 +516,14 @@ export default async function Home() {
                 Keep building your vocabulary and master Chinese step by step.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex justify-center">
                 <Suspense fallback={
-                  <div className="inline-block bg-white animate-pulse text-gray-400 font-bold px-10 py-4 rounded-xl border border-gray-100">
+                  <div className="inline-block bg-emerald-100 animate-pulse text-emerald-400 font-bold px-10 py-4 rounded-xl">
                     Loading...
                   </div>
                 }>
                   <ReviewCount />
                 </Suspense>
-                <Link
-                  href="/profile"
-                  className="inline-flex items-center justify-center px-10 py-4 rounded-xl border-2 border-gray-300 text-gray-700 font-semibold hover:bg-white transition-all shadow-sm"
-                >
-                  View Profile
-                </Link>
-              </div>
-
-              <div className="flex items-center justify-center gap-8 mt-10 text-gray-500 text-sm">
-                <span className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  Track progress
-                </span>
-                <span className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  Review anytime
-                </span>
-                <span className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  Learn at your pace
-                </span>
               </div>
             </>
           ) : (

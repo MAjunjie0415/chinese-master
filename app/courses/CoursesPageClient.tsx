@@ -80,14 +80,14 @@ export default function CoursesPageClient({
   const filteredCourses = getFilteredCourses();
 
   return (
-    <div className="min-h-screen py-8 px-4 bg-gray-50">
+    <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-white via-emerald-50/50 to-cyan-50/50">
       <div className="max-w-7xl mx-auto">
         {/* Page Title */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-3">
             Courses
           </h1>
-          <p className="text-gray-600">
+          <p className="text-lg text-gray-600">
             Master Chinese through structured courses tailored for business and HSK exams
           </p>
         </div>
@@ -101,30 +101,30 @@ export default function CoursesPageClient({
             <button
               onClick={() => handleTabChange('explore')}
               className={`px-4 py-3 font-semibold transition-colors relative ${activeTab === 'explore'
-                ? 'text-blue-600'
+                ? 'text-emerald-600'
                 : 'text-gray-600 hover:text-gray-900'
                 }`}
             >
               Explore
               {activeTab === 'explore' && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600" />
               )}
             </button>
             <button
               onClick={() => handleTabChange('my')}
               className={`px-4 py-3 font-semibold transition-colors relative ${activeTab === 'my'
-                ? 'text-blue-600'
+                ? 'text-emerald-600'
                 : 'text-gray-600 hover:text-gray-900'
                 }`}
             >
               My Courses
               {myCourses.inProgress.length + myCourses.completed.length > 0 && (
-                <span className="ml-2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-600 rounded-full">
+                <span className="ml-2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-emerald-600 rounded-full">
                   {myCourses.inProgress.length + myCourses.completed.length}
                 </span>
               )}
               {activeTab === 'my' && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600" />
               )}
             </button>
           </div>
@@ -164,7 +164,7 @@ export default function CoursesPageClient({
               <button
                 onClick={() => setSelectedCategory('all')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${selectedCategory === 'all'
-                  ? 'bg-blue-100 text-blue-700'
+                  ? 'bg-emerald-100 text-emerald-700'
                   : 'bg-white text-gray-700 hover:bg-gray-100'
                   }`}
               >
@@ -173,7 +173,7 @@ export default function CoursesPageClient({
               <button
                 onClick={() => setSelectedCategory('business')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-1.5 ${selectedCategory === 'business'
-                  ? 'bg-blue-100 text-blue-700'
+                  ? 'bg-emerald-100 text-emerald-700'
                   : 'bg-white text-gray-700 hover:bg-gray-100'
                   }`}
               >
@@ -185,7 +185,7 @@ export default function CoursesPageClient({
               <button
                 onClick={() => setSelectedCategory('hsk')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-1.5 ${selectedCategory === 'hsk'
-                  ? 'bg-blue-100 text-blue-700'
+                  ? 'bg-emerald-100 text-emerald-700'
                   : 'bg-white text-gray-700 hover:bg-gray-100'
                   }`}
               >
@@ -221,7 +221,7 @@ export default function CoursesPageClient({
                     setSelectedCategory('all');
                     setSearchQuery('');
                   }}
-                  className="inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+                  className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
                 >
                   Clear Filters
                 </button>
@@ -246,7 +246,7 @@ export default function CoursesPageClient({
                 </p>
                 <Link
                   href="/login?redirect=/courses?tab=my"
-                  className="inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                  className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
                 >
                   Login →
                 </Link>
@@ -266,7 +266,7 @@ export default function CoursesPageClient({
                 </p>
                 <button
                   onClick={() => handleTabChange('explore')}
-                  className="inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                  className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
                 >
                   Browse Courses →
                 </button>
@@ -277,7 +277,7 @@ export default function CoursesPageClient({
                 {myCourses.inProgress.length > 0 && (
                   <div className="mb-12">
                     <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                       </svg>
                       In Progress

@@ -131,7 +131,7 @@ export default async function ProfilePage() {
   const achievementsData = getValue(achievementsResult, defaultAchievements);
 
   return (
-    <div className="min-h-screen py-8 px-4 bg-gray-50">
+    <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-white via-emerald-50/50 to-cyan-50/50">
       <div className="max-w-5xl mx-auto">
         {/* User Info Card */}
         <UserInfoCard
@@ -140,7 +140,7 @@ export default async function ProfilePage() {
         />
 
         {/* Page Title */}
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-900">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-gray-900">
           Learning Dashboard
         </h2>
 
@@ -273,7 +273,7 @@ export default async function ProfilePage() {
           <div className="text-center">
             <Link
               href="/courses"
-              className="inline-block bg-[#165DFF] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#0E42D2] active:scale-95 transition-all shadow-md"
+              className="inline-block bg-emerald-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-emerald-700 active:scale-95 transition-all shadow-md"
             >
               Continue Learning
             </Link>
