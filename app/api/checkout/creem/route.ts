@@ -47,7 +47,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Product ID not configured' }, { status: 500 });
         }
 
-        const checkoutUrl = await createCheckoutSession(session.user.id, productId);
+        // Map UI plan names to DB plan names
+        const dbPlan = planType === 'max' ? 'enterprise' : 'pro';
+
+        const checkoutUrl = await createCheckoutSession(session.user.id, productId, {
+            plan: dbPlan
+        });
 
         return NextResponse.json({ checkoutUrl });
 

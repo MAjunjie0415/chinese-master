@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ success: true, message: 'Event ignored: No user_id found' });
         }
 
-        // Determine plan type based on product if available
+        // Determine base information from event
         const productId = event.object?.product?.id || event.object?.order?.product;
         const customerEmail = event.object?.customer?.email || event.object?.order?.customer_email;
         const billingPeriod = event.object?.product?.billing_period || event.object?.order?.billing_period;
@@ -72,7 +72,29 @@ export async function POST(request: NextRequest) {
             else if (billingPeriod.includes('year')) planInterval = 'year';
         }
 
+        // Determine plan type based on metadata or product ID
+        const metadataPlan =
+            event.object?.metadata?.plan ||
+            event.object?.subscription?.metadata?.plan;
+
+        let detectedPlan: 'pro' | 'enterprise' = 'pro';
+
+        if (metadataPlan === 'enterprise' || metadataPlan === 'max') {
+            detectedPlan = 'enterprise';
+        } else if (productId) {
+            // Fallback: Check specific product IDs for Max plan
+            const maxProductIds = [
+                'prod_1cShfumszn00Q0W3a8aVVD', // Max Monthly
+                'prod_6HjFCEsaVeoQzy7iKa7RDy'  // Max Yearly
+            ];
+            if (maxProductIds.includes(productId)) {
+                detectedPlan = 'enterprise';
+            }
+        }
+
         console.error('[Creem Webhook] Product ID:', productId);
+        console.error('[Creem Webhook] Metadata Plan:', metadataPlan);
+        console.error('[Creem Webhook] Detected Plan:', detectedPlan);
         console.error('[Creem Webhook] Customer Email:', customerEmail);
         console.error('[Creem Webhook] Billing Period:', billingPeriod, '->', planInterval);
 
@@ -80,21 +102,20 @@ export async function POST(request: NextRequest) {
             case 'checkout.completed':
             case 'subscription.paid':
             case 'subscription.active':
-                // Update user plan to pro
-                // Use upsert to handle cases where user doesn't exist in our table yet
+                // Update user plan
                 const result = await db
                     .insert(users)
                     .values({
                         id: userId,
                         email: customerEmail || 'unknown@example.com',
-                        plan: 'pro',
+                        plan: detectedPlan,
                         planInterval: planInterval,
                         isPro: true,
                     })
                     .onConflictDoUpdate({
                         target: [users.id],
                         set: {
-                            plan: 'pro',
+                            plan: detectedPlan,
                             planInterval: planInterval,
                             isPro: true,
                             updatedAt: new Date()
@@ -102,7 +123,7 @@ export async function POST(request: NextRequest) {
                     })
                     .returning({ id: users.id, plan: users.plan, planInterval: users.planInterval });
 
-                console.error(`[Creem Webhook] Synced user ${userId} to Pro (${planInterval}) via ${eventType}`, result);
+                console.error(`[Creem Webhook] Synced user ${userId} to ${detectedPlan} (${planInterval}) via ${eventType}`, result);
                 break;
 
             case 'subscription.canceled':

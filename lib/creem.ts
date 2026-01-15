@@ -6,9 +6,10 @@ export interface CheckoutSessionResponse {
 /**
  * Create a Creem checkout session
  * @param userId - The ID of the user subscribing
- * @param productId - The ID of the Creem product (Individual Pro)
+ * @param productId - The ID of the Creem product
+ * @param metadata - Optional additional metadata to include
  */
-export async function createCheckoutSession(userId: string, productId: string): Promise<string> {
+export async function createCheckoutSession(userId: string, productId: string, metadata: Record<string, any> = {}): Promise<string> {
     const apiKey = process.env.CREEM_API_KEY;
     if (!apiKey) {
         console.error('Debug: CREEM_API_KEY is missing in environment variables');
@@ -29,6 +30,7 @@ export async function createCheckoutSession(userId: string, productId: string): 
         // Note: cancel_url is not supported by Creem API
         metadata: {
             user_id: userId,
+            ...metadata,
         },
     };
 
