@@ -36,6 +36,13 @@
       "when": 1768391806981,
       "tag": "0004_lush_grim_reaper",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1768475514101,
+      "tag": "0005_abnormal_pyro",
+      "breakpoints": true
     }
   ]
 }
