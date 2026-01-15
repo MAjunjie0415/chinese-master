@@ -3,16 +3,25 @@ import { users, userUsage } from '@/db/schema/users';
 import { eq, and, sql } from 'drizzle-orm';
 
 export type Plan = 'free' | 'pro' | 'enterprise';
+export type PlanInterval = 'month' | 'year' | null;
+
+export interface UserPlan {
+    plan: Plan;
+    interval: PlanInterval;
+}
 
 /**
  * Get user's current subscription plan
  */
-export async function getUserPlan(userId: string): Promise<Plan> {
+export async function getUserPlan(userId: string): Promise<UserPlan> {
     const [user] = await db
-        .select({ plan: users.plan })
+        .select({ plan: users.plan, interval: users.planInterval })
         .from(users)
         .where(eq(users.id, userId));
-    return (user?.plan as Plan) || 'free';
+    return {
+        plan: (user?.plan as Plan) || 'free',
+        interval: (user?.interval as PlanInterval) || null
+    };
 }
 
 /**
@@ -24,7 +33,8 @@ export async function checkAndIncrementPronunciationQuota(userId: string): Promi
     limit?: number;
     message?: string;
 }> {
-    const plan = await getUserPlan(userId);
+    const userPlan = await getUserPlan(userId);
+    const plan = userPlan.plan;
 
     // Pro and Enterprise users have unlimited pronunciation
     if (plan === 'pro' || plan === 'enterprise') {
@@ -89,7 +99,8 @@ export async function getCustomCourseUsage(userId: string): Promise<{
         .from(users)
         .where(eq(users.id, userId));
 
-    const plan = user?.plan || 'free';
+    const userPlanData = user ? { plan: user.plan as Plan, interval: user.interval as PlanInterval } : { plan: 'free' as Plan, interval: null as PlanInterval };
+    const plan = userPlanData.plan;
     const count = user?.count || 0;
     const limit = (plan === 'pro' || plan === 'enterprise') ? Infinity : 3;
 

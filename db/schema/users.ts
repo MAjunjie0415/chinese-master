@@ -8,6 +8,7 @@ export const users = pgTable('users', {
   isPro: boolean('is_pro').default(false).notNull(),
   isAdmin: boolean('is_admin').default(false).notNull(),
   plan: text('plan', { enum: ['free', 'pro', 'enterprise'] }).default('free').notNull(),
+  planInterval: text('plan_interval', { enum: ['month', 'year'] }),
   customCourseUsageCount: integer('custom_course_usage_count').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),

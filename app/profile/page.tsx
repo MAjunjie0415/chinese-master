@@ -137,7 +137,9 @@ export default async function ProfilePage() {
   };
   const achievementsData = getValue(achievementsResult, defaultAchievements);
 
-  const plan = getValue(planResult, 'free');
+  const userPlanData = getValue(planResult, { plan: 'free' as const, interval: null as const });
+  const plan = userPlanData.plan;
+  const planInterval = userPlanData.interval;
   const usage = getValue(usageResult, { count: 0, limit: 3, isOverLimit: false });
 
   return (
@@ -193,8 +195,8 @@ export default async function ProfilePage() {
               <Link
                 href="/upgrade"
                 className={`text-center px-8 py-3 rounded-xl font-bold transition-all ${plan === 'pro'
-                    ? 'border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50'
-                    : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200'
+                  ? 'border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50'
+                  : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200'
                   }`}
               >
                 {plan === 'pro' ? 'Manage Plan' : 'Upgrade to Pro →'}

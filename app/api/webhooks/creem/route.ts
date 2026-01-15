@@ -63,8 +63,18 @@ export async function POST(request: NextRequest) {
         // Determine plan type based on product if available
         const productId = event.object?.product?.id || event.object?.order?.product;
         const customerEmail = event.object?.customer?.email || event.object?.order?.customer_email;
+        const billingPeriod = event.object?.product?.billing_period || event.object?.order?.billing_period;
+
+        // Map Creem billing_period (e.g. 'every-month', 'every-year') to our schema
+        let planInterval: 'month' | 'year' | null = null;
+        if (billingPeriod) {
+            if (billingPeriod.includes('month')) planInterval = 'month';
+            else if (billingPeriod.includes('year')) planInterval = 'year';
+        }
+
         console.error('[Creem Webhook] Product ID:', productId);
         console.error('[Creem Webhook] Customer Email:', customerEmail);
+        console.error('[Creem Webhook] Billing Period:', billingPeriod, '->', planInterval);
 
         switch (eventType) {
             case 'checkout.completed':
@@ -78,15 +88,21 @@ export async function POST(request: NextRequest) {
                         id: userId,
                         email: customerEmail || 'unknown@example.com',
                         plan: 'pro',
+                        planInterval: planInterval,
                         isPro: true,
                     })
                     .onConflictDoUpdate({
                         target: [users.id],
-                        set: { plan: 'pro', isPro: true, updatedAt: new Date() },
+                        set: {
+                            plan: 'pro',
+                            planInterval: planInterval,
+                            isPro: true,
+                            updatedAt: new Date()
+                        },
                     })
-                    .returning({ id: users.id, plan: users.plan });
+                    .returning({ id: users.id, plan: users.plan, planInterval: users.planInterval });
 
-                console.error(`[Creem Webhook] Synced user ${userId} to Pro via ${eventType}`, result);
+                console.error(`[Creem Webhook] Synced user ${userId} to Pro (${planInterval}) via ${eventType}`, result);
                 break;
 
             case 'subscription.canceled':

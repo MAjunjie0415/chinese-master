@@ -5,7 +5,10 @@ import { useRouter } from 'next/navigation';
 import { CheckoutButton } from './checkout-button';
 
 interface UpgradePageClientProps {
-    plan: string | null;
+    plan: {
+        plan: string;
+        interval: 'month' | 'year' | null;
+    };
     status?: string;
 }
 
@@ -16,7 +19,8 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
 
     // 当支付成功时，自动轮询刷新页面获取最新订阅状态
     useEffect(() => {
-        if (status === 'success' && plan === 'free' && refreshCount < 10) {
+        // plan.plan is now used instead of plan
+        if (status === 'success' && plan.plan === 'free' && refreshCount < 10) {
             const timer = setTimeout(() => {
                 setRefreshCount(prev => prev + 1);
                 router.refresh(); // 使用 Next.js router.refresh() 重新获取服务端数据
@@ -24,7 +28,7 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
 
             return () => clearTimeout(timer);
         }
-    }, [status, plan, refreshCount, router]);
+    }, [status, plan.plan, refreshCount, router]);
 
     // Monthly prices
     const prices = {
@@ -77,7 +81,7 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                     <div className="mb-12 bg-emerald-100 border border-emerald-400 text-emerald-700 px-4 py-3 rounded-xl relative text-center max-w-4xl mx-auto">
                         <strong className="font-bold">Payment successful!</strong>
                         <span className="block sm:inline">
-                            {plan === 'free'
+                            {plan.plan === 'free'
                                 ? ` We're processing your payment... (refreshing ${refreshCount}/10)`
                                 : ' Your plan has been updated successfully!'
                             }
@@ -131,7 +135,7 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                         <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-amber-900 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
                             Best Value
                         </div>
-                        {plan === 'pro' && (
+                        {plan.plan === 'pro' && plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') && (
                             <div className="absolute inset-0 bg-emerald-900/60 backdrop-blur-xl flex items-center justify-center z-10 rounded-3xl transition-all duration-500">
                                 <div className="bg-white/90 px-8 py-3 rounded-full font-bold text-emerald-900 shadow-2xl text-lg border border-emerald-200/50">
                                     ✓ Current Plan
@@ -164,7 +168,7 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                                 </li>
                             ))}
                         </ul>
-                        {plan === 'pro' ? (
+                        {plan.plan === 'pro' && plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') ? (
                             <button className="w-full py-4 bg-emerald-800 text-white font-bold rounded-xl cursor-not-allowed opacity-80 text-lg" disabled>
                                 Subscribed
                             </button>
@@ -178,7 +182,7 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                         <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-purple-500 text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
                             Premium
                         </div>
-                        {plan === 'max' && (
+                        {plan.plan === 'enterprise' && plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') && (
                             <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-xl flex items-center justify-center z-10 rounded-3xl transition-all duration-500">
                                 <div className="bg-white/90 px-8 py-3 rounded-full font-bold text-slate-900 shadow-2xl text-lg border border-slate-200/50">
                                     ✓ Current Plan
@@ -212,8 +216,8 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                                 </li>
                             ))}
                         </ul>
-                        {plan === 'max' ? (
-                            <button className="w-full py-4 bg-slate-700 text-white font-bold rounded-xl cursor-not-allowed opacity-80 text-lg" disabled>
+                        {plan.plan === 'enterprise' && plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') ? (
+                            <button className="w-full py-4 bg-purple-800 text-white font-bold rounded-xl cursor-not-allowed opacity-80 text-lg" disabled>
                                 Subscribed
                             </button>
                         ) : (
