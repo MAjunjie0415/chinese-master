@@ -43,7 +43,7 @@ export async function createCheckoutSession(userId: string, productId: string): 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-API-Key': apiKey,
+            'x-api-key': apiKey,
         },
         body: JSON.stringify(payload),
     });
