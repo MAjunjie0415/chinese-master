@@ -132,8 +132,8 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                             Best Value
                         </div>
                         {plan === 'pro' && (
-                            <div className="absolute inset-0 bg-emerald-900/50 backdrop-blur-sm flex items-center justify-center z-10 rounded-3xl">
-                                <div className="bg-white px-8 py-3 rounded-full font-bold text-emerald-900 shadow-xl text-lg">
+                            <div className="absolute inset-0 bg-emerald-900/60 backdrop-blur-xl flex items-center justify-center z-10 rounded-3xl transition-all duration-500">
+                                <div className="bg-white/90 px-8 py-3 rounded-full font-bold text-emerald-900 shadow-2xl text-lg border border-emerald-200/50">
                                     ✓ Current Plan
                                 </div>
                             </div>
@@ -179,8 +179,8 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                             Premium
                         </div>
                         {plan === 'max' && (
-                            <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-10 rounded-3xl">
-                                <div className="bg-white px-8 py-3 rounded-full font-bold text-slate-900 shadow-xl text-lg">
+                            <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-xl flex items-center justify-center z-10 rounded-3xl transition-all duration-500">
+                                <div className="bg-white/90 px-8 py-3 rounded-full font-bold text-slate-900 shadow-2xl text-lg border border-slate-200/50">
                                     ✓ Current Plan
                                 </div>
                             </div>
