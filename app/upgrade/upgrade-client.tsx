@@ -135,13 +135,7 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                         <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-amber-900 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
                             Best Value
                         </div>
-                        {(plan.plan === 'pro' && (plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') || (!plan.interval && billingPeriod === 'monthly'))) && (
-                            <div className="absolute inset-0 bg-emerald-900/10 backdrop-blur-sm flex items-center justify-center z-10 rounded-3xl transition-all duration-500 border-4 border-emerald-400/30">
-                                <div className="bg-white/90 px-8 py-3 rounded-full font-bold text-emerald-900 shadow-2xl text-lg border border-emerald-200/50 transform -rotate-3 mb-32">
-                                    ✓ Current Plan
-                                </div>
-                            </div>
-                        )}
+                        {/* Overlay removed to ensure no information is blocked */}
                         <div className="mb-6">
                             <h3 className="text-3xl font-bold text-white mb-3">Pro</h3>
                             <div className="flex items-baseline gap-2 text-white">
@@ -169,9 +163,15 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                             ))}
                         </ul>
                         {(plan.plan === 'pro' && (plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') || (!plan.interval && billingPeriod === 'monthly'))) ? (
-                            <button className="w-full py-4 bg-emerald-800 text-white font-bold rounded-xl cursor-not-allowed opacity-80 text-lg shadow-inner" disabled>
-                                Subscribed
-                            </button>
+                            <div className="flex flex-col gap-3">
+                                <div className="bg-emerald-800/20 text-white py-2 px-4 rounded-lg text-center font-bold border border-emerald-400/30 flex items-center justify-center gap-2">
+                                    <svg className="w-5 h-5 text-emerald-200" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                                    Current Plan
+                                </div>
+                                <button className="w-full py-4 bg-emerald-800 text-white font-bold rounded-xl cursor-not-allowed opacity-80 text-lg shadow-inner" disabled>
+                                    Subscribed
+                                </button>
+                            </div>
                         ) : (
                             <CheckoutButton planType="pro" billingPeriod={billingPeriod} />
                         )}
@@ -182,13 +182,7 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                         <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-purple-500 text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
                             Premium
                         </div>
-                        {plan.plan === 'enterprise' && plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') && (
-                            <div className="absolute inset-0 bg-slate-900/10 backdrop-blur-sm flex items-center justify-center z-10 rounded-3xl transition-all duration-500 border-4 border-purple-400/30">
-                                <div className="bg-white/90 px-8 py-3 rounded-full font-bold text-slate-900 shadow-2xl text-lg border border-slate-200/50 transform -rotate-3 mb-32">
-                                    ✓ Current Plan
-                                </div>
-                            </div>
-                        )}
+                        {/* Overlay removed to ensure no information is blocked */}
                         <div className="mb-6">
                             <h3 className="text-3xl font-bold text-white mb-3">Max</h3>
                             <div className="flex items-baseline gap-2 text-white">
@@ -217,9 +211,15 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                             ))}
                         </ul>
                         {plan.plan === 'enterprise' && plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') ? (
-                            <button className="w-full py-4 bg-purple-800 text-white font-bold rounded-xl cursor-not-allowed opacity-80 text-lg" disabled>
-                                Subscribed
-                            </button>
+                            <div className="flex flex-col gap-3">
+                                <div className="bg-purple-800/20 text-white py-2 px-4 rounded-lg text-center font-bold border border-purple-400/30 flex items-center justify-center gap-2">
+                                    <svg className="w-5 h-5 text-purple-200" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                                    Current Plan
+                                </div>
+                                <button className="w-full py-4 bg-purple-800 text-white font-bold rounded-xl cursor-not-allowed opacity-80 text-lg shadow-inner" disabled>
+                                    Subscribed
+                                </button>
+                            </div>
                         ) : (
                             <CheckoutButton planType="max" billingPeriod={billingPeriod} />
                         )}
