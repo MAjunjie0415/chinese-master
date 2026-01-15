@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     try {
         const payload = await request.text();
         const signature = request.headers.get('creem-signature');
-        const webhookSecret = process.env.CREEM_WH_SECRET;
+        const webhookSecret = process.env.CREEM_WEBHOOK_SECRET;
 
         // Verify signature
         if (signature && webhookSecret) {
