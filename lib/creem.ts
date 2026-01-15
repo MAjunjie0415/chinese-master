@@ -29,14 +29,17 @@ export async function createCheckoutSession(userId: string, productId: string): 
         },
     };
 
-    // Correct endpoint based on documentation
-    const endpoint = 'https://api.creem.io/v1/checkouts';
+    // Determine endpoint based on API Key prefix
+    const isTestMode = apiKey.startsWith('creem_test_');
+    const baseUrl = isTestMode ? 'https://test-api.creem.io' : 'https://api.creem.io';
+    const endpoint = `${baseUrl}/v1/checkouts`;
 
     // FORCE VISIBILITY: Using console.error to bypass log filtering
     console.error('Debug Payload:', {
         api_key_prefix: apiKey.substring(0, 5) + '...',
         product_id: productId,
-        url: endpoint
+        url: endpoint,
+        is_test_mode: isTestMode
     });
 
     const response = await fetch(endpoint, {
