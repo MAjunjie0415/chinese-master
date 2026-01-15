@@ -29,14 +29,17 @@ export async function createCheckoutSession(userId: string, productId: string): 
         },
     };
 
+    // Correct endpoint based on documentation
+    const endpoint = 'https://api.creem.io/v1/checkouts';
+
     // FORCE VISIBILITY: Using console.error to bypass log filtering
     console.error('Debug Payload:', {
         api_key_prefix: apiKey.substring(0, 5) + '...',
         product_id: productId,
-        url: 'https://api.creem.io/v1/checkout/sessions'
+        url: endpoint
     });
 
-    const response = await fetch('https://api.creem.io/v1/checkout/sessions', {
+    const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
