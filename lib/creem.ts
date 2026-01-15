@@ -79,5 +79,21 @@ export function verifyWebhookSignature(payload: string, signature: string, secre
     const crypto = require('crypto');
     const hmac = crypto.createHmac('sha256', secret);
     const digest = hmac.update(payload).digest('hex');
-    return digest === signature;
+
+    // Debug logging
+    console.error('Webhook signature debug:', {
+        received_signature: signature.substring(0, 10) + '...',
+        computed_digest: digest.substring(0, 10) + '...',
+        secret_prefix: secret.substring(0, 5) + '...',
+        payload_length: payload.length
+    });
+
+    // Use timing-safe comparison
+    try {
+        return crypto.timingSafeEqual(Buffer.from(digest), Buffer.from(signature));
+    } catch (e) {
+        // If lengths don't match, timingSafeEqual throws
+        console.error('Signature length mismatch:', { digest_len: digest.length, sig_len: signature.length });
+        return false;
+    }
 }
