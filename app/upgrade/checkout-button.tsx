@@ -3,10 +3,11 @@
 import { useState } from 'react';
 
 interface CheckoutButtonProps {
-    planType: 'pro' | 'enterprise';
+    planType: 'pro' | 'max';
+    billingPeriod: 'monthly' | 'yearly';
 }
 
-export function CheckoutButton({ planType = 'pro' }: CheckoutButtonProps) {
+export function CheckoutButton({ planType, billingPeriod }: CheckoutButtonProps) {
     const [loading, setLoading] = useState(false);
 
     const handleCheckout = async () => {
@@ -17,7 +18,7 @@ export function CheckoutButton({ planType = 'pro' }: CheckoutButtonProps) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ planType })
+                body: JSON.stringify({ planType, billingPeriod })
             });
 
             const data = await response.json();

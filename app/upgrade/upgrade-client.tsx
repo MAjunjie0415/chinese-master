@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { CheckoutButton } from './checkout-button';
 
 interface UpgradePageClientProps {
     plan: string | null;
@@ -148,9 +149,7 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                                 Subscribed
                             </button>
                         ) : (
-                            <button className="w-full py-4 bg-white text-emerald-700 font-bold rounded-xl hover:bg-emerald-50 transition-colors shadow-lg text-lg">
-                                Subscribe Now
-                            </button>
+                            <CheckoutButton planType="pro" billingPeriod={billingPeriod} />
                         )}
                     </div>
 
@@ -198,9 +197,7 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                                 Subscribed
                             </button>
                         ) : (
-                            <button className="w-full py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-gray-100 transition-colors shadow-lg text-lg">
-                                Subscribe Now
-                            </button>
+                            <CheckoutButton planType="max" billingPeriod={billingPeriod} />
                         )}
                     </div>
                 </div>
