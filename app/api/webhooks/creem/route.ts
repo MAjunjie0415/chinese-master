@@ -23,18 +23,28 @@ export async function POST(request: NextRequest) {
         }
 
         const event = JSON.parse(payload);
-        console.log('Received Creem event:', event.type);
+        console.log('Received Creem event:', event.eventType || event.type);
 
-        // Creem usually puts metadata at the top level or inside the data object
-        // Adjusting based on common patterns
-        const userId = event.metadata?.user_id || event.data?.metadata?.user_id;
+        // Debug: Log full event structure to understand where metadata is
+        console.error('Full Creem event structure:', JSON.stringify(event, null, 2));
+
+        // Try multiple paths where Creem might put metadata
+        const userId =
+            event.metadata?.user_id ||
+            event.data?.metadata?.user_id ||
+            event.object?.metadata?.user_id ||
+            event.object?.order?.metadata?.user_id ||
+            event.checkout?.metadata?.user_id;
+
+        // Also get the event type (Creem uses 'eventType' not 'type')
+        const eventType = event.eventType || event.type;
 
         if (!userId) {
-            console.warn('User ID missing in Creem event metadata');
+            console.warn('User ID missing in Creem event metadata. Available paths checked.');
             return NextResponse.json({ success: true, message: 'Event ignored: No user_id' });
         }
 
-        switch (event.type) {
+        switch (eventType) {
             case 'checkout.completed':
             case 'subscription.paid':
                 // Update user plan to pro
@@ -42,7 +52,7 @@ export async function POST(request: NextRequest) {
                     .update(users)
                     .set({ plan: 'pro' })
                     .where(eq(users.id, userId));
-                console.log(`[Creem Webhook] User ${userId} upgraded to Pro via ${event.type}`);
+                console.log(`[Creem Webhook] User ${userId} upgraded to Pro via ${eventType}`);
                 break;
 
             case 'subscription.canceled':
@@ -52,11 +62,11 @@ export async function POST(request: NextRequest) {
                     .update(users)
                     .set({ plan: 'free' })
                     .where(eq(users.id, userId));
-                console.log(`[Creem Webhook] User ${userId} reverted to Free via ${event.type}`);
+                console.log(`[Creem Webhook] User ${userId} reverted to Free via ${eventType}`);
                 break;
 
             default:
-                console.log('[Creem Webhook] Unhandled event type:', event.type);
+                console.log('[Creem Webhook] Unhandled event type:', eventType);
         }
 
         return NextResponse.json({ success: true });
