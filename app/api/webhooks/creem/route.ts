@@ -10,49 +10,72 @@ export async function POST(request: NextRequest) {
         const signature = request.headers.get('creem-signature');
         const webhookSecret = process.env.CREEM_WEBHOOK_SECRET;
 
+        console.error('[Creem Webhook] Received request');
+
         // Verify signature
         if (signature && webhookSecret) {
             const isValid = verifyWebhookSignature(payload, signature, webhookSecret);
             if (!isValid) {
-                console.error('Invalid Creem webhook signature');
+                console.error('[Creem Webhook] Invalid signature - rejecting');
                 return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
             }
+            console.error('[Creem Webhook] Signature verified successfully');
         } else if (process.env.NODE_ENV === 'production') {
-            console.error('Missing Creem signature or secret in production');
+            console.error('[Creem Webhook] Missing signature or secret in production');
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        } else {
+            console.error('[Creem Webhook] Skipping signature verification (dev mode)');
         }
 
         const event = JSON.parse(payload);
-        console.log('Received Creem event:', event.eventType || event.type);
-
-        // Debug: Log full event structure to understand where metadata is
-        console.error('Full Creem event structure:', JSON.stringify(event, null, 2));
-
-        // Try multiple paths where Creem might put metadata
-        const userId =
-            event.metadata?.user_id ||
-            event.data?.metadata?.user_id ||
-            event.object?.metadata?.user_id ||
-            event.object?.order?.metadata?.user_id ||
-            event.checkout?.metadata?.user_id;
-
-        // Also get the event type (Creem uses 'eventType' not 'type')
         const eventType = event.eventType || event.type;
+        console.error('[Creem Webhook] Event type:', eventType);
+
+        // Debug: Log full event structure
+        console.error('[Creem Webhook] Full event:', JSON.stringify(event, null, 2));
+
+        // Try multiple paths where Creem might put metadata (based on official docs)
+        // Official structure: event.object.metadata
+        const userId =
+            event.object?.metadata?.user_id ||
+            event.object?.metadata?.userId ||
+            event.object?.subscription?.metadata?.user_id ||
+            event.object?.subscription?.metadata?.userId ||
+            event.metadata?.user_id ||
+            event.metadata?.userId ||
+            event.data?.metadata?.user_id ||
+            event.data?.object?.metadata?.user_id;
+
+        console.error('[Creem Webhook] Extracted userId:', userId);
 
         if (!userId) {
-            console.warn('User ID missing in Creem event metadata. Available paths checked.');
-            return NextResponse.json({ success: true, message: 'Event ignored: No user_id' });
+            console.error('[Creem Webhook] No user_id found in any metadata path');
+            console.error('[Creem Webhook] Available object keys:', Object.keys(event.object || {}));
+            if (event.object?.metadata) {
+                console.error('[Creem Webhook] object.metadata:', JSON.stringify(event.object.metadata));
+            }
+            if (event.object?.subscription?.metadata) {
+                console.error('[Creem Webhook] object.subscription.metadata:', JSON.stringify(event.object.subscription.metadata));
+            }
+            return NextResponse.json({ success: true, message: 'Event ignored: No user_id found' });
         }
+
+        // Determine plan type based on product if available
+        const productId = event.object?.product?.id || event.object?.order?.product;
+        console.error('[Creem Webhook] Product ID:', productId);
 
         switch (eventType) {
             case 'checkout.completed':
             case 'subscription.paid':
+            case 'subscription.active':
                 // Update user plan to pro
-                await db
+                const result = await db
                     .update(users)
                     .set({ plan: 'pro' })
-                    .where(eq(users.id, userId));
-                console.log(`[Creem Webhook] User ${userId} upgraded to Pro via ${eventType}`);
+                    .where(eq(users.id, userId))
+                    .returning({ id: users.id, plan: users.plan });
+
+                console.error(`[Creem Webhook] Updated user ${userId} to Pro via ${eventType}`, result);
                 break;
 
             case 'subscription.canceled':
@@ -62,18 +85,19 @@ export async function POST(request: NextRequest) {
                     .update(users)
                     .set({ plan: 'free' })
                     .where(eq(users.id, userId));
-                console.log(`[Creem Webhook] User ${userId} reverted to Free via ${eventType}`);
+                console.error(`[Creem Webhook] Reverted user ${userId} to Free via ${eventType}`);
                 break;
 
             default:
-                console.log('[Creem Webhook] Unhandled event type:', eventType);
+                console.error('[Creem Webhook] Unhandled event type:', eventType);
         }
 
         return NextResponse.json({ success: true });
 
     } catch (error) {
         const err = error as Error;
-        console.error('Creem Webhook error:', err.message);
+        console.error('[Creem Webhook] Error:', err.message, err.stack);
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 }
+
