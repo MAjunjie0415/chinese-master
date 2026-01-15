@@ -85,7 +85,7 @@ export default async function Home() {
                 <svg className="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                Free forever
+                Professional grade
               </span>
               <span className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
@@ -158,6 +158,129 @@ export default async function Home() {
                 Smart spaced repetition ensures you never forget. See your improvement with detailed analytics.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <p className="text-emerald-600 font-medium text-sm tracking-widest uppercase mb-4">
+              Pricing Plans
+            </p>
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
+              Invest in Your <span className="text-emerald-600">Career</span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Choose the plan that fits your professional growth goals.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {/* Free Plan */}
+            <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 flex flex-col">
+              <div className="mb-8">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">标准版</h3>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-extrabold text-gray-900">¥0</span>
+                  <span className="text-gray-500">/永久</span>
+                </div>
+                <p className="mt-4 text-gray-600">适合开始学习商务汉语的您</p>
+              </div>
+              <ul className="space-y-4 mb-10 flex-grow">
+                {['访问所有标准课程', 'AI智能单词复习(SRS)', '3次试用课程分析', '每天10次AI发音'].map((feature) => (
+                  <li key={feature} className="flex items-center gap-3 text-gray-600">
+                    <svg className="w-5 h-5 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/login" className="w-full py-4 text-center rounded-xl border-2 border-emerald-600 text-emerald-600 font-bold hover:bg-emerald-50 transition-colors">
+                免费开始
+              </Link>
+            </div>
+
+            {/* Pro Plan */}
+            <div className="bg-gradient-to-br from-emerald-600 to-emerald-700 p-8 rounded-3xl shadow-2xl border-2 border-emerald-400 flex flex-col relative transform lg:scale-105">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-amber-900 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
+                最超值
+              </div>
+              <div className="mb-8">
+                <h3 className="text-xl font-bold text-white mb-2">Pro 专业版</h3>
+                <div className="flex items-baseline gap-1 text-white">
+                  <span className="text-4xl font-extrabold">¥29</span>
+                  <span className="text-emerald-300">/月</span>
+                </div>
+                <p className="mt-4 text-emerald-100">适合需要快速取得实际成果的专业人士</p>
+              </div>
+              <ul className="space-y-4 mb-10 flex-grow">
+                {[
+                  '无限AI文本分析',
+                  '无限AI发音指导',
+                  '完整场景化课程库',
+                  '个性化学习报告',
+                  '优先客户支持',
+                ].map((feature) => (
+                  <li key={feature} className="flex items-center gap-3 text-emerald-50">
+                    <svg className="w-5 h-5 text-emerald-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/upgrade" className="w-full py-4 text-center rounded-xl bg-white text-emerald-700 font-bold hover:bg-emerald-50 shadow-lg transition-colors">
+                立即订阅
+              </Link>
+            </div>
+
+            {/* Max Plan */}
+            <div className="bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-3xl shadow-2xl border-2 border-purple-500 flex flex-col relative">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-purple-500 text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
+                顶配版
+              </div>
+              <div className="mb-8">
+                <h3 className="text-xl font-bold text-white mb-2">Max 极致版</h3>
+                <div className="flex items-baseline gap-1 text-white">
+                  <span className="text-4xl font-extrabold">¥79</span>
+                  <span className="text-purple-300">/月</span>
+                </div>
+                <p className="mt-4 text-slate-300">适合追求极致学习体验的专业人士</p>
+              </div>
+              <p className="text-purple-300 text-sm font-semibold mb-4 uppercase tracking-wide">包含Pro所有功能，另加：</p>
+              <ul className="space-y-4 mb-10 flex-grow">
+                {[
+                  '1对1辅导课程(每月2次)',
+                  '定制商务场景',
+                  '高级分析仪表板',
+                  '个性化学习路径',
+                  '专属成功经理',
+                ].map((feature) => (
+                  <li key={feature} className="flex items-center gap-3 text-slate-50">
+                    <svg className="w-5 h-5 text-purple-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/upgrade" className="w-full py-4 text-center rounded-xl bg-white text-slate-900 font-bold hover:bg-gray-100 shadow-lg transition-colors">
+                立即订阅
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-16 text-center">
+            <p className="text-gray-500 mb-4">Need scaling for your organization?</p>
+            <a href="mailto:support@lessonsnap.one" className="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:underline">
+              Contact us for Team Pricing
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
           </div>
         </div>
       </section>
@@ -473,14 +596,12 @@ export default async function Home() {
             {/* FAQ Item 4 */}
             <details className="bg-white p-6 rounded-xl shadow-md group">
               <summary className="font-semibold text-lg cursor-pointer text-gray-900 flex justify-between items-center">
-                Is it free to use forever?
+                Is it free to use?
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
               <p className="mt-4 text-gray-600 leading-relaxed">
-                Yes! The core learning features — accessing standard courses and using the Spaced Repetition review system —
-                are <strong>free forever</strong>. We believe access to language education should be open.
-                In the future, we may introduce premium features for advanced analytics or 1-on-1 tutoring,
-                but your daily study routine will always be free.
+                Yes! We offer a generous <strong>Free-forever Standard plan</strong> that includes all core learning features and standard courses.
+                For professionals who need advanced features like unlimited AI document analysis and unlimited pronunciations, we offer a <strong>Pro plan</strong> for $29/month.
               </p>
             </details>
 
@@ -532,7 +653,7 @@ export default async function Home() {
                 Get Started
               </p>
               <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 text-center">
-                Start Learning Today — Free Forever
+                Start Learning Today
               </h2>
               <p className="text-xl mb-10 text-gray-600 max-w-2xl mx-auto">
                 No credit card required. 8,000+ words waiting for you.

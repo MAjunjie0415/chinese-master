@@ -11,6 +11,7 @@ import { userCourses, practiceRecords, courseWords } from '@/db/schema/courses';
 import { eq, and, lt, sql, count, avg } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 import { getUserAchievements, type UserAchievements } from '@/lib/achievements';
+import { getUserPlan, getCustomCourseUsage } from '@/lib/subscription';
 
 export default async function ProfilePage() {
   // Step 1: Verify user authentication
@@ -85,6 +86,10 @@ export default async function ProfilePage() {
 
     // Get achievement data
     getUserAchievements(userId),
+
+    // Get subscription data
+    getUserPlan(userId),
+    getCustomCourseUsage(userId),
   ]);
 
   // Safely extract results, handling potential errors
@@ -107,6 +112,8 @@ export default async function ProfilePage() {
     completedCoursesResult,
     practiceStatsResult,
     achievementsResult,
+    planResult,
+    usageResult,
   ] = results;
 
   const stats = {
@@ -130,6 +137,9 @@ export default async function ProfilePage() {
   };
   const achievementsData = getValue(achievementsResult, defaultAchievements);
 
+  const plan = getValue(planResult, 'free');
+  const usage = getValue(usageResult, { count: 0, limit: 3, isOverLimit: false });
+
   return (
     <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-white via-emerald-50/50 to-cyan-50/50">
       <div className="max-w-5xl mx-auto">
@@ -138,6 +148,66 @@ export default async function ProfilePage() {
           email={session.user.email || 'user@example.com'}
           createdAt={session.user.created_at}
         />
+
+        {/* Subscription Plan Section */}
+        <div className="mb-12 bg-white rounded-2xl shadow-sm border border-emerald-100 overflow-hidden">
+          <div className="flex flex-col md:flex-row items-center p-8 gap-8">
+            <div className="flex-grow">
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="text-xl font-bold text-gray-900">Subscription Plan</h3>
+                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${plan === 'pro' ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-gray-600'
+                  }`}>
+                  {plan === 'pro' ? 'Pro Professional' : 'Standard'}
+                </span>
+              </div>
+              <p className="text-gray-600 mb-6">
+                {plan === 'pro'
+                  ? 'You have full access to all AI features and scenario-based courses.'
+                  : 'Upgrade to Individual Pro for unlimited AI course generation and pronunciations.'}
+              </p>
+
+              {plan === 'free' && (
+                <div className="max-w-md">
+                  <div className="flex justify-between items-end mb-2">
+                    <span className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+                      AI Analysis Quota
+                    </span>
+                    <span className="text-sm font-bold text-gray-900">
+                      {usage.count} / {usage.limit} used
+                    </span>
+                  </div>
+                  <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-500 ${usage.isOverLimit ? 'bg-red-500' : 'bg-emerald-500'}`}
+                      style={{ width: `${Math.min((usage.count / usage.limit) * 100, 100)}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-2">
+                    Reset monthly? No, 3 total trial uses for free plan.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <div className="shrink-0 flex flex-col gap-3 w-full md:w-auto">
+              <Link
+                href="/upgrade"
+                className={`text-center px-8 py-3 rounded-xl font-bold transition-all ${plan === 'pro'
+                    ? 'border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50'
+                    : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200'
+                  }`}
+              >
+                {plan === 'pro' ? 'Manage Plan' : 'Upgrade to Pro →'}
+              </Link>
+              <a
+                href="mailto:support@lessonsnap.one"
+                className="text-center text-sm text-gray-500 hover:text-emerald-600 transition-colors"
+              >
+                Need team licensing? Contact us
+              </a>
+            </div>
+          </div>
+        </div>
 
         {/* Page Title */}
         <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-gray-900">

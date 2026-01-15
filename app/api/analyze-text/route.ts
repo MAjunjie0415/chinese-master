@@ -4,7 +4,8 @@ import { cookies } from 'next/headers';
 import { db } from '@/lib/drizzle';
 import { words } from '@/db/schema/words';
 import { userProgress } from '@/db/schema/progress';
-import { eq, and, inArray, gte } from 'drizzle-orm';
+import { users } from '@/db/schema/users';
+import { eq, and, inArray, gte, sql } from 'drizzle-orm';
 
 const DASHSCOPE_API_KEY = process.env.DASHSCOPE_API_KEY;
 
@@ -166,6 +167,31 @@ export async function POST(request: NextRequest) {
 
         const userId = session.user.id;
 
+        // Step 0: Check subscription plan and quota
+        const [userData] = await db
+            .select({
+                plan: users.plan,
+                usageCount: users.customCourseUsageCount
+            })
+            .from(users)
+            .where(eq(users.id, userId));
+
+        if (!userData) {
+            // Should not happen as user is logged in
+            return NextResponse.json({ error: 'User data not found' }, { status: 404 });
+        }
+
+        if (userData.plan === 'free' && userData.usageCount >= 3) {
+            return NextResponse.json(
+                {
+                    error: 'Trial limit reached',
+                    message: 'You have reached the limit of 3 trial course generations. Please upgrade to Pro for unlimited access.',
+                    requiresUpgrade: true
+                },
+                { status: 403 }
+            );
+        }
+
         // Parse request body
         let body;
         const contentType = request.headers.get('content-type') || '';
@@ -264,6 +290,14 @@ export async function POST(request: NextRequest) {
         const suggestedTitle = mode === 'extract'
             ? `Custom Course - ${new Date().toLocaleDateString()}`
             : `${text.slice(0, 30)}... - ${new Date().toLocaleDateString()}`;
+
+        // Step 6: Increment usage count for free users
+        if (userData.plan === 'free') {
+            await db
+                .update(users)
+                .set({ customCourseUsageCount: sql`${users.customCourseUsageCount} + 1` })
+                .where(eq(users.id, userId));
+        }
 
         return NextResponse.json({
             success: true,
