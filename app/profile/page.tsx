@@ -157,15 +157,21 @@ export default async function ProfilePage() {
             <div className="flex-grow">
               <div className="flex items-center gap-3 mb-2">
                 <h3 className="text-xl font-bold text-gray-900">Subscription Plan</h3>
-                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${plan === 'pro' ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-gray-600'
+                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${plan === 'enterprise'
+                  ? 'bg-purple-600 text-white'
+                  : plan === 'pro'
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-gray-100 text-gray-600'
                   }`}>
-                  {plan === 'pro' ? 'Pro Professional' : 'Standard'}
+                  {plan === 'enterprise' ? 'Max Premium' : plan === 'pro' ? 'Pro Professional' : 'Standard'}
                 </span>
               </div>
               <p className="text-gray-600 mb-6">
-                {plan === 'pro'
-                  ? 'You have full access to all AI features and scenario-based courses.'
-                  : 'Upgrade to Individual Pro for unlimited AI course generation and pronunciations.'}
+                {plan === 'enterprise'
+                  ? 'You have unlimited access to all premium scenarios and personalized learning paths.'
+                  : plan === 'pro'
+                    ? 'You have full access to all AI features and scenario-based courses.'
+                    : 'Upgrade to Individual Pro for unlimited AI course generation and pronunciations.'}
               </p>
 
               {plan === 'free' && (
@@ -194,12 +200,12 @@ export default async function ProfilePage() {
             <div className="shrink-0 flex flex-col gap-3 w-full md:w-auto">
               <Link
                 href="/upgrade"
-                className={`text-center px-8 py-3 rounded-xl font-bold transition-all ${plan === 'pro'
+                className={`text-center px-8 py-3 rounded-xl font-bold transition-all ${plan !== 'free'
                   ? 'border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50'
                   : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200'
-                  }`}
+                  } ${plan === 'enterprise' ? 'border-purple-600 text-purple-600 hover:bg-purple-50' : ''}`}
               >
-                {plan === 'pro' ? 'Manage Plan' : 'Upgrade to Pro →'}
+                {plan !== 'free' ? 'Manage Plan' : 'Upgrade to Pro →'}
               </Link>
               <a
                 href="mailto:support@lessonsnap.one"
