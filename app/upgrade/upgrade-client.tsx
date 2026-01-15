@@ -40,7 +40,7 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                                 : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
-                            按月付费
+                            Monthly
                         </button>
                         <button
                             onClick={() => setBillingPeriod('yearly')}
@@ -49,9 +49,9 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                                 : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
-                            按年付费
+                            Yearly
                             <span className="absolute -top-1 -right-1 bg-amber-400 text-amber-900 text-xs px-2 py-0.5 rounded-full font-bold">
-                                省17%
+                                Save 17%
                             </span>
                         </button>
                     </div>
