@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { CheckoutButton } from './checkout-button';
 
 interface UpgradePageClientProps {
@@ -10,6 +11,20 @@ interface UpgradePageClientProps {
 
 export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
     const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
+    const [refreshCount, setRefreshCount] = useState(0);
+    const router = useRouter();
+
+    // 当支付成功时，自动轮询刷新页面获取最新订阅状态
+    useEffect(() => {
+        if (status === 'success' && plan === 'free' && refreshCount < 10) {
+            const timer = setTimeout(() => {
+                setRefreshCount(prev => prev + 1);
+                router.refresh(); // 使用 Next.js router.refresh() 重新获取服务端数据
+            }, 3000); // 每3秒刷新一次
+
+            return () => clearTimeout(timer);
+        }
+    }, [status, plan, refreshCount, router]);
 
     // Monthly prices
     const prices = {
@@ -61,7 +76,12 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                 {status === 'success' && (
                     <div className="mb-12 bg-emerald-100 border border-emerald-400 text-emerald-700 px-4 py-3 rounded-xl relative text-center max-w-4xl mx-auto">
                         <strong className="font-bold">Payment successful!</strong>
-                        <span className="block sm:inline">We're processing the confirmation, your plan will be updated shortly.</span>
+                        <span className="block sm:inline">
+                            {plan === 'free'
+                                ? ` We're processing your payment... (refreshing ${refreshCount}/10)`
+                                : ' Your plan has been updated successfully!'
+                            }
+                        </span>
                     </div>
                 )}
 
