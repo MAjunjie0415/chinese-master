@@ -20,10 +20,13 @@ export async function createCheckoutSession(userId: string, productId: string): 
         throw new Error('Product ID is required');
     }
 
+    // Ensure we have a valid app URL
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://chinese-master-ebon.vercel.app';
+
     const payload = {
         product_id: productId,
-        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/upgrade?status=success`,
-        cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/upgrade?status=cancel`,
+        success_url: `${appUrl}/upgrade?status=success`,
+        // Note: cancel_url is not supported by Creem API
         metadata: {
             user_id: userId,
         },
