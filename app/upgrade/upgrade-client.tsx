@@ -135,9 +135,9 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                         <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-amber-900 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
                             Best Value
                         </div>
-                        {plan.plan === 'pro' && plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') && (
-                            <div className="absolute inset-0 bg-emerald-900/60 backdrop-blur-xl flex items-center justify-center z-10 rounded-3xl transition-all duration-500">
-                                <div className="bg-white/90 px-8 py-3 rounded-full font-bold text-emerald-900 shadow-2xl text-lg border border-emerald-200/50">
+                        {(plan.plan === 'pro' && (plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') || (!plan.interval && billingPeriod === 'monthly'))) && (
+                            <div className="absolute inset-0 bg-emerald-900/10 backdrop-blur-sm flex items-center justify-center z-10 rounded-3xl transition-all duration-500 border-4 border-emerald-400/30">
+                                <div className="bg-white/90 px-8 py-3 rounded-full font-bold text-emerald-900 shadow-2xl text-lg border border-emerald-200/50 transform -rotate-3 mb-32">
                                     ✓ Current Plan
                                 </div>
                             </div>
@@ -168,8 +168,8 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                                 </li>
                             ))}
                         </ul>
-                        {plan.plan === 'pro' && plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') ? (
-                            <button className="w-full py-4 bg-emerald-800 text-white font-bold rounded-xl cursor-not-allowed opacity-80 text-lg" disabled>
+                        {(plan.plan === 'pro' && (plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') || (!plan.interval && billingPeriod === 'monthly'))) ? (
+                            <button className="w-full py-4 bg-emerald-800 text-white font-bold rounded-xl cursor-not-allowed opacity-80 text-lg shadow-inner" disabled>
                                 Subscribed
                             </button>
                         ) : (
@@ -183,8 +183,8 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                             Premium
                         </div>
                         {plan.plan === 'enterprise' && plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') && (
-                            <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-xl flex items-center justify-center z-10 rounded-3xl transition-all duration-500">
-                                <div className="bg-white/90 px-8 py-3 rounded-full font-bold text-slate-900 shadow-2xl text-lg border border-slate-200/50">
+                            <div className="absolute inset-0 bg-slate-900/10 backdrop-blur-sm flex items-center justify-center z-10 rounded-3xl transition-all duration-500 border-4 border-purple-400/30">
+                                <div className="bg-white/90 px-8 py-3 rounded-full font-bold text-slate-900 shadow-2xl text-lg border border-slate-200/50 transform -rotate-3 mb-32">
                                     ✓ Current Plan
                                 </div>
                             </div>
