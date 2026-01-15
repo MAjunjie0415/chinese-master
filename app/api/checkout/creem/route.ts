@@ -24,20 +24,26 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        // Get planType from request body
+        // Get planType and billingPeriod from request body
         const body = await request.json();
-        const planType = body.planType || 'pro'; // Default to 'pro' for backward compatibility
+        const planType = body.planType || 'pro'; // Default to 'pro'
+        const billingPeriod = body.billingPeriod || 'monthly'; // Default to 'monthly'
 
-        // Select the appropriate product ID based on plan type
+        // Select the appropriate product ID based on plan type and billing period
         let productId: string | undefined;
-        if (planType === 'enterprise') {
-            productId = process.env.NEXT_PUBLIC_CREEM_ENTERPRISE_PRODUCT_ID;
-        } else {
-            productId = process.env.NEXT_PUBLIC_CREEM_PRO_PRODUCT_ID;
+
+        if (planType === 'pro') {
+            productId = billingPeriod === 'yearly'
+                ? process.env.NEXT_PUBLIC_CREEM_PRO_YEARLY_PRODUCT_ID
+                : process.env.NEXT_PUBLIC_CREEM_PRO_MONTHLY_PRODUCT_ID;
+        } else if (planType === 'max') {
+            productId = billingPeriod === 'yearly'
+                ? process.env.NEXT_PUBLIC_CREEM_MAX_YEARLY_PRODUCT_ID
+                : process.env.NEXT_PUBLIC_CREEM_MAX_MONTHLY_PRODUCT_ID;
         }
 
         if (!productId) {
-            console.error(`Creem product ID for ${planType} plan is missing`);
+            console.error(`Creem product ID for ${planType} ${billingPeriod} plan is missing`);
             return NextResponse.json({ error: 'Product ID not configured' }, { status: 500 });
         }
 
