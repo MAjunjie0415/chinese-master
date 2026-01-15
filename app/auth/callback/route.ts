@@ -68,6 +68,7 @@ export async function GET(request: NextRequest) {
           .from('users')
           .insert({
             id: session.user.id,
+            email: session.user.email, // ✅ 加入必填的 email 字段
             invite_quota: 3,
             invited_count: 0,
           });
@@ -139,6 +140,7 @@ export async function GET(request: NextRequest) {
               .from('users')
               .insert({
                 id: session.user.id,
+                email: session.user.email, // ✅ 加入必填的 email 字段
                 invite_quota: 3,
                 invited_count: 0,
               });

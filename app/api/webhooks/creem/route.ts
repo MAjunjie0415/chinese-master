@@ -62,20 +62,31 @@ export async function POST(request: NextRequest) {
 
         // Determine plan type based on product if available
         const productId = event.object?.product?.id || event.object?.order?.product;
+        const customerEmail = event.object?.customer?.email || event.object?.order?.customer_email;
         console.error('[Creem Webhook] Product ID:', productId);
+        console.error('[Creem Webhook] Customer Email:', customerEmail);
 
         switch (eventType) {
             case 'checkout.completed':
             case 'subscription.paid':
             case 'subscription.active':
                 // Update user plan to pro
+                // Use upsert to handle cases where user doesn't exist in our table yet
                 const result = await db
-                    .update(users)
-                    .set({ plan: 'pro' })
-                    .where(eq(users.id, userId))
+                    .insert(users)
+                    .values({
+                        id: userId,
+                        email: customerEmail || 'unknown@example.com',
+                        plan: 'pro',
+                        isPro: true,
+                    })
+                    .onConflictDoUpdate({
+                        target: [users.id],
+                        set: { plan: 'pro', isPro: true, updatedAt: new Date() },
+                    })
                     .returning({ id: users.id, plan: users.plan });
 
-                console.error(`[Creem Webhook] Updated user ${userId} to Pro via ${eventType}`, result);
+                console.error(`[Creem Webhook] Synced user ${userId} to Pro via ${eventType}`, result);
                 break;
 
             case 'subscription.canceled':
