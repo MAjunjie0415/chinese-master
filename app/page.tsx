@@ -181,15 +181,15 @@ export default async function Home() {
             {/* Free Plan */}
             <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 flex flex-col">
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">标准版</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Standard</h3>
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl font-extrabold text-gray-900">$0</span>
                   <span className="text-gray-500">/forever</span>
                 </div>
-                <p className="mt-4 text-gray-600">适合开始学习商务汉语的您</p>
+                <p className="mt-4 text-gray-600">Perfect for getting started with business Chinese</p>
               </div>
               <ul className="space-y-4 mb-10 flex-grow">
-                {['访问所有标准课程', 'AI智能单词复习(SRS)', '3次试用课程分析', '每天10次AI发音'].map((feature) => (
+                {['1 standard course', 'AI-powered word review (SRS)', '3 trial custom course analyses', '10 AI pronunciations per day'].map((feature) => (
                   <li key={feature} className="flex items-center gap-3 text-gray-600">
                     <svg className="w-5 h-5 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -199,30 +199,31 @@ export default async function Home() {
                 ))}
               </ul>
               <Link href="/login" className="w-full py-4 text-center rounded-xl border-2 border-emerald-600 text-emerald-600 font-bold hover:bg-emerald-50 transition-colors">
-                免费开始
+                Start for Free
               </Link>
             </div>
 
             {/* Pro Plan */}
             <div className="bg-gradient-to-br from-emerald-600 to-emerald-700 p-8 rounded-3xl shadow-2xl border-2 border-emerald-400 flex flex-col relative transform lg:scale-105">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-amber-900 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
-                最超值
+                Best Value
               </div>
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-white mb-2">Pro 专业版</h3>
+                <h3 className="text-xl font-bold text-white mb-2">Pro</h3>
                 <div className="flex items-baseline gap-1 text-white">
                   <span className="text-4xl font-extrabold">$29</span>
                   <span className="text-emerald-300">/month</span>
                 </div>
-                <p className="mt-4 text-emerald-100">适合需要快速取得实际成果的专业人士</p>
+                <p className="mt-4 text-emerald-100">For professionals who need real results, fast</p>
               </div>
               <ul className="space-y-4 mb-10 flex-grow">
                 {[
-                  '无限AI文本分析',
-                  '无限AI发音指导',
-                  '完整场景化课程库',
-                  '个性化学习报告',
-                  '优先客户支持',
+                  '10 standard courses',
+                  'Unlimited AI text analysis',
+                  'Unlimited AI pronunciations',
+                  'Full scenario-based library',
+                  'Personalized learning reports',
+                  'Priority support',
                 ].map((feature) => (
                   <li key={feature} className="flex items-center gap-3 text-emerald-50">
                     <svg className="w-5 h-5 text-emerald-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -233,31 +234,31 @@ export default async function Home() {
                 ))}
               </ul>
               <Link href="/upgrade" className="w-full py-4 text-center rounded-xl bg-white text-emerald-700 font-bold hover:bg-emerald-50 shadow-lg transition-colors">
-                立即订阅
+                Subscribe Now
               </Link>
             </div>
 
             {/* Max Plan */}
             <div className="bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-3xl shadow-2xl border-2 border-purple-500 flex flex-col relative">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-purple-500 text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
-                顶配版
+                Premium
               </div>
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-white mb-2">Max 极致版</h3>
+                <h3 className="text-xl font-bold text-white mb-2">Max</h3>
                 <div className="flex items-baseline gap-1 text-white">
                   <span className="text-4xl font-extrabold">$79</span>
                   <span className="text-purple-300">/month</span>
                 </div>
-                <p className="mt-4 text-slate-300">适合追求极致学习体验的专业人士</p>
+                <p className="mt-4 text-slate-300">For professionals seeking the ultimate learning experience</p>
               </div>
-              <p className="text-purple-300 text-sm font-semibold mb-4 uppercase tracking-wide">包含Pro所有功能，另加：</p>
+              <p className="text-purple-300 text-sm font-semibold mb-4 uppercase tracking-wide">Everything in Pro, plus:</p>
               <ul className="space-y-4 mb-10 flex-grow">
                 {[
-                  '1对1辅导课程(每月2次)',
-                  '定制商务场景',
-                  '高级分析仪表板',
-                  '个性化学习路径',
-                  '专属成功经理',
+                  'Unlimited standard courses',
+                  'Custom business scenarios',
+                  'Advanced analytics dashboard',
+                  'Personalized learning paths',
+                  'Priority feature requests',
                 ].map((feature) => (
                   <li key={feature} className="flex items-center gap-3 text-slate-50">
                     <svg className="w-5 h-5 text-purple-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -268,7 +269,7 @@ export default async function Home() {
                 ))}
               </ul>
               <Link href="/upgrade" className="w-full py-4 text-center rounded-xl bg-white text-slate-900 font-bold hover:bg-gray-100 shadow-lg transition-colors">
-                立即订阅
+                Subscribe Now
               </Link>
             </div>
           </div>

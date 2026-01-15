@@ -17,9 +17,9 @@ export default async function UpgradePage({ searchParams }: UpgradePageProps) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold mb-4">请先登录以升级</h1>
-                    <Link href="/login?redirect=/upgrade" className="inline-block bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold">
-                        登录
+                    <h1 className="text-2xl font-bold mb-4">Please log in to upgrade</h1>
+                    <Link href="/login?redirect=/upgrade" className="inline-block bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-emerald-700 transition-colors">
+                        Log In
                     </Link>
                 </div>
             </div>
