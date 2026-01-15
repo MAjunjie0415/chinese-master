@@ -137,7 +137,7 @@ export default async function ProfilePage() {
   };
   const achievementsData = getValue(achievementsResult, defaultAchievements);
 
-  const userPlanData = getValue(planResult, { plan: 'free' as const, interval: null as const });
+  const userPlanData = getValue(planResult, { plan: 'free' as const, interval: null });
   const plan = userPlanData.plan;
   const planInterval = userPlanData.interval;
   const usage = getValue(usageResult, { count: 0, limit: 3, isOverLimit: false });

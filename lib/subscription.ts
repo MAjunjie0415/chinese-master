@@ -94,13 +94,13 @@ export async function getCustomCourseUsage(userId: string): Promise<{
     const [user] = await db
         .select({
             plan: users.plan,
+            interval: users.planInterval,
             count: users.customCourseUsageCount
         })
         .from(users)
         .where(eq(users.id, userId));
 
-    const userPlanData = user ? { plan: user.plan as Plan, interval: user.interval as PlanInterval } : { plan: 'free' as Plan, interval: null as PlanInterval };
-    const plan = userPlanData.plan;
+    const plan = user?.plan || 'free';
     const count = user?.count || 0;
     const limit = (plan === 'pro' || plan === 'enterprise') ? Infinity : 3;
 
