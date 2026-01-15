@@ -15,6 +15,11 @@ export async function createCheckoutSession(userId: string, productId: string): 
         throw new Error('CREEM_API_KEY is not configured');
     }
 
+    if (!productId) {
+        console.error('Debug (Error): Product ID is missing/undefined passed to createCheckoutSession');
+        throw new Error('Product ID is required');
+    }
+
     const payload = {
         product_id: productId,
         success_url: `${process.env.NEXT_PUBLIC_APP_URL}/upgrade?status=success`,
@@ -24,11 +29,11 @@ export async function createCheckoutSession(userId: string, productId: string): 
         },
     };
 
-    console.log('Debug: Creating Creem session', {
+    // FORCE VISIBILITY: Using console.error to bypass log filtering
+    console.error('Debug Payload:', {
         api_key_prefix: apiKey.substring(0, 5) + '...',
         product_id: productId,
-        success_url: payload.success_url,
-        cancel_url: payload.cancel_url
+        url: 'https://api.creem.io/v1/checkout/sessions'
     });
 
     const response = await fetch('https://api.creem.io/v1/checkout/sessions', {
