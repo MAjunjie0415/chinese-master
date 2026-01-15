@@ -183,8 +183,8 @@ export default async function Home() {
               <div className="mb-8">
                 <h3 className="text-xl font-bold text-gray-900 mb-2">标准版</h3>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-gray-900">¥0</span>
-                  <span className="text-gray-500">/永久</span>
+                  <span className="text-4xl font-extrabold text-gray-900">$0</span>
+                  <span className="text-gray-500">/forever</span>
                 </div>
                 <p className="mt-4 text-gray-600">适合开始学习商务汉语的您</p>
               </div>
@@ -211,8 +211,8 @@ export default async function Home() {
               <div className="mb-8">
                 <h3 className="text-xl font-bold text-white mb-2">Pro 专业版</h3>
                 <div className="flex items-baseline gap-1 text-white">
-                  <span className="text-4xl font-extrabold">¥29</span>
-                  <span className="text-emerald-300">/月</span>
+                  <span className="text-4xl font-extrabold">$29</span>
+                  <span className="text-emerald-300">/month</span>
                 </div>
                 <p className="mt-4 text-emerald-100">适合需要快速取得实际成果的专业人士</p>
               </div>
@@ -245,8 +245,8 @@ export default async function Home() {
               <div className="mb-8">
                 <h3 className="text-xl font-bold text-white mb-2">Max 极致版</h3>
                 <div className="flex items-baseline gap-1 text-white">
-                  <span className="text-4xl font-extrabold">¥79</span>
-                  <span className="text-purple-300">/月</span>
+                  <span className="text-4xl font-extrabold">$79</span>
+                  <span className="text-purple-300">/month</span>
                 </div>
                 <p className="mt-4 text-slate-300">适合追求极致学习体验的专业人士</p>
               </div>

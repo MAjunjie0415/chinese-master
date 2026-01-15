@@ -36,8 +36,8 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                         <button
                             onClick={() => setBillingPeriod('monthly')}
                             className={`px-6 py-2 rounded-full font-semibold transition-all ${billingPeriod === 'monthly'
-                                    ? 'bg-emerald-600 text-white shadow-md'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-emerald-600 text-white shadow-md'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             按月付费
@@ -45,8 +45,8 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                         <button
                             onClick={() => setBillingPeriod('yearly')}
                             className={`px-6 py-2 rounded-full font-semibold transition-all relative ${billingPeriod === 'yearly'
-                                    ? 'bg-emerald-600 text-white shadow-md'
-                                    : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-emerald-600 text-white shadow-md'
+                                : 'text-gray-600 hover:text-gray-900'
                                 }`}
                         >
                             按年付费
@@ -77,8 +77,8 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                         <div className="mb-6">
                             <h3 className="text-2xl font-bold text-gray-900">标准版</h3>
                             <div className="mt-4">
-                                <span className="text-5xl font-extrabold text-gray-900">¥0</span>
-                                <span className="text-gray-500 text-lg ml-2">/永久</span>
+                                <span className="text-5xl font-extrabold text-gray-900">$0</span>
+                                <span className="text-gray-500 text-lg ml-2">/forever</span>
                             </div>
                             <p className="text-gray-600 mt-3">适合开始学习商务汉语的您</p>
                         </div>
@@ -120,11 +120,11 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                         <div className="mb-6">
                             <h3 className="text-3xl font-bold text-white mb-3">Pro 专业版</h3>
                             <div className="flex items-baseline gap-2 text-white">
-                                <span className="text-6xl font-extrabold">¥{currentPrices.pro}</span>
-                                <span className="text-emerald-100 text-xl">/{billingPeriod === 'monthly' ? '月' : '年'}</span>
+                                <span className="text-6xl font-extrabold">${currentPrices.pro}</span>
+                                <span className="text-emerald-100 text-xl">/{billingPeriod === 'monthly' ? 'month' : 'year'}</span>
                             </div>
                             {billingPeriod === 'yearly' && (
-                                <p className="text-emerald-200 text-sm mt-2">相当于 ¥{Math.round(currentPrices.pro / 12)}/月</p>
+                                <p className="text-emerald-200 text-sm mt-2">Equivalent to ${Math.round(currentPrices.pro / 12)}/month</p>
                             )}
                             <p className="text-emerald-50 mt-3 text-base">适合需要快速取得实际成果的专业人士</p>
                         </div>
@@ -168,11 +168,11 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                         <div className="mb-6">
                             <h3 className="text-3xl font-bold text-white mb-3">Max 极致版</h3>
                             <div className="flex items-baseline gap-2 text-white">
-                                <span className="text-6xl font-extrabold">¥{currentPrices.max}</span>
-                                <span className="text-purple-200 text-xl">/{billingPeriod === 'monthly' ? '月' : '年'}</span>
+                                <span className="text-6xl font-extrabold">${currentPrices.max}</span>
+                                <span className="text-purple-200 text-xl">/{billingPeriod === 'monthly' ? 'month' : 'year'}</span>
                             </div>
                             {billingPeriod === 'yearly' && (
-                                <p className="text-purple-200 text-sm mt-2">相当于 ¥{Math.round(currentPrices.max / 12)}/月</p>
+                                <p className="text-purple-200 text-sm mt-2">Equivalent to ${Math.round(currentPrices.max / 12)}/month</p>
                             )}
                             <p className="text-slate-300 mt-3 text-base">适合追求极致学习体验的专业人士</p>
                         </div>
