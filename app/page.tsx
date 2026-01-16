@@ -706,7 +706,10 @@ export default async function Home() {
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             {/* Brand */}
             <div>
-              <h3 className="text-2xl font-bold text-emerald-600 mb-6">BizChinese</h3>
+              <div className="flex items-center gap-2 mb-6">
+                <img src="/icon.png" alt="BizChinese Logo" className="w-8 h-8 rounded-lg" />
+                <h3 className="text-2xl font-bold text-emerald-600">BizChinese</h3>
+              </div>
               <p className="text-gray-600 leading-relaxed">
                 The smartest way for professionals to master Business Chinese. Built for results.
               </p>

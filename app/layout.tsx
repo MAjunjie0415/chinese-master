@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   creator: "BizChinese",
   publisher: "BizChinese",
   robots: "index, follow",
+  icons: {
+    icon: '/icon.png',
+    apple: '/icon.png',
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -27,11 +31,20 @@ export const metadata: Metadata = {
     title: "BizChinese - Business Chinese for Professionals",
     description: "Learn Chinese for the boardroom. AI extracts vocabulary from your real work documents. Courses for meetings, emails, and negotiations.",
     siteName: "BizChinese",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "BizChinese - Business Chinese for Professionals",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "BizChinese - Business Chinese for Professionals",
     description: "Learn Chinese for the boardroom. AI-powered personalized learning from your work materials.",
+    images: ["/twitter-image.png"],
   },
   alternates: {
     canonical: "https://bizchinese.cc/",
@@ -46,7 +59,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="theme-color" content="#14B8A6" />
       </head>

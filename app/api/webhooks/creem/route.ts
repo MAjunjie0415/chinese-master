@@ -84,8 +84,8 @@ export async function POST(request: NextRequest) {
         } else if (productId) {
             // Fallback: Check specific product IDs for Max plan
             const maxProductIds = [
-                'prod_1cShfumszn00Q0W3a8aVVD', // Max Monthly
-                'prod_6HjFCEsaVeoQzy7iKa7RDy'  // Max Yearly
+                'prod_7L8xLilLeDevAZ5wm8dja2', // Max Monthly
+                'prod_5wiEQQgeovvfgKBcLp1XuS'  // Max Yearly
             ];
             if (maxProductIds.includes(productId)) {
                 detectedPlan = 'enterprise';

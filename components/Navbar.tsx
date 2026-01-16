@@ -50,9 +50,10 @@ export default function Navbar() {
         <Link
           href="/"
           prefetch={true}
-          className="text-xl font-bold text-emerald-600 cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 text-xl font-bold text-emerald-600 cursor-pointer hover:opacity-80 transition-opacity"
         >
-          BizChinese
+          <img src="/icon.png" alt="BizChinese Logo" className="w-8 h-8 rounded-lg" />
+          <span>BizChinese</span>
         </Link>
 
         {/* Right: Desktop Navigation Links */}

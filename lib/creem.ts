@@ -22,7 +22,7 @@ export async function createCheckoutSession(userId: string, productId: string, m
     }
 
     // Ensure we have a valid app URL
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://chinese-master-ebon.vercel.app';
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://bizchinese.cc';
 
     const payload = {
         product_id: productId,
