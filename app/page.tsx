@@ -40,9 +40,9 @@ export default async function Home() {
             <h1 className={`font-extrabold leading-tight text-gray-900 ${isLoggedIn ? 'text-5xl md:text-6xl lg:text-7xl' : 'text-4xl md:text-5xl lg:text-6xl'}`}>
               {isLoggedIn ? (
                 <>
-                  Continue Your
+                  AI-Powered
                   <br />
-                  <span className="text-emerald-600">Learning Journey</span>
+                  <span className="text-emerald-600">HSK Prep for Pros</span>
                 </>
               ) : (
                 <>
@@ -56,7 +56,7 @@ export default async function Home() {
             {/* Subheadline */}
             <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
               {isLoggedIn
-                ? 'Pick up where you left off. Review your vocabulary and keep building your Chinese skills.'
+                ? 'Turn your professional life into HSK success. AI-curated lessons from your work materials to help you pass HSK faster.'
                 : 'Upload your work materials — AI creates personalized courses from your emails, contracts, and meeting notes. Learn Chinese that matters for your career.'
               }
             </p>
