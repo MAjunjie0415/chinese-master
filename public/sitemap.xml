@@ -6,48 +6,56 @@
   
   <!-- Homepage - 单页官网主页 -->
   <url>
-    <loc>https://chinesemaster.com/</loc>
-    <lastmod>2025-10-29</lastmod>
+    <loc>https://bizchinese.cc/</loc>
+    <lastmod>2026-01-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <!-- Privacy Policy - 隐私政策页面 -->
   <url>
-    <loc>https://chinesemaster.com/privacy-policy</loc>
-    <lastmod>2025-10-29</lastmod>
+    <loc>https://bizchinese.cc/privacy-policy</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Terms of Service - 服务条款页面 -->
+  <url>
+    <loc>https://bizchinese.cc/terms-of-service</loc>
+    <lastmod>2026-01-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <!-- Login/Signup Page - 登录注册页面 -->
   <url>
-    <loc>https://chinesemaster.com/login</loc>
-    <lastmod>2025-10-29</lastmod>
+    <loc>https://bizchinese.cc/login</loc>
+    <lastmod>2026-01-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <!-- Courses - 课程列表页 -->
   <url>
-    <loc>https://chinesemaster.com/courses</loc>
-    <lastmod>2025-11-01</lastmod>
+    <loc>https://bizchinese.cc/courses</loc>
+    <lastmod>2026-01-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <!-- Review - 复习页面 -->
   <url>
-    <loc>https://chinesemaster.com/review</loc>
-    <lastmod>2025-11-01</lastmod>
+    <loc>https://bizchinese.cc/review</loc>
+    <lastmod>2026-01-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   
   <!-- Profile - 个人中心 -->
   <url>
-    <loc>https://chinesemaster.com/profile</loc>
-    <lastmod>2025-11-01</lastmod>
+    <loc>https://bizchinese.cc/profile</loc>
+    <lastmod>2026-01-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
