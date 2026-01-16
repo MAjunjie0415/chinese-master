@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,6 +21,9 @@ export const metadata: Metadata = {
   creator: "BizChinese",
   publisher: "BizChinese",
   robots: "index, follow",
+  verification: {
+    google: "在这里填入你的Google验证码",
+  },
   icons: {
     icon: '/icon.png',
     apple: '/icon.png',
@@ -63,6 +67,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#14B8A6" />
       </head>
       <body className={`${inter.className} min-h-screen antialiased`}>
+        <GoogleAnalytics GA_MEASUREMENT_ID="G-23KVM8MM06" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
