@@ -208,7 +208,7 @@ export default async function ProfilePage() {
                 {plan !== 'free' ? 'Manage Plan' : 'Upgrade to Pro →'}
               </Link>
               <a
-                href="mailto:support@lessonsnap.one"
+                href="mailto:support@bizchinese.cc"
                 className="text-center text-sm text-gray-500 hover:text-emerald-600 transition-colors"
               >
                 Need team licensing? Contact us

@@ -276,7 +276,7 @@ export default async function Home() {
 
           <div className="mt-16 text-center">
             <p className="text-gray-500 mb-4">Need scaling for your organization?</p>
-            <a href="mailto:support@lessonsnap.one" className="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:underline">
+            <a href="mailto:support@bizchinese.cc" className="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:underline">
               Contact us for Team Pricing
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -438,7 +438,7 @@ export default async function Home() {
                 </div>
               </div>
               <p className="text-gray-600 leading-relaxed">
-                &ldquo;As a foreign trader, the negotiation vocabulary helped me close 2 deals in 1 month! The scenario-based approach is brilliant.&rdquo;
+                &ldquo;The real-world business vocabulary is incredibly practical. I finally feel confident participating in Chinese meetings.&rdquo;
               </p>
             </div>
 
@@ -730,6 +730,9 @@ export default async function Home() {
               <nav className="space-y-3">
                 <Link href="/privacy-policy" className="block text-gray-600 hover:text-emerald-600 transition-colors">
                   Privacy Policy
+                </Link>
+                <Link href="/terms-of-service" className="block text-gray-600 hover:text-emerald-600 transition-colors">
+                  Terms of Service
                 </Link>
                 <a href="/sitemap.xml" className="block text-gray-600 hover:text-emerald-600 transition-colors">
                   Sitemap

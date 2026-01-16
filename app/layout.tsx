@@ -66,11 +66,6 @@ export default function RootLayout({
                 "category": "Language Learning",
                 "price": "0",
                 "priceCurrency": "USD"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "ratingCount": "856"
               }
             })
           }}
