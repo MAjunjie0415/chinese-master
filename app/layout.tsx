@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Lora } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -10,6 +10,12 @@ const inter = Inter({
   subsets: ["latin"],
   display: 'swap',
   variable: '--font-inter',
+});
+
+const lora = Lora({
+  subsets: ["latin"],
+  display: 'swap',
+  variable: '--font-serif',
 });
 
 export const metadata: Metadata = {
@@ -66,7 +72,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="theme-color" content="#14B8A6" />
       </head>
-      <body className={`${inter.className} min-h-screen antialiased`}>
+      <body className={`${inter.variable} ${lora.variable} ${inter.className} min-h-screen antialiased text-main font-sans`}>
         <GoogleAnalytics GA_MEASUREMENT_ID="G-23KVM8MM06" />
         <script
           type="application/ld+json"

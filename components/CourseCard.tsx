@@ -33,13 +33,13 @@ export default function CourseCard({
   // Display different icon and color based on category
   const getCategoryDisplay = (cat: string) => {
     if (cat === 'business') {
-      return { icon: 'briefcase', label: 'Business', color: 'bg-blue-100 text-blue-700' };
+      return { icon: 'briefcase', label: 'Business', color: 'bg-slate-100 text-slate-700' };
     }
     if (cat.startsWith('hsk')) {
       const level = cat.replace('hsk', '');
-      return { icon: 'book', label: `HSK ${level}`, color: 'bg-emerald-100 text-emerald-700' };
+      return { icon: 'book', label: `HSK ${level}`, color: 'bg-emerald-50 text-emerald-800 border border-emerald-100' };
     }
-    return { icon: 'book', label: cat, color: 'bg-gray-100 text-gray-700' };
+    return { icon: 'book', label: cat, color: 'bg-slate-50 text-slate-600 border border-slate-100' };
   };
 
   const categoryInfo = getCategoryDisplay(category);
@@ -55,11 +55,16 @@ export default function CourseCard({
     return levels[diff] || 1;
   };
 
-  // Small star icon for difficulty
-  const StarIcon = () => (
-    <svg className="w-3 h-3 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-    </svg>
+  // Simple bar indicator for difficulty
+  const DifficultyDots = ({ level }: { level: number }) => (
+    <div className="flex gap-0.5">
+      {[1, 2, 3].map((i) => (
+        <div
+          key={i}
+          className={`h-1 w-3 rounded-full ${i <= level ? 'bg-amber-500' : 'bg-slate-200'}`}
+        />
+      ))}
+    </div>
   );
 
   // Category icon component
@@ -138,19 +143,19 @@ export default function CourseCard({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group">
+    <div className="paper-card overflow-hidden group">
       {/* Cover Image */}
       <Link href={`/courses/${slug}`}>
-        <div className="relative h-40 bg-gradient-to-br from-blue-100 to-emerald-100 overflow-hidden">
+        <div className="relative h-44 bg-slate-50 border-b border-slate-100 overflow-hidden">
           {coverImage ? (
             <Image
               src={coverImage}
               alt={title}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
-            <div className="flex items-center justify-center h-full">
+            <div className="flex items-center justify-center h-full opacity-60">
               <CategoryPlaceholderIcon type={categoryInfo.icon} />
             </div>
           )}
@@ -160,29 +165,25 @@ export default function CourseCard({
       {/* Content Area */}
       <div className="p-6">
         {/* Category Badge */}
-        <div className="flex items-center gap-2 mb-3">
-          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${categoryInfo.color}`}>
+        <div className="flex items-center justify-between mb-3">
+          <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest ${categoryInfo.color}`}>
             {categoryInfo.label}
           </span>
-          {difficulty && getDifficultyLevel(difficulty) > 0 && (
-            <span className="flex items-center gap-0.5 text-xs text-gray-500">
-              {Array.from({ length: getDifficultyLevel(difficulty) }).map((_, i) => (
-                <StarIcon key={i} />
-              ))}
-            </span>
+          {difficulty && (
+            <DifficultyDots level={getDifficultyLevel(difficulty)} />
           )}
         </div>
 
         {/* Title */}
         <Link href={`/courses/${slug}`}>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors line-clamp-2">
+          <h3 className="text-lg font-bold text-slate-900 mb-2 hover:text-primary transition-colors line-clamp-2 header-serif leading-snug">
             {title}
           </h3>
         </Link>
 
         {/* Description */}
         {description && (
-          <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+          <p className="text-sm text-muted mb-4 line-clamp-2 leading-relaxed">
             {description}
           </p>
         )}

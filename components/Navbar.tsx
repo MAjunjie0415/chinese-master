@@ -44,15 +44,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-sm z-50">
+    <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-slate-200 z-50">
       <div className="h-16 px-6 flex items-center justify-between">
         {/* Left: Product Name */}
         <Link
           href="/"
           prefetch={true}
-          className="flex items-center gap-2 text-xl font-bold text-emerald-600 cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 text-xl font-bold text-slate-900 cursor-pointer hover:opacity-80 transition-opacity header-serif"
         >
-          <img src="/icon.png" alt="BizChinese Logo" className="w-8 h-8 rounded-lg" />
+          <img src="/icon.png" alt="BizChinese Logo" className="w-8 h-8 rounded-lg grayscale" />
           <span>BizChinese</span>
         </Link>
 
@@ -64,16 +64,14 @@ export default function Navbar() {
               href={link.path}
               prefetch={true}
               onClick={(e) => handleNavigation(e, link.path)}
-              className={`transition-all cursor-pointer relative ${isActive(link.path)
-                ? 'text-emerald-600 font-semibold'
-                : navigating === link.path
-                  ? 'text-emerald-600 opacity-70'
-                  : 'text-gray-600 hover:text-gray-900'
+              className={`transition-all cursor-pointer relative py-2 link-premium text-sm uppercase tracking-wider ${isActive(link.path)
+                ? 'text-primary'
+                : 'text-muted hover:text-main'
                 }`}
             >
               {link.name}
-              {navigating === link.path && (
-                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-emerald-600 animate-pulse" />
+              {isActive(link.path) && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent" />
               )}
             </Link>
           ))}
