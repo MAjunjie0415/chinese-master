@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://bizchinese.com'),
+  metadataBase: new URL('https://bizchinese.cc'),
   title: "BizChinese - Learn Business Chinese for Professionals",
   description: "Master Business Chinese for meetings, emails & negotiations. AI-powered learning from your own work materials. Upload documents, get personalized courses. Start free today.",
   keywords: "business chinese, learn chinese for work, mandarin for professionals, chinese for business meetings, business mandarin, corporate chinese training, chinese for executives",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://bizchinese.com/",
+    url: "https://bizchinese.cc/",
     title: "BizChinese - Business Chinese for Professionals",
     description: "Learn Chinese for the boardroom. AI extracts vocabulary from your real work documents. Courses for meetings, emails, and negotiations.",
     siteName: "BizChinese",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     description: "Learn Chinese for the boardroom. AI-powered personalized learning from your work materials.",
   },
   alternates: {
-    canonical: "https://bizchinese.com/",
+    canonical: "https://bizchinese.cc/",
   },
 };
 
@@ -58,7 +58,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "EducationalOrganization",
               "name": "BizChinese",
-              "url": "https://bizchinese.com",
+              "url": "https://bizchinese.cc",
               "description": "Business Chinese learning platform for professionals. Master Chinese for meetings, emails, and negotiations with AI-powered personalized courses.",
               "sameAs": [],
               "offers": {

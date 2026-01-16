@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: ['/api/', '/profile/', '/review/start'],
         },
-        sitemap: 'https://bizchinese.com/sitemap.xml',
+        sitemap: 'https://bizchinese.cc/sitemap.xml',
     };
 }

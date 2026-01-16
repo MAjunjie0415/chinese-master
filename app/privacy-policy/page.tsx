@@ -231,7 +231,7 @@ export default function PrivacyPolicy() {
                 If you have any questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact us:
               </p>
               <div className="bg-gray-100 rounded-lg p-4 space-y-2">
-                <p><strong>Email:</strong> privacy@bizchinese.com</p>
+                <p><strong>Email:</strong> privacy@bizchinese.cc</p>
                 <p><strong>Response time:</strong> We aim to respond within 48 hours</p>
               </div>
             </div>
