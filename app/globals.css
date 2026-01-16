@@ -1,28 +1,37 @@
 @import "tailwindcss";
 
 /* ========================================
-   色彩系统 - ChineseMaster Brand Colors
+   色彩系统 - BizChinese Brand Colors
    ======================================== */
 :root {
   /* 主色调 */
-  --primary-blue: #3B82F6;      /* 商务蓝 - 功能区 */
-  --primary-emerald: #10B981;   /* 成长绿 - CTA按钮 */
-  --accent-red: #EF4444;        /* 警示红 - 重要按钮 */
-  --accent-orange: #F97316;     /* 提醒橙 - 复习提示 */
-  
+  --primary-blue: #3B82F6;
+  /* 商务蓝 - 功能区 */
+  --primary-emerald: #10B981;
+  /* 成长绿 - CTA按钮 */
+  --accent-red: #EF4444;
+  /* 警示红 - 重要按钮 */
+  --accent-orange: #F97316;
+  /* 提醒橙 - 复习提示 */
+
   /* 背景色 */
-  --bg-light-gray: #F3F4F6;     /* 浅灰 - 模块背景 */
-  --bg-white: #FFFFFF;          /* 纯白 - 卡片背景 */
-  
+  --bg-light-gray: #F3F4F6;
+  /* 浅灰 - 模块背景 */
+  --bg-white: #FFFFFF;
+  /* 纯白 - 卡片背景 */
+
   /* 文字色 */
-  --text-dark: #1F2937;         /* 深灰 - 标题 */
-  --text-medium: #6B7280;       /* 中灰 - 正文 */
-  --text-light: #9CA3AF;        /* 浅灰 - 辅助文字 */
-  
+  --text-dark: #1F2937;
+  /* 深灰 - 标题 */
+  --text-medium: #6B7280;
+  /* 中灰 - 正文 */
+  --text-light: #9CA3AF;
+  /* 浅灰 - 辅助文字 */
+
   /* 渐变色 */
   --gradient-blue-emerald: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);
   --gradient-orange-red: linear-gradient(135deg, #F97316 0%, #EF4444 100%);
-  
+
   /* 阴影 */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
@@ -91,6 +100,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -102,19 +112,33 @@ body {
 }
 
 /* 渐进式延迟动画 */
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+
+.stagger-4 {
+  animation-delay: 0.4s;
+}
 
 /* ========================================
    脉动动画 - 用于紧急提示
    ======================================== */
 @keyframes pulse-soft {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.95;
     transform: scale(1.02);
@@ -138,7 +162,7 @@ details summary::-webkit-details-marker {
   display: none;
 }
 
-details[open] summary ~ * {
+details[open] summary~* {
   animation: fadeInUp 0.3s ease;
 }
 
@@ -149,6 +173,7 @@ details[open] summary ~ * {
   0% {
     background-position: -1000px 0;
   }
+
   100% {
     background-position: 1000px 0;
   }
@@ -185,19 +210,22 @@ details[open] summary ~ * {
    优化触摸反馈 (移动端)
    ======================================== */
 @media (hover: none) and (pointer: coarse) {
+
   /* 移动端触摸元素加大点击区域 */
-  button, a {
+  button,
+  a {
     min-height: 44px;
     min-width: 44px;
   }
-  
+
   /* 移除移动端的悬停效果 */
   .card-hover:hover {
     transform: none;
   }
-  
+
   /* 移动端点击反馈 */
-  button:active, a:active {
+  button:active,
+  a:active {
     opacity: 0.7;
     transition: opacity 0.1s;
   }
@@ -246,12 +274,12 @@ details[open] summary ~ * {
   .no-print {
     display: none !important;
   }
-  
+
   body {
     background: white;
     color: black;
   }
-  
+
   a {
     text-decoration: underline;
   }
@@ -269,13 +297,13 @@ details[open] summary ~ * {
   --gradient-text-warm: linear-gradient(90deg, #f97316 0%, #ef4444 50%, #ec4899 100%);
   --gradient-glow-cyan: linear-gradient(90deg, #06b6d4, #22d3ee, #67e8f9);
   --gradient-glow-purple: linear-gradient(90deg, #8b5cf6, #a78bfa, #c4b5fd);
-  
+
   /* Glass Effect */
   --glass-bg: rgba(255, 255, 255, 0.03);
   --glass-bg-light: rgba(255, 255, 255, 0.08);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-border-light: rgba(255, 255, 255, 0.15);
-  
+
   /* Glow Colors */
   --glow-cyan: rgba(34, 211, 238, 0.4);
   --glow-purple: rgba(167, 139, 250, 0.4);
@@ -302,7 +330,7 @@ details[open] summary ~ * {
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -311,7 +339,7 @@ details[open] summary ~ * {
 }
 
 .glass-card:hover {
-  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
   border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-8px);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
@@ -377,10 +405,13 @@ details[open] summary ~ * {
    Floating Animation for Chinese Characters
    ======================================== */
 @keyframes float-slow {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
     opacity: 0.15;
   }
+
   50% {
     transform: translateY(-20px) rotate(5deg);
     opacity: 0.25;
@@ -388,10 +419,13 @@ details[open] summary ~ * {
 }
 
 @keyframes float-medium {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
     opacity: 0.1;
   }
+
   50% {
     transform: translateY(-30px) rotate(-5deg);
     opacity: 0.2;
@@ -399,10 +433,13 @@ details[open] summary ~ * {
 }
 
 @keyframes float-fast {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
     opacity: 0.12;
   }
+
   50% {
     transform: translateY(-15px) rotate(3deg);
     opacity: 0.22;
