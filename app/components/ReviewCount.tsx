@@ -41,7 +41,7 @@ async function ReviewCountData() {
       return (
         <Link
           href="/courses"
-          className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg shadow-lg shadow-emerald-200 transition-all hover:scale-105"
+          className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-primary hover:bg-slate-800 text-white font-bold text-lg shadow-sm transition-all hover:scale-105"
         >
           Continue Learning →
         </Link>
@@ -51,7 +51,7 @@ async function ReviewCountData() {
     return (
       <Link
         href="/review/start?from=home"
-        className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg shadow-lg shadow-orange-200 transition-all hover:scale-105"
+        className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-accent hover:opacity-90 text-white font-bold text-lg shadow-sm transition-all hover:scale-105"
       >
         Start Review ({reviewCount} words) →
       </Link>

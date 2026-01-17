@@ -184,13 +184,16 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                     </div>
 
                     {/* Max Plan - PREMIUM */}
-                    <div className="paper-card p-10 border-primary flex flex-col relative overflow-hidden bg-primary text-white">
+                    <div className="paper-card p-10 border-slate-800 flex flex-col relative overflow-hidden bg-slate-900 text-white shadow-xl lg:scale-105 z-10">
+                        <div className="absolute top-0 right-0 bg-accent text-white px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-bl shadow-sm">
+                            Elite Access
+                        </div>
                         <div className="mb-10">
-                            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Tier 03</h3>
+                            <h3 className="text-xs font-bold text-accent uppercase tracking-widest mb-4">Tier 03</h3>
                             <h3 className="text-2xl font-bold text-white header-serif">Institutional Master</h3>
                             <div className="mt-8 mb-4">
                                 <span className="text-5xl font-bold text-white header-serif">${currentPrices.max}</span>
-                                <span className="text-slate-400 text-xs font-bold uppercase tracking-widest ml-3">unlimited</span>
+                                <span className="text-slate-400 text-xs font-bold uppercase tracking-widest ml-3">per {billingPeriod === 'monthly' ? 'cycle' : 'annum'}</span>
                             </div>
                             {billingPeriod === 'yearly' && (
                                 <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-2">Effective: ${Math.round(currentPrices.max / 12)}/Mo</p>
@@ -212,10 +215,10 @@ export function UpgradePageClient({ plan, status }: UpgradePageClientProps) {
                                 </li>
                             ))}
                         </ul>
-                        {plan.plan === 'enterprise' && plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') ? (
+                        {plan.plan === 'max' && plan.interval === (billingPeriod === 'monthly' ? 'month' : 'year') ? (
                             <div className="flex flex-col gap-3">
-                                <button className="w-full py-4 bg-white/10 text-white/40 font-bold rounded border border-white/10 text-xs uppercase tracking-widest grayscale cursor-not-allowed" disabled>
-                                    Subscribed
+                                <button className="w-full py-4 bg-white/5 text-white/20 font-bold rounded border border-white/10 text-xs uppercase tracking-widest grayscale cursor-not-allowed" disabled>
+                                    Authorized
                                 </button>
                             </div>
                         ) : (

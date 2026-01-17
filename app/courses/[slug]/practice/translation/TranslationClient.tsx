@@ -157,57 +157,61 @@ export default function TranslationClient({
     };
 
     return (
-        <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-emerald-50 to-teal-50">
+        <div className="min-h-screen py-16 px-4 bg-parchment">
             <div className="max-w-2xl mx-auto">
                 {/* 头部 */}
-                <div className="mb-6 bg-white rounded-xl shadow-md p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                            <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                            </svg>
-                            Translation Practice
+                <div className="mb-10 paper-card p-10 border-slate-100">
+                    <div className="flex items-center justify-between mb-8">
+                        <h1 className="text-2xl font-bold text-slate-900 border-l-4 border-primary pl-4 header-serif">
+                            Synthesis Module
                         </h1>
-                        <PracticeTimer isActive={true} onTimeUpdate={setTotalTime} />
+                        <div className="bg-primary/5 text-primary px-3 py-1 rounded font-bold text-xs tracking-widest">
+                            <PracticeTimer isActive={true} onTimeUpdate={setTotalTime} />
+                        </div>
                     </div>
-                    <PracticeProgress
-                        current={currentIndex + 1}
-                        total={words.length}
-                        showPercentage
-                    />
+                    <div className="space-y-3">
+                        <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            <span>Analysis Progress</span>
+                            <span>{currentIndex + 1} / {words.length}</span>
+                        </div>
+                        <PracticeProgress
+                            current={currentIndex + 1}
+                            total={words.length}
+                        />
+                    </div>
                 </div>
 
                 {/* 题目卡片 */}
-                <div className="bg-white rounded-xl shadow-lg p-8 mb-6 min-h-[400px] flex flex-col justify-center">
+                <div className="paper-card p-12 mb-10 min-h-[450px] flex flex-col justify-center border-slate-200">
                     {/* 问题区域 */}
-                    <div className="text-center mb-8">
-                        <span className="text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mb-4 inline-block">
-                            {direction === 0 ? 'Chinese → English' : 'English → Chinese'}
+                    <div className="text-center mb-12">
+                        <span className="text-[10px] font-bold text-slate-400 border border-slate-200 bg-slate-50 px-4 py-1 rounded-full mb-8 inline-block uppercase tracking-widest">
+                            {direction === 0 ? 'Translation: Hanzi → English' : 'Translation: English → Hanzi'}
                         </span>
 
-                        <div className="py-8">
+                        <div className="py-12">
                             {direction === 0 ? (
                                 <>
-                                    <div className="text-6xl font-bold text-gray-900 mb-2">
+                                    <div className="text-7xl font-bold text-slate-900 mb-4 header-serif">
                                         {currentWord.chinese}
                                     </div>
-                                    <div className="text-2xl text-emerald-600 font-medium opacity-80">
+                                    <div className="text-xl text-slate-400 font-bold uppercase tracking-[0.2em]">
                                         {currentWord.pinyin}
                                     </div>
                                 </>
                             ) : (
-                                <div className="text-5xl font-bold text-gray-900">
+                                <div className="text-5xl font-bold text-slate-900 header-serif leading-tight">
                                     {currentWord.english}
                                 </div>
                             )}
                         </div>
 
-                        {/* 播放按钮（仅在中翻英时或按需显示） */}
-                        <div className="mt-2">
+                        {/* 播放按钮 */}
+                        <div className="mt-4">
                             <button
                                 onClick={handlePlaySound}
-                                className="p-3 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded-full transition-colors"
-                                title="Play pronunciation"
+                                className="p-4 bg-primary/5 hover:bg-primary/10 text-primary rounded-full transition-all active:scale-90"
+                                title="Acoustic Reference"
                             >
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m0 0a5 5 0 007.072 0m-7.072 0l-1.414 1.414M12 8v8" />
@@ -217,24 +221,24 @@ export default function TranslationClient({
                     </div>
 
                     {/* 选项 */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4">
                         {options.map((option, index) => {
                             const isSelected = selectedAnswer === option;
                             const correctValue = direction === 0 ? currentWord.english : currentWord.chinese;
                             const isCorrectAnswer = option === correctValue;
 
-                            let buttonClass = 'w-full p-5 text-center rounded-xl border-2 font-bold text-lg transition-all shadow-sm ';
+                            let buttonClass = 'w-full p-6 text-left rounded-xl border-2 font-bold text-lg transition-all shadow-sm flex items-center justify-between ';
 
                             if (isSelected) {
                                 if (isCorrect) {
-                                    buttonClass += 'bg-green-100 border-green-500 text-green-700 scale-105';
+                                    buttonClass += 'bg-accent/5 border-accent text-accent';
                                 } else {
-                                    buttonClass += 'bg-red-100 border-red-500 text-red-700 scale-105';
+                                    buttonClass += 'bg-red-50 border-red-200 text-red-600';
                                 }
                             } else if (selectedAnswer && isCorrectAnswer) {
-                                buttonClass += 'bg-green-50 border-green-400 text-green-700';
+                                buttonClass += 'bg-accent/5 border-accent/30 text-accent';
                             } else {
-                                buttonClass += 'bg-white border-gray-200 text-gray-700 hover:border-emerald-400 hover:bg-emerald-50';
+                                buttonClass += 'bg-slate-50 border-slate-100 text-slate-700 hover:border-primary hover:bg-white';
                             }
 
                             return (
@@ -244,7 +248,14 @@ export default function TranslationClient({
                                     disabled={selectedAnswer !== null}
                                     className={buttonClass}
                                 >
-                                    {option}
+                                    <span>{option}</span>
+                                    {isSelected && (
+                                        isCorrect ? (
+                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                                        ) : (
+                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
+                                        )
+                                    )}
                                 </button>
                             );
                         })}

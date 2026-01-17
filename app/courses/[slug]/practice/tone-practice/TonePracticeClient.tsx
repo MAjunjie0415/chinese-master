@@ -185,41 +185,45 @@ export default function TonePracticeClient({
   const correctTone = getToneNumber(currentWord.pinyin);
 
   return (
-    <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-emerald-50 to-teal-50">
+    <div className="min-h-screen py-16 px-4 bg-parchment">
       <div className="max-w-2xl mx-auto">
         {/* 头部 */}
-        <div className="mb-6 bg-white rounded-xl shadow-md p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-              <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-              </svg>
-              Tone Training
+        <div className="mb-10 paper-card p-10 border-slate-100">
+          <div className="flex items-center justify-between mb-8">
+            <h1 className="text-2xl font-bold text-slate-900 border-l-4 border-accent pl-4 header-serif">
+              Phonetic Module
             </h1>
-            <PracticeTimer isActive={true} onTimeUpdate={setTotalTime} />
+            <div className="bg-accent/5 text-accent px-3 py-1 rounded font-bold text-xs tracking-widest">
+              <PracticeTimer isActive={true} onTimeUpdate={setTotalTime} />
+            </div>
           </div>
-          <PracticeProgress
-            current={currentIndex + 1}
-            total={words.length}
-            showPercentage
-          />
+          <div className="space-y-3">
+            <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              <span>Acoustic Progress</span>
+              <span>{currentIndex + 1} / {words.length}</span>
+            </div>
+            <PracticeProgress
+              current={currentIndex + 1}
+              total={words.length}
+            />
+          </div>
         </div>
 
         {/* 题目卡片 */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-6">
+        <div className="paper-card p-12 mb-10 min-h-[450px] flex flex-col items-center justify-center border-slate-200">
           {/* 声音播放区域 */}
-          <div className="mb-8">
-            <div className="relative w-48 h-48 mx-auto bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full flex items-center justify-center shadow-inner">
+          <div className="mb-12 w-full">
+            <div className="relative w-48 h-48 mx-auto bg-primary/5 rounded-full flex items-center justify-center shadow-inner border border-primary/10">
               <div className="text-center">
                 {hasPlayed ? (
                   <div className="animate-pulse">
-                    <svg className="w-24 h-24 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-24 h-24 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                     </svg>
                   </div>
                 ) : (
                   <div>
-                    <svg className="w-20 h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-20 h-20 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
                     </svg>
@@ -229,23 +233,23 @@ export default function TonePracticeClient({
             </div>
 
             {/* 播放按钮 */}
-            <div className="text-center mt-6">
+            <div className="text-center mt-8">
               <button
                 onClick={handlePlaySound}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-semibold transition-colors shadow-md"
+                className="inline-flex items-center gap-3 px-8 py-3 bg-primary hover:bg-slate-800 text-white rounded-lg font-bold transition-all shadow-sm text-xs uppercase tracking-widest"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                Play Again
+                Acoustic Recall
               </button>
             </div>
           </div>
 
           {/* 问题 */}
-          <h3 className="text-xl font-semibold text-gray-900 mb-6 text-center">
-            Which tone did you hear?
+          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-8 text-center px-4">
+            Categorize Intonational Frequency
           </h3>
 
           {/* 声调选项 */}
@@ -254,7 +258,7 @@ export default function TonePracticeClient({
               const isSelected = selectedAnswer === option.tone.toString();
               const isCorrectAnswer = option.tone === correctTone;
 
-              let buttonClass = 'w-full p-5 text-left rounded-xl border-2 font-medium transition-all ';
+              let buttonClass = 'w-full p-6 text-left rounded-xl border-2 font-bold transition-all shadow-sm ';
 
               if (isSelected) {
                 if (isCorrect) {
@@ -294,32 +298,36 @@ export default function TonePracticeClient({
 
           {/* 即时反馈 */}
           {selectedAnswer && (
-            <div className={`mt-6 p-4 rounded-lg ${isCorrect ? 'bg-green-50' : 'bg-red-50'}`}>
-              <p className={`text-center font-semibold mb-2 flex items-center justify-center gap-2 ${isCorrect ? 'text-green-700' : 'text-red-700'}`}>
+            <div className={`mt-8 p-6 rounded-xl border ${isCorrect ? 'bg-accent/5 border-accent/10' : 'bg-red-50 border-red-100'}`}>
+              <p className={`text-center font-bold mb-4 flex items-center justify-center gap-2 ${isCorrect ? 'text-accent' : 'text-red-700'}`}>
                 {isCorrect ? (
-                  <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Excellent! Correct tone!</>
+                  <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Precise Calibration</>
                 ) : (
-                  <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg> Not quite. Listen carefully to the tone.</>
+                  <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg> Frequency Mismatch</>
                 )}
               </p>
-              <p className="text-center text-sm text-gray-600">
-                Word: <span className="font-semibold">{currentWord.chinese}</span> ({currentWord.pinyin}) - {currentWord.english}
-              </p>
+              <div className="flex justify-center items-center gap-4 text-slate-500 font-bold uppercase tracking-widest text-[10px]">
+                <span className="text-slate-900 border-b border-accent/20 pb-0.5">{currentWord.chinese}</span>
+                <span>/</span>
+                <span className="text-primary">{currentWord.pinyin}</span>
+                <span>/</span>
+                <span>{currentWord.english}</span>
+              </div>
             </div>
           )}
         </div>
 
         {/* 底部提示 */}
-        <div className="bg-emerald-100 border-2 border-emerald-300 rounded-lg p-4">
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 bg-emerald-200 rounded-lg flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-emerald-700" fill="currentColor" viewBox="0 0 20 20">
+        <div className="paper-card p-8 border-slate-100 mt-10">
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 bg-primary/5 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" />
               </svg>
             </div>
             <div className="flex-1">
-              <h4 className="font-semibold text-gray-900 mb-1">Tone Guide</h4>
-              <ul className="text-sm text-gray-700 space-y-1">
+              <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Tone Categorization Reference</h4>
+              <ul className="text-xs text-slate-600 space-y-2 font-medium">
                 <li>• <strong>1st tone:</strong> High and flat (―)</li>
                 <li>• <strong>2nd tone:</strong> Rising (ˊ)</li>
                 <li>• <strong>3rd tone:</strong> Dipping (ˇ)</li>

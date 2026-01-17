@@ -67,74 +67,70 @@ export default async function PracticeModeSelectionPage({ params }: PageProps) {
   const practiceModes = [
     {
       id: 'picture-match',
-      name: 'Picture Match',
-      description: 'Learn words through images. Perfect for beginners!',
-      difficulty: 'Beginner',
+      name: 'Visual Synthesis',
+      description: 'Acquire lexicon through high-fidelity visual association.',
+      difficulty: 'Elementary',
       difficultyLevel: 1,
       iconType: 'image' as const,
-      color: 'from-blue-50 to-blue-100',
-      borderColor: 'border-blue-300',
-      textColor: 'text-blue-700',
+      color: 'bg-primary/5',
+      borderColor: 'border-primary/10',
+      textColor: 'text-primary',
       href: `/courses/${slug}/practice/picture-match`,
       features: [
-        'Visual learning with images',
-        'Multiple choice questions',
-        'Instant feedback',
-        'Audio pronunciation',
+        'Visual cognitive mapping',
+        'Iconographic recognition',
+        'Direct semantic linking',
       ],
     },
     {
       id: 'tone-practice',
-      name: 'Tone Training',
-      description: 'Master Chinese tones through listening. Essential for all levels!',
-      difficulty: 'Essential',
+      name: 'Phonetic Calibration',
+      description: 'Master tonal frequencies through precise acoustic analysis.',
+      difficulty: 'Fundamental',
       difficultyLevel: 2,
       iconType: 'speaker' as const,
-      color: 'from-emerald-50 to-emerald-100',
-      borderColor: 'border-emerald-300',
-      textColor: 'text-emerald-700',
+      color: 'bg-accent/5',
+      borderColor: 'border-accent/10',
+      textColor: 'text-accent',
       href: `/courses/${slug}/practice/tone-practice`,
       features: [
-        'Tone discrimination training',
-        'Visual tone curves',
-        'Repeated listening',
-        'Compare different tones',
+        'Frequency discrimination',
+        'Prosodic curve analysis',
+        'Acoustic comparison',
       ],
     },
     {
       id: 'translation',
-      name: 'Translation',
-      description: 'Practice translating between Chinese and English in both directions.',
-      difficulty: 'Intermediate',
+      name: 'Bidirectional Translation',
+      description: 'Synthesize meaning between complex linguistic structures.',
+      difficulty: 'Professional',
       difficultyLevel: 3,
       iconType: 'translate' as const,
-      color: 'from-purple-50 to-purple-100',
-      borderColor: 'border-purple-300',
-      textColor: 'text-purple-700',
+      color: 'bg-primary/5',
+      borderColor: 'border-primary/10',
+      textColor: 'text-primary',
       href: `/courses/${slug}/practice/translation`,
       features: [
-        'Both-way translation',
-        'Hanyu/Pinyin recognition',
-        'Multiple choice challenges',
-        'Instant audio feedback',
+        'Dynamic semantic exchange',
+        'Applied Pinyin mapping',
+        'Contextual logic flow',
       ],
     },
     {
       id: 'dictation',
-      name: 'Dictation',
-      description: 'Choose the correct characters after listening to the audio.',
-      difficulty: 'Advanced',
+      name: 'Lexical Transcription',
+      description: 'Convert auditory input into precise character representation.',
+      difficulty: 'Executive',
       difficultyLevel: 4,
       iconType: 'pencil' as const,
-      color: 'from-orange-50 to-orange-100',
-      borderColor: 'border-orange-300',
-      textColor: 'text-orange-700',
+      color: 'bg-accent/5',
+      borderColor: 'border-accent/10',
+      textColor: 'text-accent',
       href: `/courses/${slug}/practice/dictation`,
       features: [
-        'Pure listening challenge',
-        'Character recognition',
-        'Audio-to-Hanzi mapping',
-        'Optional hints for meaning',
+        'Auditory-to-Graph mapping',
+        'Structural recall protocol',
+        'High-stakes dictation',
       ],
     },
   ];
@@ -172,26 +168,26 @@ export default async function PracticeModeSelectionPage({ params }: PageProps) {
 
   // Difficulty badge component
   const DifficultyBadge = ({ level, label, textColor }: { level: number; label: string; textColor: string }) => (
-    <span className={`px-3 py-1 rounded-full text-sm font-medium bg-white ${textColor} flex items-center gap-1`}>
+    <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest bg-white ${textColor} flex items-center gap-1 border border-primary/5`}>
       {Array.from({ length: level }).map((_, i) => (
-        <svg key={i} className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        <svg key={i} className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10.394 2.827c.197-.544.96-.544 1.157 0l.33 1.01a1 1 0 00.95.69h1.062c.571 0 .808.73.346 1.066l-.86.623a1 1 0 00-.363 1.118l.33 1.01c.197.544-.42 1.025-.882.69l-.86-.623a1 1 0 00-1.176 0l-.86.623c-.462.335-1.079-.146-.882-.69l.33-1.01a1 1 0 00-.363-1.118l-.86-.623c-.462-.336-.225-1.066.346-1.066h1.062a1 1 0 00.95-.69l.33-1.01z" />
         </svg>
       ))}
-      <span className="ml-1">{label}</span>
+      <span className="ml-0.5">{label}</span>
     </span>
   );
 
   return (
-    <div className="min-h-screen py-8 px-4 bg-gray-50">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen py-8 px-4 bg-parchment">
+      <div className="max-w-6xl mx-auto">
         {/* 返回按钮 */}
         <Link
           href={`/courses/${slug}`}
-          className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+          className="inline-flex items-center text-slate-500 hover:text-slate-900 mb-8 transition-colors text-sm font-medium"
         >
           <svg
-            className="w-5 h-5 mr-2"
+            className="w-4 h-4 mr-2"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -203,28 +199,28 @@ export default async function PracticeModeSelectionPage({ params }: PageProps) {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Back to Course
+          Back to Curriculum
         </Link>
 
         {/* 页面标题 */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Choose Practice Mode
+        <div className="mb-12">
+          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 header-serif leading-tight">
+            Advanced Training Modules
           </h1>
-          <p className="text-gray-600">
-            Select a practice mode for <span className="font-semibold">{course.title}</span>
+          <p className="text-xl text-muted font-medium">
+            Select an institutional mode for <span className="text-slate-900 underline decoration-accent/20 underline-offset-4">{course.title}</span>
           </p>
         </div>
 
         {/* 练习模式卡片 */}
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {practiceModes.map((mode) => (
             <Link
               key={mode.id}
               href={mode.href}
-              className="block bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-transparent hover:border-blue-300 group"
+              className="block bg-white rounded-xl border border-slate-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group h-full flex flex-col"
             >
-              <div className={`p-6 bg-gradient-to-br ${mode.color}`}>
+              <div className={`p-8 flex-grow ${mode.color}`}>
                 {/* 图标和难度 */}
                 <div className="flex items-center justify-between mb-4">
                   <div className={mode.textColor}>
@@ -233,30 +229,18 @@ export default async function PracticeModeSelectionPage({ params }: PageProps) {
                   <DifficultyBadge level={mode.difficultyLevel} label={mode.difficulty} textColor={mode.textColor} />
                 </div>
 
-                {/* 标题和描述 */}
-                <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-xl font-bold text-slate-900 mb-4 header-serif group-hover:text-primary transition-colors">
                   {mode.name}
                 </h3>
-                <p className="text-gray-700 mb-4">
+                <p className="text-sm text-muted mb-6 leading-relaxed font-medium">
                   {mode.description}
                 </p>
 
-                {/* 特性列表 */}
-                <ul className="space-y-2">
+                <ul className="space-y-3">
                   {mode.features.map((feature, index) => (
-                    <li key={index} className="flex items-center text-sm text-gray-600">
-                      <svg
-                        className="w-4 h-4 mr-2 text-green-500 flex-shrink-0"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
+                    <li key={index} className="flex items-start text-[11px] font-bold uppercase tracking-widest text-slate-500">
+                      <svg className="w-3.5 h-3.5 mr-2 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                       {feature}
                     </li>
@@ -264,17 +248,11 @@ export default async function PracticeModeSelectionPage({ params }: PageProps) {
                 </ul>
               </div>
 
-              {/* 开始按钮 */}
-              <div className="p-4 bg-white">
+              <div className="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">
-                    ~5 minutes
-                  </span>
-                  <span className="inline-flex items-center text-blue-600 font-semibold group-hover:translate-x-1 transition-transform">
-                    Start Practice
-                    <svg className="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">~5 MIN CYCLE</span>
+                  <span className="inline-flex items-center text-primary font-bold text-xs uppercase tracking-widest group-hover:translate-x-1 transition-transform">
+                    Commence →
                   </span>
                 </div>
               </div>
@@ -283,21 +261,22 @@ export default async function PracticeModeSelectionPage({ params }: PageProps) {
         </div>
 
         {/* 提示信息 */}
-        <div className="mt-8 bg-blue-50 border-2 border-blue-200 rounded-lg p-6">
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+        <div className="mt-12 paper-card p-10 border-slate-100 max-w-4xl">
+          <div className="flex items-start gap-6">
+            <div className="w-12 h-12 bg-primary/5 rounded-xl flex items-center justify-center flex-shrink-0">
+              <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z" />
               </svg>
             </div>
             <div>
-              <h4 className="font-semibold text-gray-900 mb-2">
-                Learning Tip
+              <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">
+                Methodological Guidance
               </h4>
-              <p className="text-gray-700 text-sm leading-relaxed">
-                <strong>New to Chinese?</strong> Start with <strong>Picture Match</strong> to build vocabulary through visual learning.
+              <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                <strong>Foundational Lexicon?</strong> Initiate with <strong>Visual Synthesis</strong> to establish primary semantic mappings.
                 <br />
-                <strong>Struggling with tones?</strong> <strong>Tone Training</strong> will help you distinguish the 4 tones through repeated listening.
+                <br />
+                <strong>Phonetic Mastery?</strong> <strong>Phonetic Calibration</strong> and <strong>Lexical Transcription</strong> provide high-fidelity acoustic feedback for precise prosodic control.
               </p>
             </div>
           </div>

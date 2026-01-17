@@ -143,63 +143,67 @@ export default function DictationClient({
     };
 
     return (
-        <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-orange-50 to-amber-50">
+        <div className="min-h-screen py-16 px-4 bg-parchment">
             <div className="max-w-2xl mx-auto">
                 {/* 头部 */}
-                <div className="mb-6 bg-white rounded-xl shadow-md p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                            <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
-                            Dictation Practice
+                <div className="mb-10 paper-card p-10 border-slate-100">
+                    <div className="flex items-center justify-between mb-8">
+                        <h1 className="text-2xl font-bold text-slate-900 border-l-4 border-accent pl-4 header-serif">
+                            Transcription Module
                         </h1>
-                        <PracticeTimer isActive={true} onTimeUpdate={setTotalTime} />
+                        <div className="bg-accent/5 text-accent px-3 py-1 rounded font-bold text-xs tracking-widest">
+                            <PracticeTimer isActive={true} onTimeUpdate={setTotalTime} />
+                        </div>
                     </div>
-                    <PracticeProgress
-                        current={currentIndex + 1}
-                        total={words.length}
-                        showPercentage
-                    />
+                    <div className="space-y-3">
+                        <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            <span>Transcription Progress</span>
+                            <span>{currentIndex + 1} / {words.length}</span>
+                        </div>
+                        <PracticeProgress
+                            current={currentIndex + 1}
+                            total={words.length}
+                        />
+                    </div>
                 </div>
 
                 {/* 题目卡片 */}
-                <div className="bg-white rounded-xl shadow-lg p-8 mb-6 min-h-[450px] flex flex-col items-center justify-center">
+                <div className="paper-card p-12 mb-10 min-h-[450px] flex flex-col items-center justify-center border-slate-200">
                     {/* 听力区域 */}
-                    <div className="mb-12 text-center">
-                        <div className="mb-8">
+                    <div className="mb-12 text-center w-full">
+                        <div className="mb-10">
                             <button
                                 onClick={handlePlaySound}
-                                className="w-32 h-32 bg-orange-500 hover:bg-orange-600 text-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110 group active:scale-95"
+                                className="w-32 h-32 bg-accent hover:bg-slate-800 text-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-105 group active:scale-95 mx-auto"
                             >
                                 <svg className="w-16 h-16 transform group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0 9 9 0 010 12.728 1 1 0 11-1.414-1.414 7 7 0 000-9.9 1 1 0 010-1.414zm-2.122 2.122a1 1 0 011.414 0 5 5 0 010 7.071 1 1 0 11-1.414-1.414 3 3 0 000-4.243 1 1 0 010-1.414z" clipRule="evenodd" />
                                 </svg>
                             </button>
-                            <p className="mt-4 text-orange-600 font-bold animate-pulse">Click to Listen</p>
+                            <p className="mt-4 text-[10px] font-bold text-accent uppercase tracking-[0.2em]">Acoustic Reference</p>
                         </div>
 
-                        {/* 隐藏的内容/提示 */}
-                        <div className="h-16 flex items-center justify-center">
+                        {/* Hint Area */}
+                        <div className="h-12 flex items-center justify-center">
                             {showHint ? (
-                                <div className="text-center animate-fade-in">
-                                    <p className="text-gray-500 text-sm mb-1 uppercase tracking-widest">Meaning</p>
-                                    <p className="text-xl font-medium text-gray-800">{currentWord.english}</p>
+                                <div className="text-center animate-fade-in bg-slate-50 px-6 py-2 rounded-lg border border-slate-100">
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-3">Semantic:</span>
+                                    <span className="text-lg font-bold text-slate-700 header-serif">{currentWord.english}</span>
                                 </div>
                             ) : (
                                 <button
                                     onClick={() => setShowHint(true)}
-                                    className="text-orange-400 hover:text-orange-600 text-sm font-medium underline underline-offset-4"
+                                    className="text-accent/60 hover:text-accent text-[10px] font-bold uppercase tracking-widest underline underline-offset-4 decoration-accent/20"
                                 >
-                                    Need a hint? (Show meaning)
+                                    Access Semantic Hint
                                 </button>
                             )}
                         </div>
                     </div>
 
                     {/* 题目 */}
-                    <h3 className="text-xl font-semibold text-gray-900 mb-8 text-center px-4">
-                        Which characters match the audio?
+                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-8 text-center px-4">
+                        Identify Correlative Characters
                     </h3>
 
                     {/* 选项 */}
@@ -208,18 +212,18 @@ export default function DictationClient({
                             const isSelected = selectedAnswer === option;
                             const isCorrectAnswer = option === currentWord.chinese;
 
-                            let buttonClass = 'p-6 text-3xl font-bold bg-white rounded-2xl border-4 transition-all shadow-md ';
+                            let buttonClass = 'p-8 text-4xl font-bold rounded-2xl border-2 transition-all shadow-sm flex items-center justify-center ';
 
                             if (isSelected) {
                                 if (isCorrect) {
-                                    buttonClass += 'border-green-500 bg-green-50 text-green-700 pointer-events-none scale-105';
+                                    buttonClass += 'border-accent bg-accent/5 text-accent';
                                 } else {
-                                    buttonClass += 'border-red-500 bg-red-50 text-red-700 pointer-events-none scale-105';
+                                    buttonClass += 'border-red-500 bg-red-50 text-red-700';
                                 }
                             } else if (selectedAnswer && isCorrectAnswer) {
-                                buttonClass += 'border-green-300 bg-green-50 text-green-600';
+                                buttonClass += 'border-accent/30 bg-accent/5 text-accent';
                             } else {
-                                buttonClass += 'border-gray-100 hover:border-orange-300 hover:bg-orange-50 text-gray-800';
+                                buttonClass += 'border-slate-100 bg-slate-50 text-slate-800 hover:border-primary hover:bg-white';
                             }
 
                             return (
@@ -236,22 +240,22 @@ export default function DictationClient({
                     </div>
 
                     {/* 反馈信息 */}
-                    <div className="h-10 mt-8">
-                        {selectedAnswer && (
-                            <p className={`text-lg font-bold flex items-center justify-center gap-2 ${isCorrect ? 'text-green-600' : 'text-red-500'}`}>
+                    {selectedAnswer && (
+                        <div className={`mt-8 p-6 rounded-xl border w-full max-w-md ${isCorrect ? 'bg-accent/5 border-accent/10' : 'bg-red-50 border-red-100'}`}>
+                            <p className={`text-center font-bold mb-0 flex items-center justify-center gap-2 ${isCorrect ? 'text-accent' : 'text-red-700'}`}>
                                 {isCorrect ? (
-                                    <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Well done!</>
+                                    <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Transcription Verified</>
                                 ) : (
-                                    <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg> It's "{currentWord.pinyin}"</>
+                                    <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg> Phonetic Mismatch: {currentWord.pinyin}</>
                                 )}
                             </p>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* 底部提示 */}
-                <div className="text-center text-gray-500 text-sm">
-                    Listen carefully to the tone and syllables!
+                <div className="text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-10">
+                    Auditory-to-Graph Calibration Loop
                 </div>
             </div>
         </div>

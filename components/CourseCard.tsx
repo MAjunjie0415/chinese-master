@@ -33,11 +33,11 @@ export default function CourseCard({
   // Display different icon and color based on category
   const getCategoryDisplay = (cat: string) => {
     if (cat === 'business') {
-      return { icon: 'briefcase', label: 'Business', color: 'bg-slate-100 text-slate-700' };
+      return { icon: 'briefcase', label: 'Business', color: 'bg-primary/5 text-primary border border-primary/10' };
     }
     if (cat.startsWith('hsk')) {
       const level = cat.replace('hsk', '');
-      return { icon: 'book', label: `HSK ${level}`, color: 'bg-emerald-50 text-emerald-800 border border-emerald-100' };
+      return { icon: 'book', label: `HSK ${level}`, color: 'bg-accent/5 text-accent border border-accent/10' };
     }
     return { icon: 'book', label: cat, color: 'bg-slate-50 text-slate-600 border border-slate-100' };
   };
@@ -61,7 +61,7 @@ export default function CourseCard({
       {[1, 2, 3].map((i) => (
         <div
           key={i}
-          className={`h-1 w-3 rounded-full ${i <= level ? 'bg-amber-500' : 'bg-slate-200'}`}
+          className={`h-1 w-3 rounded-full ${i <= level ? 'bg-primary' : 'bg-slate-200'}`}
         />
       ))}
     </div>
@@ -88,17 +88,17 @@ export default function CourseCard({
     if (isCompleted) {
       return (
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-accent/10 text-accent">
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
-            Completed
+            Verified
           </span>
           <Link
             href={`/courses/${slug}`}
-            className="inline-block bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+            className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg font-bold transition-all text-xs uppercase tracking-widest text-center"
           >
-            Review Again
+            Review
           </Link>
         </div>
       );
@@ -106,25 +106,25 @@ export default function CourseCard({
 
     if (isEnrolled) {
       return (
-        <div className="space-y-2">
+        <div className="space-y-3">
           {/* Progress Bar */}
           {progress > 0 && (
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-slate-100 rounded-full h-1 overflow-hidden">
               <div
-                className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
+                className="bg-primary h-full rounded-full transition-all duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
           )}
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">
-              {progress === 0 ? 'Just started' : `${progress}% complete`}
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              {progress === 0 ? 'Commence' : `${progress}% Proficiency`}
             </span>
             <Link
               href={`/courses/${slug}`}
-              className="inline-block bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+              className="inline-block bg-primary hover:bg-slate-800 text-white px-4 py-2 rounded-lg font-bold transition-all text-xs uppercase tracking-widest"
             >
-              Continue →
+              Resume →
             </Link>
           </div>
         </div>
@@ -135,9 +135,9 @@ export default function CourseCard({
     return (
       <Link
         href={`/courses/${slug}`}
-        className="inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors w-full text-center"
+        className="inline-block bg-primary hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-bold transition-all w-full text-center text-xs uppercase tracking-widest shadow-sm"
       >
-        Start Learning →
+        Enroll in Course →
       </Link>
     );
   };
