@@ -143,12 +143,12 @@ export default function DictationClient({
     };
 
     return (
-        <div className="min-h-screen py-16 px-4 bg-parchment">
+        <div className="min-h-screen py-6 px-4 bg-parchment">
             <div className="max-w-2xl mx-auto">
                 {/* 头部 */}
-                <div className="mb-10 paper-card p-10 border-slate-100">
-                    <div className="flex items-center justify-between mb-8">
-                        <h1 className="text-2xl font-bold text-slate-900 border-l-4 border-accent pl-4 header-serif">
+                <div className="mb-4 paper-card p-6 border-slate-100">
+                    <div className="flex items-center justify-between mb-4">
+                        <h1 className="text-xl font-bold text-slate-900 border-l-4 border-accent pl-4 header-serif">
                             Transcription Module
                         </h1>
                         <div className="bg-accent/5 text-accent px-3 py-1 rounded font-bold text-xs tracking-widest">
@@ -168,23 +168,23 @@ export default function DictationClient({
                 </div>
 
                 {/* 题目卡片 */}
-                <div className="paper-card p-12 mb-10 min-h-[450px] flex flex-col items-center justify-center border-slate-200">
+                <div className="paper-card p-6 md:p-8 mb-4 flex flex-col items-center justify-center border-slate-200">
                     {/* 听力区域 */}
-                    <div className="mb-12 text-center w-full">
-                        <div className="mb-10">
+                    <div className="mb-6 text-center w-full">
+                        <div className="mb-4">
                             <button
                                 onClick={handlePlaySound}
-                                className="w-32 h-32 bg-accent hover:bg-slate-800 text-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-105 group active:scale-95 mx-auto"
+                                className="w-24 h-24 bg-accent hover:bg-slate-800 text-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-105 group active:scale-95 mx-auto"
                             >
-                                <svg className="w-16 h-16 transform group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                                <svg className="w-12 h-12 transform group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0 9 9 0 010 12.728 1 1 0 11-1.414-1.414 7 7 0 000-9.9 1 1 0 010-1.414zm-2.122 2.122a1 1 0 011.414 0 5 5 0 010 7.071 1 1 0 11-1.414-1.414 3 3 0 000-4.243 1 1 0 010-1.414z" clipRule="evenodd" />
                                 </svg>
                             </button>
-                            <p className="mt-4 text-[10px] font-bold text-accent uppercase tracking-[0.2em]">Acoustic Reference</p>
+                            <p className="mt-2 text-[10px] font-bold text-accent uppercase tracking-[0.2em]">Acoustic Reference</p>
                         </div>
 
                         {/* Hint Area */}
-                        <div className="h-12 flex items-center justify-center">
+                        <div className="h-10 flex items-center justify-center">
                             {showHint ? (
                                 <div className="text-center animate-fade-in bg-slate-50 px-6 py-2 rounded-lg border border-slate-100">
                                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-3">Semantic:</span>
@@ -202,17 +202,17 @@ export default function DictationClient({
                     </div>
 
                     {/* 题目 */}
-                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-8 text-center px-4">
+                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-4 text-center px-4">
                         Identify Correlative Characters
                     </h3>
 
                     {/* 选项 */}
-                    <div className="grid grid-cols-2 gap-6 w-full max-w-md">
+                    <div className="grid grid-cols-2 gap-4 w-full max-w-md">
                         {options.map((option, index) => {
                             const isSelected = selectedAnswer === option;
                             const isCorrectAnswer = option === currentWord.chinese;
 
-                            let buttonClass = 'p-8 text-4xl font-bold rounded-2xl border-2 transition-all shadow-sm flex items-center justify-center ';
+                            let buttonClass = 'p-6 text-3xl font-bold rounded-xl border-2 transition-all shadow-sm flex items-center justify-center ';
 
                             if (isSelected) {
                                 if (isCorrect) {
@@ -241,7 +241,7 @@ export default function DictationClient({
 
                     {/* 反馈信息 */}
                     {selectedAnswer && (
-                        <div className={`mt-8 p-6 rounded-xl border w-full max-w-md ${isCorrect ? 'bg-accent/5 border-accent/10' : 'bg-red-50 border-red-100'}`}>
+                        <div className={`mt-4 p-4 rounded-xl border w-full max-w-md ${isCorrect ? 'bg-accent/5 border-accent/10' : 'bg-red-50 border-red-100'}`}>
                             <p className={`text-center font-bold mb-0 flex items-center justify-center gap-2 ${isCorrect ? 'text-accent' : 'text-red-700'}`}>
                                 {isCorrect ? (
                                     <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Transcription Verified</>
@@ -254,7 +254,7 @@ export default function DictationClient({
                 </div>
 
                 {/* 底部提示 */}
-                <div className="text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-10">
+                <div className="text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-4">
                     Auditory-to-Graph Calibration Loop
                 </div>
             </div>

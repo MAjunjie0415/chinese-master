@@ -30,13 +30,13 @@ type ReviewComponentProps = {
 // 骨架屏组件
 const WordSkeleton = () => (
   <div className="max-w-2xl mx-auto">
-    <div className="h-6 bg-gray-200 rounded w-1/3 mb-6 animate-pulse"></div>
-    <div className="bg-white rounded-xl shadow-lg p-8 md:p-12">
-      <div className="h-8 bg-gray-200 rounded w-1/2 mx-auto mb-8 animate-pulse"></div>
-      <div className="h-6 bg-gray-200 rounded w-full mb-6 animate-pulse"></div>
-      <div className="h-10 bg-gray-200 rounded w-2/3 mx-auto mb-4 animate-pulse"></div>
-      <div className="h-6 bg-gray-200 rounded w-full mb-6 animate-pulse"></div>
-      <div className="h-12 bg-gray-200 rounded w-full animate-pulse"></div>
+    <div className="h-6 bg-slate-200 rounded w-1/3 mb-6 animate-pulse"></div>
+    <div className="paper-card p-8 md:p-12">
+      <div className="h-8 bg-slate-200 rounded w-1/2 mx-auto mb-8 animate-pulse"></div>
+      <div className="h-6 bg-slate-200 rounded w-full mb-6 animate-pulse"></div>
+      <div className="h-10 bg-slate-200 rounded w-2/3 mx-auto mb-4 animate-pulse"></div>
+      <div className="h-6 bg-slate-200 rounded w-full mb-6 animate-pulse"></div>
+      <div className="h-12 bg-slate-200 rounded w-full animate-pulse"></div>
     </div>
   </div>
 );
@@ -63,30 +63,30 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
   // 初始加载骨架屏
   if (isInitialLoading) {
     return (
-      <div className="min-h-screen py-8 px-4">
+      <div className="min-h-screen py-8 px-4 bg-parchment">
         <WordSkeleton />
       </div>
     );
   }
 
-  // 空数据处理 - 优化版
+  // 空数据处理 - Premium版
   if (reviews.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4">
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-parchment">
         <div className="text-center max-w-md">
-          <div className="w-20 h-20 mx-auto mb-6 bg-green-100 rounded-full flex items-center justify-center">
-            <svg className="w-12 h-12 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+          <div className="w-20 h-20 mx-auto mb-6 bg-accent/10 rounded-full flex items-center justify-center">
+            <svg className="w-12 h-12 text-accent" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-green-600 mb-2">Great job!</h2>
-          <p className="text-xl text-gray-900 mb-4">No reviews today!</p>
-          <p className="text-gray-600 mb-8">
+          <h2 className="text-2xl font-bold text-accent mb-2 header-serif">Great job!</h2>
+          <p className="text-xl text-slate-900 mb-4 font-bold">No reviews today!</p>
+          <p className="text-slate-600 mb-8 font-medium">
             You&apos;ve completed all your reviews. Come back tomorrow for more!
           </p>
           <button
             onClick={() => router.push('/')}
-            className="w-full md:w-auto bg-gray-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-gray-700 active:scale-95 transition-all"
+            className="w-full md:w-auto bg-primary text-white px-10 py-4 rounded font-bold hover:bg-slate-800 active:scale-95 transition-all text-xs uppercase tracking-widest shadow-sm"
           >
             Back to Home
           </button>
@@ -266,7 +266,7 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
     const accuracy = totalReviewed > 0 ? Math.round((reviewStats.correct / totalReviewed) * 100) : 0;
 
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-gradient-to-br from-blue-50 via-white to-emerald-50">
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-parchment">
         {/* 庆祝动画 */}
         {showCelebration && (
           <ReviewCelebration
@@ -277,51 +277,51 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
 
         <div className="text-center max-w-2xl w-full">
           {/* 完成图标 */}
-          <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-full flex items-center justify-center animate-bounce">
-            <svg className="w-14 h-14 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+          <div className="w-24 h-24 mx-auto mb-6 bg-accent/10 rounded-full flex items-center justify-center animate-bounce">
+            <svg className="w-14 h-14 text-accent" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clipRule="evenodd" />
             </svg>
           </div>
 
-          <h2 className="text-4xl font-bold mb-4 text-gray-900">Review Complete!</h2>
-          <p className="text-xl text-gray-600 mb-8">
-            Great job! You&apos;ve reviewed <strong className="text-orange-600">{reviews.length}</strong> words today.
+          <h2 className="text-4xl font-bold mb-4 text-slate-900 header-serif">Review Complete!</h2>
+          <p className="text-xl text-slate-600 mb-8 font-medium">
+            Great job! You&apos;ve reviewed <strong className="text-accent">{reviews.length}</strong> words today.
           </p>
 
           {/* 复习统计卡片 */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Your Review Stats</h3>
+          <div className="paper-card p-8 mb-6">
+            <h3 className="text-xl font-bold text-slate-900 mb-6 header-serif">Your Review Stats</h3>
 
             <div className="grid grid-cols-3 gap-4 mb-6">
               {/* 正确率 */}
-              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 text-center">
-                <div className="text-3xl font-bold text-green-600 mb-1">
+              <div className="bg-accent/5 rounded-xl p-4 text-center">
+                <div className="text-3xl font-bold text-accent mb-1">
                   {accuracy}%
                 </div>
-                <div className="text-sm text-gray-600">Accuracy</div>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Accuracy</div>
               </div>
 
               {/* 正确数 */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-1">
+              <div className="bg-primary/5 rounded-xl p-4 text-center">
+                <div className="text-3xl font-bold text-primary mb-1">
                   {reviewStats.correct}
                 </div>
-                <div className="text-sm text-gray-600">Still Know</div>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Still Know</div>
               </div>
 
               {/* 错误数 */}
-              <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 text-center">
-                <div className="text-3xl font-bold text-orange-600 mb-1">
+              <div className="bg-red-50 rounded-xl p-4 text-center">
+                <div className="text-3xl font-bold text-red-600 mb-1">
                   {reviewStats.incorrect}
                 </div>
-                <div className="text-sm text-gray-600">Forgot</div>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Forgot</div>
               </div>
             </div>
 
             {/* 鼓励语 */}
             {accuracy >= 80 && (
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-4 mb-4">
-                <p className="text-green-700 font-semibold flex items-center gap-2">
+              <div className="bg-accent/5 border border-accent/10 rounded-xl p-4 mb-4">
+                <p className="text-accent font-bold flex items-center gap-2 justify-center">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
@@ -330,8 +330,8 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
               </div>
             )}
             {accuracy >= 60 && accuracy < 80 && (
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl p-4 mb-4">
-                <p className="text-blue-700 font-semibold flex items-center gap-2">
+              <div className="bg-primary/5 border border-primary/10 rounded-xl p-4 mb-4">
+                <p className="text-primary font-bold flex items-center gap-2 justify-center">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                   </svg>
@@ -340,8 +340,8 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
               </div>
             )}
             {accuracy < 60 && (
-              <div className="bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-300 rounded-xl p-4 mb-4">
-                <p className="text-orange-700 font-semibold flex items-center gap-2">
+              <div className="bg-red-50 border border-red-100 rounded-xl p-4 mb-4">
+                <p className="text-red-600 font-bold flex items-center gap-2 justify-center">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
@@ -356,25 +356,12 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
             <AchievementDisplay compact={true} />
           </div>
 
-          {/* 鼓励继续学习的卡片 */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl p-6 mb-6">
-            <p className="text-gray-700 font-semibold mb-2 text-lg flex items-center gap-2">
-              <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
-              </svg>
-              <strong>Keep the momentum going!</strong>
-            </p>
-            <p className="text-sm text-gray-600">
-              You&apos;ve reviewed {reviews.length} words from your courses. Keep learning to expand your vocabulary!
-            </p>
-          </div>
-
           {/* 操作按钮 */}
           <div className="space-y-3">
             {/* 优先按钮：继续学习 */}
             <button
               onClick={() => router.push('/courses')}
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-blue-800 active:scale-95 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+              className="w-full bg-primary text-white px-8 py-4 rounded font-bold text-xs uppercase tracking-widest hover:bg-slate-800 active:scale-95 transition-all shadow-sm flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -384,7 +371,7 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
 
             <button
               onClick={() => router.push('/')}
-              className="w-full bg-gray-200 text-gray-700 px-8 py-4 rounded-xl font-semibold hover:bg-gray-300 active:scale-95 transition-all flex items-center justify-center gap-2"
+              className="w-full bg-slate-100 text-slate-700 px-8 py-4 rounded font-bold text-xs uppercase tracking-widest hover:bg-slate-200 active:scale-95 transition-all flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -400,13 +387,13 @@ export default function ReviewComponent({ reviews, userId }: ReviewComponentProp
   const remainingCount = reviews.length - currentIndex - 1;
 
   return (
-    <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-blue-50 via-white to-emerald-50">
+    <div className="min-h-screen py-8 px-4 bg-parchment">
       <div className="max-w-2xl mx-auto">
         {/* 标题 */}
-        <h1 className="text-2xl font-bold text-center mb-6 text-gray-900">Today&apos;s Reviews</h1>
+        <h1 className="text-2xl font-bold text-center mb-6 text-slate-900 header-serif">Today&apos;s Reviews</h1>
 
-        {/* 进度可视化 - 优化版 */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+        {/* 进度可视化 */}
+        <div className="paper-card p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             {/* 进度圆环 */}
             <ReviewProgressRing

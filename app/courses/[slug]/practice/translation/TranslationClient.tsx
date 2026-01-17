@@ -157,12 +157,12 @@ export default function TranslationClient({
     };
 
     return (
-        <div className="min-h-screen py-16 px-4 bg-parchment">
+        <div className="min-h-screen py-6 px-4 bg-parchment">
             <div className="max-w-2xl mx-auto">
                 {/* 头部 */}
-                <div className="mb-10 paper-card p-10 border-slate-100">
-                    <div className="flex items-center justify-between mb-8">
-                        <h1 className="text-2xl font-bold text-slate-900 border-l-4 border-primary pl-4 header-serif">
+                <div className="mb-4 paper-card p-6 border-slate-100">
+                    <div className="flex items-center justify-between mb-4">
+                        <h1 className="text-xl font-bold text-slate-900 border-l-4 border-primary pl-4 header-serif">
                             Synthesis Module
                         </h1>
                         <div className="bg-primary/5 text-primary px-3 py-1 rounded font-bold text-xs tracking-widest">
@@ -182,38 +182,38 @@ export default function TranslationClient({
                 </div>
 
                 {/* 题目卡片 */}
-                <div className="paper-card p-12 mb-10 min-h-[450px] flex flex-col justify-center border-slate-200">
+                <div className="paper-card p-6 md:p-8 mb-4 flex flex-col justify-center border-slate-200">
                     {/* 问题区域 */}
-                    <div className="text-center mb-12">
-                        <span className="text-[10px] font-bold text-slate-400 border border-slate-200 bg-slate-50 px-4 py-1 rounded-full mb-8 inline-block uppercase tracking-widest">
-                            {direction === 0 ? 'Translation: Hanzi → English' : 'Translation: English → Hanzi'}
+                    <div className="text-center mb-6">
+                        <span className="text-[10px] font-bold text-slate-400 border border-slate-200 bg-slate-50 px-4 py-1 rounded-full mb-4 inline-block uppercase tracking-widest">
+                            {direction === 0 ? 'Hanzi → English' : 'English → Hanzi'}
                         </span>
 
-                        <div className="py-12">
+                        <div className="py-6">
                             {direction === 0 ? (
                                 <>
-                                    <div className="text-7xl font-bold text-slate-900 mb-4 header-serif">
+                                    <div className="text-5xl font-bold text-slate-900 mb-2 header-serif">
                                         {currentWord.chinese}
                                     </div>
-                                    <div className="text-xl text-slate-400 font-bold uppercase tracking-[0.2em]">
+                                    <div className="text-lg text-slate-400 font-bold uppercase tracking-[0.2em]">
                                         {currentWord.pinyin}
                                     </div>
                                 </>
                             ) : (
-                                <div className="text-5xl font-bold text-slate-900 header-serif leading-tight">
+                                <div className="text-3xl font-bold text-slate-900 header-serif leading-tight">
                                     {currentWord.english}
                                 </div>
                             )}
                         </div>
 
                         {/* 播放按钮 */}
-                        <div className="mt-4">
+                        <div className="mt-2">
                             <button
                                 onClick={handlePlaySound}
-                                className="p-4 bg-primary/5 hover:bg-primary/10 text-primary rounded-full transition-all active:scale-90"
+                                className="p-3 bg-primary/5 hover:bg-primary/10 text-primary rounded-full transition-all active:scale-90"
                                 title="Acoustic Reference"
                             >
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 001.414 1.414m0 0a5 5 0 007.072 0m-7.072 0l-1.414 1.414M12 8v8" />
                                 </svg>
                             </button>
@@ -221,13 +221,13 @@ export default function TranslationClient({
                     </div>
 
                     {/* 选项 */}
-                    <div className="grid grid-cols-1 gap-4">
+                    <div className="grid grid-cols-2 gap-3">
                         {options.map((option, index) => {
                             const isSelected = selectedAnswer === option;
                             const correctValue = direction === 0 ? currentWord.english : currentWord.chinese;
                             const isCorrectAnswer = option === correctValue;
 
-                            let buttonClass = 'w-full p-6 text-left rounded-xl border-2 font-bold text-lg transition-all shadow-sm flex items-center justify-between ';
+                            let buttonClass = 'w-full p-4 text-center rounded-xl border-2 font-bold text-base transition-all shadow-sm flex flex-col items-center justify-center gap-1 ';
 
                             if (isSelected) {
                                 if (isCorrect) {
@@ -248,12 +248,12 @@ export default function TranslationClient({
                                     disabled={selectedAnswer !== null}
                                     className={buttonClass}
                                 >
-                                    <span>{option}</span>
+                                    <span className="truncate w-full">{option}</span>
                                     {isSelected && (
                                         isCorrect ? (
-                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
                                         ) : (
-                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
+                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
                                         )
                                     )}
                                 </button>
@@ -262,9 +262,9 @@ export default function TranslationClient({
                     </div>
 
                     {/* 反馈 */}
-                    <div className="h-16 mt-6">
+                    <div className="h-12 mt-4">
                         {selectedAnswer && (
-                            <div className={`p-3 rounded-lg text-center font-bold flex items-center justify-center gap-2 ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
+                            <div className={`p-2 rounded-lg text-center font-bold flex items-center justify-center gap-2 ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
                                 {isCorrect ? (
                                     <><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg> Correct!</>
                                 ) : (
@@ -276,8 +276,8 @@ export default function TranslationClient({
                 </div>
 
                 {/* 底部提示 */}
-                <div className="text-center text-gray-500 text-sm italic">
-                    Tip: Both directions are randomized to challenge your memory!
+                <div className="text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">
+                    Both directions are randomized
                 </div>
             </div>
         </div>
