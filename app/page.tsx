@@ -25,7 +25,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-parchment">
       {/* Hero Section - Refined & Academic */}
-      <section id="hero" className="min-h-screen flex items-center px-4 py-20 md:py-24 bg-slate-50 border-b border-slate-100">
+      <section id="hero" className="min-h-screen flex items-center px-4 py-20 md:py-24 border-b border-primary/5">
         <div className="max-w-6xl mx-auto">
           <div className="text-center max-w-4xl mx-auto space-y-8">
             {/* Badge */}
@@ -105,8 +105,8 @@ export default async function Home() {
             <p className="text-emerald-600 font-medium text-sm tracking-widest uppercase mb-4">
               Why Choose Us
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Built for <span className="text-emerald-600">Professionals</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 header-serif">
+              Built for <span className="text-accent underline decoration-accent/10 underline-offset-4">Professionals</span>
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Three powerful features designed for busy professionals who need real results
@@ -121,7 +121,7 @@ export default async function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">Real Workplace Vocabulary</h3>
+              <h3 className="text-xl font-bold mb-3 text-slate-900 header-serif">Real Workplace Vocabulary</h3>
               <p className="text-gray-600 leading-relaxed">
                 Learn words from actual emails, contracts, and meeting notes — not textbook Chinese that nobody uses.
               </p>
@@ -134,7 +134,7 @@ export default async function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">AI-Powered Personalization</h3>
+              <h3 className="text-xl font-bold mb-3 text-slate-900 header-serif">AI-Powered Personalization</h3>
               <p className="text-gray-600 leading-relaxed">
                 Upload your work documents — our AI extracts vocabulary and creates personalized courses instantly.
               </p>
@@ -147,7 +147,7 @@ export default async function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">Track Your Progress</h3>
+              <h3 className="text-xl font-bold mb-3 text-slate-900 header-serif">Track Your Progress</h3>
               <p className="text-gray-600 leading-relaxed">
                 Smart spaced repetition ensures you never forget. See your improvement with detailed analytics.
               </p>
@@ -163,8 +163,8 @@ export default async function Home() {
             <p className="text-emerald-600 font-medium text-sm tracking-widest uppercase mb-4">
               Pricing Plans
             </p>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
-              Invest in Your <span className="text-emerald-600">Career</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 header-serif">
+              Invest in Your <span className="text-accent underline decoration-accent/10 underline-offset-8">Career</span>
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Choose the plan that fits your professional growth goals.
@@ -192,7 +192,7 @@ export default async function Home() {
                   </li>
                 ))}
               </ul>
-              <Link href="/login" className="w-full py-4 text-center rounded-xl border-2 border-emerald-600 text-emerald-600 font-bold hover:bg-emerald-50 transition-colors">
+              <Link href="/login" className="w-full py-4 text-center rounded-xl border-2 border-primary text-primary font-bold hover:bg-white/50 transition-colors">
                 Start for Free
               </Link>
             </div>
@@ -227,7 +227,7 @@ export default async function Home() {
                   </li>
                 ))}
               </ul>
-              <Link href="/upgrade" className="w-full py-4 text-center rounded-xl bg-white text-emerald-700 font-bold hover:bg-emerald-50 shadow-lg transition-colors">
+              <Link href="/upgrade" className="w-full py-4 text-center rounded-xl bg-white text-primary font-bold hover:bg-white/90 shadow-lg transition-colors">
                 Subscribe Now
               </Link>
             </div>
@@ -270,7 +270,7 @@ export default async function Home() {
 
           <div className="mt-16 text-center">
             <p className="text-gray-500 mb-4">Need scaling for your organization?</p>
-            <a href="mailto:support@bizchinese.cc" className="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:underline">
+            <a href="mailto:support@bizchinese.cc" className="inline-flex items-center gap-2 text-primary font-bold uppercase tracking-wider text-xs hover:underline decoration-accent underline-offset-4">
               Contact us for Team Pricing
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -287,8 +287,8 @@ export default async function Home() {
             <p className="text-emerald-600 font-medium text-sm tracking-widest uppercase mb-4">
               Start Learning
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Choose Your <span className="text-emerald-600">Path</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 header-serif">
+              Choose Your <span className="text-accent">Path</span>
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Learn Chinese for the real workplace — courses designed for professionals
@@ -313,7 +313,7 @@ export default async function Home() {
               </div>
               <Link
                 href="/courses"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-primary hover:bg-slate-800 text-white font-bold transition-all shadow-sm active:scale-95"
               >
                 Browse Courses →
               </Link>
@@ -336,7 +336,7 @@ export default async function Home() {
               </div>
               <Link
                 href="/create-course"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-accent hover:opacity-90 text-white font-bold transition-all shadow-sm active:scale-95"
               >
                 Create Course →
               </Link>
@@ -359,8 +359,8 @@ export default async function Home() {
             <p className="text-emerald-600 font-medium text-sm tracking-widest uppercase mb-4">
               Getting Started
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              3 Steps to <span className="text-emerald-600">Success</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 header-serif">
+              3 Steps to <span className="text-accent underline decoration-accent/10 underline-offset-8">Success</span>
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Simple process, powerful results
@@ -411,8 +411,8 @@ export default async function Home() {
             <p className="text-emerald-600 font-medium text-sm tracking-widest uppercase mb-4">
               Success Stories
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              What <span className="text-emerald-600">Users</span> Say
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 header-serif">
+              What <span className="text-accent">Users</span> Say
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Real feedback from learners around the world
@@ -478,7 +478,7 @@ export default async function Home() {
             <span className="text-emerald-600 font-semibold tracking-wider uppercase text-sm mb-2 block">
               The Science Behind Learning
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 header-serif">
               Why Traditional Flashcards Fail
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -541,7 +541,7 @@ export default async function Home() {
       {/* FAQ Section */}
       <section id="faq" className="py-20 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-slate-900 header-serif">
             Common Questions
           </h2>
           <p className="text-center text-gray-600 mb-16">
@@ -625,7 +625,7 @@ export default async function Home() {
               <p className="text-emerald-600 font-medium text-sm tracking-widest uppercase mb-4">
                 Welcome back
               </p>
-              <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900">
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 text-slate-900 header-serif">
                 Continue Your Learning Journey
               </h2>
               <p className="text-xl mb-10 text-gray-600 max-w-2xl mx-auto">
@@ -647,7 +647,7 @@ export default async function Home() {
               <p className="text-emerald-600 font-medium text-sm tracking-widest uppercase mb-4">
                 Get Started
               </p>
-              <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 text-center">
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 text-slate-900 text-center header-serif">
                 Start Learning Today
               </h2>
               <p className="text-xl mb-10 text-gray-600 max-w-2xl mx-auto">
@@ -657,7 +657,7 @@ export default async function Home() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/login"
-                  className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-emerald-600 text-white font-bold text-lg shadow-lg shadow-emerald-200 hover:bg-emerald-700 transition-all hover:scale-105"
+                  className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-primary text-white font-bold text-lg shadow-lg shadow-primary/10 hover:bg-slate-800 transition-all hover:scale-105 active:scale-95"
                 >
                   Sign Up Free →
                 </Link>
@@ -702,7 +702,7 @@ export default async function Home() {
             <div>
               <div className="flex items-center gap-2 mb-6">
                 <img src="/icon.png" alt="BizChinese Logo" className="w-8 h-8 rounded-lg" />
-                <h3 className="text-2xl font-bold text-emerald-600">BizChinese</h3>
+                <h3 className="text-2xl font-bold text-slate-900 header-serif uppercase tracking-widest">BizChinese</h3>
               </div>
               <p className="text-gray-600 leading-relaxed">
                 The smartest way for professionals to master Business Chinese. Built for results.

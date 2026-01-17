@@ -113,7 +113,7 @@ export default function CreateCourseClient() {
                         maxLength={10000}
                         required
                         placeholder="Examples:&#10;• I want to learn words for business meetings&#10;• Words for negotiating a contract&#10;• 尊敬的李总，感谢贵公司对本次合作的支持..."
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 resize-none text-gray-900 placeholder-gray-400"
+                        className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-slate-50/50 resize-none text-slate-900 placeholder-slate-400 font-medium transition-all"
                     />
                     <p className="mt-1 text-xs text-gray-500">
                         {text.length} / 10,000 characters (min 20) • English description or Chinese text both work!
@@ -129,7 +129,7 @@ export default function CreateCourseClient() {
                 <button
                     type="submit"
                     disabled={isLoading || text.length < 20}
-                    className="w-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-bold py-4 rounded-xl hover:from-teal-600 hover:to-emerald-600 transition-all shadow-lg hover:shadow-xl active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-all shadow-md hover:shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isLoading ? (
                         <span className="flex items-center justify-center gap-2">
@@ -156,42 +156,42 @@ export default function CreateCourseClient() {
         <div className="space-y-6">
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 text-center">
-                <div className="bg-gray-50 rounded-xl p-4">
-                    <div className="text-2xl font-bold text-teal-600">{result.extractedCount}</div>
-                    <div className="text-xs text-gray-500">Words Extracted</div>
+                <div className="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                    <div className="text-2xl font-bold text-primary">{result.extractedCount}</div>
+                    <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">Words Found</div>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                    <div className="text-2xl font-bold text-emerald-600">{result.matchedCount}</div>
-                    <div className="text-xs text-gray-500">In Dictionary</div>
+                <div className="bg-primary/5 border border-primary/10 rounded-xl p-4">
+                    <div className="text-2xl font-bold text-accent">{result.matchedCount}</div>
+                    <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">In Lexicon</div>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                    <div className="text-2xl font-bold text-blue-600">{result.newWordsCount}</div>
-                    <div className="text-xs text-gray-500">New For You</div>
+                <div className="bg-slate-50 border border-slate-100 rounded-xl p-4">
+                    <div className="text-2xl font-bold text-slate-900">{result.newWordsCount}</div>
+                    <div className="text-xs text-slate-500 font-bold uppercase tracking-wider">New For You</div>
                 </div>
             </div>
 
             {/* Word List */}
             <div>
-                <h3 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                    <svg className="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h3 className="font-bold text-slate-800 mb-3 flex items-center gap-2 header-serif">
+                    <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
-                    Select words to include ({selectedWords.size} selected)
+                    Selection List ({selectedWords.size} selected)
                 </h3>
                 <div className="space-y-2 max-h-80 overflow-y-auto">
                     {result.newWords.map((word) => (
                         <label
                             key={word.id}
-                            className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${selectedWords.has(word.id)
-                                ? 'bg-teal-50 border-2 border-teal-300'
-                                : 'bg-gray-50 border-2 border-transparent hover:bg-gray-100'
+                            className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all border-2 ${selectedWords.has(word.id)
+                                ? 'bg-primary/5 border-accent/30'
+                                : 'bg-slate-50 border-transparent hover:bg-slate-100/80'
                                 }`}
                         >
                             <input
                                 type="checkbox"
                                 checked={selectedWords.has(word.id)}
                                 onChange={() => toggleWord(word.id)}
-                                className="w-5 h-5 text-teal-500 rounded"
+                                className="w-5 h-5 text-accent rounded border-slate-300 focus:ring-accent"
                             />
                             <div className="flex-1">
                                 <span className="font-semibold text-gray-900">{word.chinese}</span>
@@ -215,9 +215,9 @@ export default function CreateCourseClient() {
                 <button
                     onClick={handleCreateCourse}
                     disabled={selectedWords.size === 0}
-                    className="flex-1 bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-bold py-3 rounded-xl hover:from-teal-600 hover:to-emerald-600 transition-all disabled:opacity-50"
+                    className="flex-1 bg-accent text-white font-bold py-3 rounded-xl hover:opacity-90 transition-all shadow-md shadow-accent/10 disabled:opacity-50 active:scale-[0.98]"
                 >
-                    Create Course ({selectedWords.size} words)
+                    Create Course ({selectedWords.size})
                 </button>
             </div>
         </div>

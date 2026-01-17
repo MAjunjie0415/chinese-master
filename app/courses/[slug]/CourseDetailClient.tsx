@@ -90,13 +90,13 @@ export default function CourseDetailClient({
   // 根据分类显示不同的颜色和标签
   const getCategoryDisplay = (cat: string) => {
     if (cat === 'business') {
-      return { icon: 'briefcase', label: 'Business', color: 'bg-blue-100 text-blue-700' };
+      return { icon: 'briefcase', label: 'Business', color: 'bg-slate-100 text-slate-700' };
     }
     if (cat.startsWith('hsk')) {
       const level = cat.replace('hsk', '');
-      return { icon: 'book', label: `HSK ${level}`, color: 'bg-emerald-100 text-emerald-700' };
+      return { icon: 'book', label: `HSK ${level}`, color: 'bg-emerald-50 text-emerald-800 border border-emerald-100' };
     }
-    return { icon: 'book', label: cat, color: 'bg-gray-100 text-gray-700' };
+    return { icon: 'book', label: cat, color: 'bg-slate-50 text-slate-600 border border-slate-100' };
   };
 
   const categoryInfo = getCategoryDisplay(course.category);
@@ -141,7 +141,7 @@ export default function CourseDetailClient({
   const learnedWords = Math.round((userProgress / 100) * course.totalWords);
 
   return (
-    <div className="min-h-screen py-8 px-4 bg-gray-50">
+    <div className="min-h-screen py-8 px-4 bg-parchment">
       <div className="max-w-4xl mx-auto">
         {/* 返回按钮 */}
         <Link
@@ -165,7 +165,7 @@ export default function CourseDetailClient({
         </Link>
 
         {/* 课程头部信息 */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+        <div className="paper-card p-8 mb-8 border-slate-200">
           {/* 标签 */}
           <div className="flex items-center gap-3 mb-4">
             <span
@@ -190,27 +190,27 @@ export default function CourseDetailClient({
           </div>
 
           {/* 标题 */}
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 header-serif leading-tight">
             {course.title}
           </h1>
 
           {/* 描述 */}
           {course.description && (
-            <p className="text-lg text-gray-600 mb-6">{course.description}</p>
+            <p className="text-xl text-muted mb-8 leading-relaxed font-medium">{course.description}</p>
           )}
 
           {/* 进度条（仅已添加课程显示） */}
           {isEnrolled && (
-            <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+            <div className="mb-8 p-6 bg-slate-50 rounded-lg border border-slate-100">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-700">Your Progress</span>
-                <span className="text-sm font-semibold text-blue-600">
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Training Progress</span>
+                <span className="text-sm font-bold text-primary">
                   {learnedWords}/{course.totalWords} words ({userProgress}%)
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-3">
+              <div className="w-full bg-slate-200 rounded-full h-1.5">
                 <div
-                  className="bg-blue-600 h-3 rounded-full transition-all duration-300"
+                  className="bg-primary h-1.5 rounded-full transition-all duration-500"
                   style={{ width: `${userProgress}%` }}
                 />
               </div>
@@ -229,49 +229,49 @@ export default function CourseDetailClient({
             {!isLoggedIn ? (
               <Link
                 href={`/login?redirect=/courses/${course.slug}`}
-                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-center transition-colors"
+                className="flex-1 bg-primary hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold text-center transition-all shadow-sm"
               >
-                Login to Start →
+                Access Curriculum →
               </Link>
             ) : isCompleted ? (
               <>
-                <div className="flex-1 flex items-center justify-center gap-2 bg-green-100 text-green-700 px-8 py-4 rounded-lg font-semibold">
+                <div className="flex-1 flex items-center justify-center gap-2 bg-emerald-50 text-emerald-700 px-8 py-4 rounded-lg font-bold border border-emerald-100">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  Course Completed!
+                  Proficiency Verified
                 </div>
                 <button
                   onClick={handleStartLearning}
-                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-8 py-4 rounded-lg font-semibold transition-colors"
+                  className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-lg font-bold transition-all"
                 >
-                  Review Again
+                  Enter Review Sessions
                 </button>
               </>
             ) : isEnrolled ? (
               <button
                 onClick={handleStartLearning}
                 disabled={loading}
-                className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-primary hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm active:scale-[0.98]"
               >
-                {loading ? 'Loading...' : userProgress === 0 ? 'Begin Learning →' : 'Continue Learning →'}
+                {loading ? 'Initializing...' : userProgress === 0 ? 'Commence Training →' : 'Resume Training →'}
               </button>
             ) : (
               <button
                 onClick={handleAddCourse}
                 disabled={loading}
-                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-primary hover:bg-slate-800 text-white px-8 py-4 rounded-lg font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
               >
-                {loading ? 'Adding...' : 'Start Course →'}
+                {loading ? 'Adding...' : 'Enroll in Course →'}
               </button>
             )}
           </div>
         </div>
 
         {/* 单词列表 */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            Words in this course ({courseWords.length})
+        <div className="paper-card p-8 border-slate-200">
+          <h2 className="text-xl font-bold text-slate-800 mb-8 header-serif uppercase tracking-widest opacity-80">
+            Lexicon Composition ({courseWords.length})
           </h2>
 
           {courseWords.length > 0 ? (
@@ -279,42 +279,42 @@ export default function CourseDetailClient({
               {courseWords.map((word, index) => (
                 <div
                   key={word.wordId}
-                  className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="p-5 bg-white border border-slate-100 rounded-lg group hover:border-primary/30 transition-all hover:shadow-sm"
                 >
                   <div className="flex items-start gap-4">
                     {/* 序号 */}
-                    <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                    <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-slate-50 text-slate-400 border border-slate-100 rounded-full text-[10px] font-bold">
                       {index + 1}
                     </span>
 
                     {/* 单词信息（复用v1.0样式） */}
                     <div className="flex-1">
                       {/* 汉字 - 大字体 */}
-                      <div className="text-2xl font-bold text-gray-900 mb-1">
+                      <div className="text-2xl font-bold text-slate-900 mb-1">
                         {word.chinese}
                       </div>
 
-                      {/* 拼音 - 蓝色 */}
-                      <div className="text-lg text-blue-600 mb-2">
+                      {/* 拼音 - 中性色 */}
+                      <div className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">
                         {word.pinyin}
                       </div>
 
-                      {/* 英文释义 - 灰色 */}
-                      <div className="text-base text-gray-700 mb-2">
+                      {/* 英文释义 - 极简感 */}
+                      <div className="text-base text-slate-700 mb-3 border-l-2 border-primary/20 pl-3 py-1 font-medium bg-slate-50/50">
                         {word.english}
                       </div>
 
-                      {/* 例句（如果有） */}
+                      {/* 例句 (如果有) */}
                       {word.example && (
-                        <div className="text-sm text-gray-600 italic">
-                          {word.example}
+                        <div className="text-sm text-muted italic font-medium opacity-80 line-clamp-2">
+                          “{word.example}”
                         </div>
                       )}
 
                       {/* 场景标签（如果有） */}
                       {word.scene && (
-                        <div className="mt-2">
-                          <span className="inline-block bg-blue-100 text-blue-600 px-2 py-1 rounded text-xs">
+                        <div className="mt-4">
+                          <span className="inline-block bg-primary/5 text-primary border border-primary/10 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">
                             {word.scene}
                           </span>
                         </div>

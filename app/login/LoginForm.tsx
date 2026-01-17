@@ -146,26 +146,30 @@ export default function LoginForm() {
   const handleSubmit = mode === 'login' ? handleLogin : handleSignup;
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-white via-emerald-50 to-cyan-50">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-parchment">
       <div className="w-full max-w-md">
         {/* Form Container */}
-        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+        <div className="paper-card p-10 border-slate-200 shadow-sm relative overflow-hidden bg-white">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-slate-50 rounded-full -mr-12 -mt-12" />
+
           {/* Title */}
-          <h1 className="text-3xl font-bold text-center mb-2 text-gray-900">
-            {mode === 'login' ? 'Welcome Back' : 'Create Account'}
-          </h1>
-          <p className="text-center text-gray-600 mb-8">
-            {mode === 'login'
-              ? 'Log in to continue your learning journey'
-              : 'Sign up to start mastering Chinese'}
-          </p>
+          <div className="relative z-10 text-center mb-10">
+            <h1 className="text-3xl font-bold text-slate-900 mb-2 header-serif">
+              {mode === 'login' ? 'Institutional Login' : 'Credential Issuance'}
+            </h1>
+            <p className="text-muted text-sm font-medium">
+              {mode === 'login'
+                ? 'Resume your linguistic curriculum'
+                : 'Initialize your professional profile'}
+            </p>
+          </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+              <label htmlFor="email" className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+                Identifier (Email)
               </label>
               <input
                 id="email"
@@ -173,16 +177,16 @@ export default function LoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                placeholder="you@example.com"
+                className="w-full px-4 py-3 border border-slate-200 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none transition-all placeholder:text-slate-300"
+                placeholder="you@institution.com"
                 disabled={loading}
               />
             </div>
 
             {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+              <label htmlFor="password" className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+                Access Token (Password)
               </label>
               <input
                 id="password"
@@ -191,27 +195,27 @@ export default function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-slate-200 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none transition-all placeholder:text-slate-300"
                 placeholder="••••••••"
                 disabled={loading}
               />
               {mode === 'signup' && (
-                <p className="mt-2 text-sm text-gray-500">
-                  Password must be at least 6 characters
+                <p className="mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-tight">
+                  Entropy requirement: 6+ characters
                 </p>
               )}
             </div>
 
             {/* Error Message */}
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+              <div className="bg-red-50 border border-red-100 text-red-700 px-4 py-3 rounded text-[11px] font-bold uppercase tracking-wider">
                 {error}
               </div>
             )}
 
             {/* Success Message */}
             {success && (
-              <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl text-sm">
+              <div className="bg-emerald-50 border border-emerald-100 text-emerald-700 px-4 py-3 rounded text-[11px] font-bold uppercase tracking-wider">
                 {success}
               </div>
             )}
@@ -220,32 +224,32 @@ export default function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-primary hover:bg-slate-800 text-white font-bold py-4 rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed text-xs uppercase tracking-widest shadow-sm active:scale-[0.98]"
             >
               {loading
-                ? (mode === 'login' ? 'Logging in...' : 'Signing up...')
-                : (mode === 'login' ? 'Log In' : 'Sign Up')}
+                ? (mode === 'login' ? 'Synchronizing...' : 'Generating...')
+                : (mode === 'login' ? 'Authorize Session' : 'Create Credentials')}
             </button>
           </form>
 
           {/* Divider */}
-          <div className="my-6 flex items-center">
-            <div className="flex-1 border-t border-gray-200"></div>
-            <span className="px-4 text-sm text-gray-400">OR</span>
-            <div className="flex-1 border-t border-gray-200"></div>
+          <div className="my-8 flex items-center relative z-10">
+            <div className="flex-1 border-t border-slate-100"></div>
+            <span className="px-4 text-[10px] font-bold text-slate-300 uppercase tracking-widest">Protocol Sync</span>
+            <div className="flex-1 border-t border-slate-100"></div>
           </div>
 
           {/* Google Login Button */}
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full bg-white border-2 border-gray-200 hover:border-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 mb-6"
+            className="w-full bg-white border border-slate-200 hover:border-slate-300 text-slate-600 font-bold py-3.5 rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 mb-6 text-xs uppercase tracking-widest active:scale-[0.98] relative z-10"
           >
             {loading ? (
-              <span>Logging in...</span>
+              <span>Synchronizing...</span>
             ) : (
               <>
-                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path
                     fill="#4285F4"
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -263,47 +267,43 @@ export default function LoginForm() {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                <span>Continue with Google</span>
+                <span>OAuth Integration</span>
               </>
             )}
           </button>
 
           {/* Invite Code Feedback */}
           {inviteCode && (
-            <div className="bg-purple-50 border border-purple-200 text-purple-700 px-4 py-3 rounded-xl text-sm text-center flex items-center justify-center gap-2">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clipRule="evenodd" />
-                <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z" />
-              </svg>
-              Register with invite code to get 3 review credits
+            <div className="bg-slate-50 border border-slate-100 text-primary p-4 rounded text-[10px] font-bold uppercase tracking-widest text-center flex items-center justify-center gap-2 relative z-10 leading-relaxed italic">
+              Affiliate token detected: Mutual synthesis credits pending issuance.
             </div>
           )}
 
           {/* Mode Switch */}
-          <div className="mt-6 text-center">
+          <div className="mt-8 text-center relative z-10 border-t border-slate-50 pt-6">
             <button
               onClick={() => {
                 setMode(mode === 'login' ? 'signup' : 'login');
                 setError('');
                 setSuccess('');
               }}
-              className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
+              className="text-[10px] font-bold text-slate-400 hover:text-primary uppercase tracking-widest transition-colors"
               disabled={loading}
             >
               {mode === 'login'
-                ? "Don't have an account? Sign up"
-                : 'Already have an account? Log in'}
+                ? "Establish NEW Credential Profile"
+                : 'Account identified? Authorize existing'}
             </button>
           </div>
         </div>
 
         {/* Back to Home Link */}
-        <div className="mt-6 text-center">
+        <div className="mt-10 text-center">
           <a
             href="/"
-            className="text-gray-500 hover:text-gray-700 transition-colors"
+            className="text-[10px] font-bold text-slate-300 hover:text-slate-500 uppercase tracking-widest transition-colors"
           >
-            ← Back to Home
+            ← System Exit (Home)
           </a>
         </div>
       </div>

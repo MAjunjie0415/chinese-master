@@ -80,15 +80,15 @@ export default function CoursesPageClient({
   const filteredCourses = getFilteredCourses();
 
   return (
-    <div className="min-h-screen py-8 px-4 bg-gradient-to-br from-white via-emerald-50/50 to-cyan-50/50">
+    <div className="min-h-screen py-8 px-4 bg-parchment">
       <div className="max-w-7xl mx-auto">
         {/* Page Title */}
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-3">
-            Courses
+        <div className="mb-10 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3 header-serif">
+            Curriculum Library
           </h1>
-          <p className="text-lg text-gray-600">
-            Master Chinese through structured courses tailored for business and HSK exams
+          <p className="text-lg text-muted font-medium">
+            Systematic pathways for business bilingualism and HSK proficiency.
           </p>
         </div>
 
@@ -96,35 +96,35 @@ export default function CoursesPageClient({
         <WishForm variant="banner" />
 
         {/* Tab Switching */}
-        <div className="flex items-center justify-between mb-8 border-b border-gray-200">
-          <div className="flex gap-4">
+        <div className="flex items-center justify-between mb-8 border-b border-slate-200">
+          <div className="flex gap-8">
             <button
               onClick={() => handleTabChange('explore')}
-              className={`px-4 py-3 font-semibold transition-colors relative ${activeTab === 'explore'
-                ? 'text-emerald-600'
-                : 'text-gray-600 hover:text-gray-900'
+              className={`px-1 py-3 font-bold transition-all relative text-xs uppercase tracking-widest ${activeTab === 'explore'
+                ? 'text-primary'
+                : 'text-slate-400 hover:text-slate-600'
                 }`}
             >
-              Explore
+              Explore Catalogue
               {activeTab === 'explore' && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary" />
               )}
             </button>
             <button
               onClick={() => handleTabChange('my')}
-              className={`px-4 py-3 font-semibold transition-colors relative ${activeTab === 'my'
-                ? 'text-emerald-600'
-                : 'text-gray-600 hover:text-gray-900'
+              className={`px-1 py-3 font-bold transition-all relative text-xs uppercase tracking-widest ${activeTab === 'my'
+                ? 'text-primary'
+                : 'text-slate-400 hover:text-slate-600'
                 }`}
             >
-              My Courses
+              My Enrollment
               {myCourses.inProgress.length + myCourses.completed.length > 0 && (
-                <span className="ml-2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-emerald-600 rounded-full">
+                <span className="ml-2 inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-primary rounded-full">
                   {myCourses.inProgress.length + myCourses.completed.length}
                 </span>
               )}
               {activeTab === 'my' && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-600" />
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary" />
               )}
             </button>
           </div>
@@ -137,7 +137,7 @@ export default function CoursesPageClient({
                 placeholder="Search courses..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded text-sm focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-300"
               />
               <svg
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
@@ -160,39 +160,39 @@ export default function CoursesPageClient({
         {activeTab === 'explore' ? (
           <>
             {/* Filters */}
-            <div className="mb-6 flex gap-3">
+            <div className="mb-8 flex gap-3">
               <button
                 onClick={() => setSelectedCategory('all')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${selectedCategory === 'all'
-                  ? 'bg-emerald-100 text-emerald-700'
-                  : 'bg-white text-gray-700 hover:bg-gray-100'
+                className={`px-4 py-1.5 rounded text-[10px] font-bold uppercase tracking-widest transition-all border ${selectedCategory === 'all'
+                  ? 'bg-primary text-white border-primary shadow-sm'
+                  : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
                   }`}
               >
-                All Categories
+                All Domains
               </button>
               <button
                 onClick={() => setSelectedCategory('business')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-1.5 ${selectedCategory === 'business'
-                  ? 'bg-emerald-100 text-emerald-700'
-                  : 'bg-white text-gray-700 hover:bg-gray-100'
+                className={`px-4 py-1.5 rounded text-[10px] font-bold uppercase tracking-widest transition-all border flex items-center gap-1.5 ${selectedCategory === 'business'
+                  ? 'bg-primary text-white border-primary shadow-sm'
+                  : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
                   }`}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 Business ({coursesByCategory.business.length})
               </button>
               <button
                 onClick={() => setSelectedCategory('hsk')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-1.5 ${selectedCategory === 'hsk'
-                  ? 'bg-emerald-100 text-emerald-700'
-                  : 'bg-white text-gray-700 hover:bg-gray-100'
+                className={`px-4 py-1.5 rounded text-[10px] font-bold uppercase tracking-widest transition-all border flex items-center gap-1.5 ${selectedCategory === 'hsk'
+                  ? 'bg-primary text-white border-primary shadow-sm'
+                  : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
                   }`}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
-                HSK ({coursesByCategory.hsk.length})
+                HSK Proficiency ({coursesByCategory.hsk.length})
               </button>
             </div>
 

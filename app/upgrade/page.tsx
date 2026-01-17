@@ -15,11 +15,15 @@ export default async function UpgradePage({ searchParams }: UpgradePageProps) {
 
     if (!session) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="text-center">
-                    <h1 className="text-2xl font-bold mb-4">Please log in to upgrade</h1>
-                    <Link href="/login?redirect=/upgrade" className="inline-block bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-emerald-700 transition-colors">
-                        Log In
+            <div className="min-h-screen bg-parchment flex items-center justify-center p-4">
+                <div className="paper-card p-12 border-slate-200 text-center max-w-md bg-white">
+                    <h2 className="text-2xl font-bold text-slate-900 mb-4 header-serif">Authorization Required</h2>
+                    <p className="text-muted mb-8 font-medium">Please authenticate to access institutional licensing options.</p>
+                    <Link
+                        href="/login?redirect=/upgrade"
+                        className="inline-block bg-primary text-white px-10 py-4 rounded font-bold hover:bg-slate-800 transition-all text-xs uppercase tracking-widest shadow-sm active:scale-95"
+                    >
+                        Authorize Session
                     </Link>
                 </div>
             </div>
